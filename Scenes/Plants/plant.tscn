@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnkifw66wsqbf"]
+
+[ext_resource type="Script" path="res://Scenes/Plants/plant.gd" id="1_6kqlt"]
+[ext_resource type="Texture2D" uid="uid://dvgi2l3wi3i5l" path="res://Textures/Plant/plant_small_AI.png" id="2_14811"]
+[ext_resource type="PackedScene" uid="uid://drwf3tjnijnam" path="res://Scenes/Plants/Root/root.tscn" id="2_wkifw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3e3i"]
+radius = 14.0
+height = 42.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_tn75g"]
+shadow_color = Color(0.0196078, 0.0196078, 0.0196078, 0)
+
+[node name="Plant" type="Node2D"]
+script = ExtResource("1_6kqlt")
+
+[node name="PlantSmall" type="Sprite2D" parent="."]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(2, -20)
+scale = Vector2(0.381818, 0.381818)
+texture = ExtResource("2_14811")
+
+[node name="Root" parent="." instance=ExtResource("2_wkifw")]
+show_behind_parent = true
+position = Vector2(-5, 0)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(2, -20)
+shape = SubResource("CapsuleShape2D_a3e3i")
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+z_index = 2
+z_as_relative = false
+offset_left = 32.0
+offset_top = -89.0
+offset_right = 162.0
+offset_bottom = 58.0
+
+[node name="Energy" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 6.0
+offset_right = 88.0
+offset_bottom = 32.0
+text = "Health: 100"
+label_settings = SubResource("LabelSettings_tn75g")
+
+[node name="Health" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 32.0
+offset_right = 94.0
+offset_bottom = 58.0
+text = "Energy: 100"
+label_settings = SubResource("LabelSettings_tn75g")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

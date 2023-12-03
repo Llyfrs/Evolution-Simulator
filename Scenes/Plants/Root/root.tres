@@ -1,0 +1,31 @@
+[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://sh0qm7kx82pw"]
+
+[ext_resource type="Texture2D" uid="uid://bblajw542uq6w" path="res://Textures/Plant/root.png" id="1_5gsev"]
+[ext_resource type="Texture2D" uid="uid://cj3fwedc4garx" path="res://Scenes/Plants/Root/wall.png" id="2_xmghk"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wqx8t"]
+resource_name = "root"
+texture = ExtResource("1_5gsev")
+texture_region_size = Vector2i(10, 10)
+0:0/next_alternative_id = 3
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/modulate = Color(0.650456, 0.998126, 1, 1)
+0:0/2 = 2
+0:0/2/modulate = Color(0.752941, 0.317647, 0.278431, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_myt2x"]
+resource_name = "wall"
+texture = ExtResource("2_xmghk")
+texture_region_size = Vector2i(10, 10)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qsq4r"]
+resource_name = "Kuba"
+texture_region_size = Vector2i(10, 10)
+
+[resource]
+tile_size = Vector2i(10, 10)
+sources/0 = SubResource("TileSetAtlasSource_wqx8t")
+sources/1 = SubResource("TileSetAtlasSource_myt2x")
+sources/2 = SubResource("TileSetAtlasSource_qsq4r")
