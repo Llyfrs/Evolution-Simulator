@@ -17,13 +17,14 @@ var seed_sceen = preload("res://seed.tscn") as PackedScene
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	root = $Root as Root
-	
-	print("Plant")	
+
 	root.set_rootMap(rootMap)
 	
 	if dna == null:
 		dna = PlantDNA.new()
 		$PlantSmall.set_modulate(dna.color)
+
+
 	
 	EnergyManager.subscribe(self)
 	pass 
@@ -38,7 +39,7 @@ func set_dna(plantDNA: PlantDNA):
 ## Adds vlaue to current energy and returns all the left over energy
 ## or returns 0 if the energy didn't overflown
 func add_energy(value : float) -> float:
-	var leftover = 0
+	var leftover: int = 0
 	
 	# Manages adding energy to the plant
 	# If the energy is overflown it returns the difference
@@ -49,9 +50,9 @@ func add_energy(value : float) -> float:
 	
 
 	# Manages growing roots
-	var root_grow_cost = 5 * dna.root_effectivnes
+	var root_grow_cost: float = 5 * dna.root_effectivnes
 	if energy > dna.root_grow_threshold and energy >= root_grow_cost and can_grow:
-		var result = root.grow(dna)
+		var result: int = root.grow(dna)
 		if result > 0: 
 			energy -= root_grow_cost
 			EnergyManager.add_lost_energy(root_grow_cost)
@@ -65,7 +66,7 @@ func add_energy(value : float) -> float:
 ## If there is less energy that it's called to be removed
 ## it returns by how much was the difference
 func sub_energy(value: float) -> float:
-	var leftover = 0
+	var leftover: int = 0
 	energy -= value
 	if energy < 0:
 		leftover = energy
@@ -132,7 +133,7 @@ func reproduce():
 
 func die():
 	
-	var sd = seed_sceen.instantiate() as Seed
+	var sd: Seed = seed_sceen.instantiate() as Seed
 	sd.map = map
 	sd.energy = health + energy 
 	sd.global_position = global_position
@@ -150,8 +151,8 @@ func _process(delta):
 
 
 	## Handles growing / health adding 
-	var grow_value = dna.plant_grow_speed * delta
-	var leftover = -sub_energy(grow_value)
+	var grow_value      = dna.plant_grow_speed * delta
+	var leftover: float = -sub_energy(grow_value)
 	
 	if leftover > 0: 
 		grow_value -= leftover

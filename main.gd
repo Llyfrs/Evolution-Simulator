@@ -60,7 +60,10 @@ func _input(event):
 
 
 		var scene = load("res://my_scene.tscn") as PackedScene
-		
+
+
+
+
 		var instance = scene.instantiate()
 
 		for child in instance.get_children():

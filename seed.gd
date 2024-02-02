@@ -30,12 +30,14 @@ func get_tile():
 
 func root():
 	if dna != null:
-		var plant = plant_scene.instantiate() as Plant
+		var plant: Plant = plant_scene.instantiate()
 		## Carefull we are getting freed so the plant needs to go to our parrents
 
 		plant.set_dna(dna)
 		plant.map = map
 		plant.rootMap = rootMap
+
+
 		
 		plant.global_position = self.global_position
 		
