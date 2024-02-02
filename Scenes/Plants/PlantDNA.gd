@@ -17,7 +17,7 @@ var root_grow_threshold: int
 # root grow cost
 var root_effectivnes : float
 
-# How much energy can plant store, determines when it's ready to spread it's seeds 
+# How much energy can plant store, determines when it's ready to reproduce
 var energy : int
 
 # Determines grow state of the plant in extension to determining it's current health
@@ -67,7 +67,7 @@ func _init():
 	color = Color(randf(), randf(), randf())
 	
 
-	pass # Replace with function body.
+	pass
 
 # Generates pattern 
 # mutables is how many variables are there going to be, 

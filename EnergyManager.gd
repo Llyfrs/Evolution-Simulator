@@ -37,12 +37,6 @@ func unsubscribe(sub : Object):
 	mutex.unlock()
 	
 
-func seed_worker(seed_index, delta):
-	for sd in seeds:
-		var degrade = 1 * delta
-		var leftover = sd.remove_energy(degrade)
-		
-		add_energy(sd.get_tile(), degrade - leftover)
 
 
 
@@ -55,6 +49,7 @@ func _process(delta):
 		var leftover = sd.remove_energy(degrade)
 		
 		add_energy(sd.get_tile(), degrade - leftover)
+
 
 	
 	
@@ -124,6 +119,8 @@ func get_energy(location : Vector2):
 	else:
 		tiles[location] = 100
 		return tiles[location]
+
+		
 
 
 ## Set energy for a specific tile, this is not adding energy but rewrtiting the current value

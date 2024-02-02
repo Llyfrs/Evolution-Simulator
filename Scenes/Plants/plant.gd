@@ -181,3 +181,5 @@ func _on_area_2d_mouse_exited():
 	$Panel.visible=false
 	root.highlight_owned_roots(false)
 	pass # Replace with function body.
+
+
