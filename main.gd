@@ -2,10 +2,20 @@ extends Node
 
 @export var save_file : String
 # Called when the node enters the scene tree for the first time.
+
+
+func _enter_tree():
+	GlobalMaps.mainMap = $Active/map_1/TileMap
+	GlobalMaps.rootMap = $Active/map_1/RootMap
+
 func _ready():
+	
+	print("Main")
+	
 	#var plant_sceen = load("res://Scenes/Plants/plant.tscn") as PackedScene
 	Engine.time_scale = 5
 	EnergyManager.init_map($Active/map_1/TileMap)
+	
 	
 		
 	pass # Replace with function body.
@@ -18,8 +28,8 @@ func _process(_delta):
 
 func _input(event):
 	if event.is_action_pressed("ui_left_mouse_button"):
-		var position = $Active/map_1/TileMap.get_local_mouse_position() as Vector2
-		position = $Active/map_1/TileMap.local_to_map(position)
+		var position = GlobalMaps.mainMap.get_local_mouse_position() as Vector2
+		position = GlobalMaps.mainMap.local_to_map(position)
 		print(EnergyManager.get_energy(position))
 	
 	if event.is_action_pressed("speed_up"):
@@ -31,17 +41,32 @@ func _input(event):
 		print("Changing speed to: " + str(Engine.time_scale) + "x")
 		
 	if event.is_action_pressed("save"):
-		var save = FileAccess.open("user://save_simulation.save", FileAccess.WRITE)
-		var nodes = get_node("Active").get_children()
-		save.store_var(nodes, true)
-		
-	if event.is_action("load"):
-		var save = FileAccess.open("user://save_simulation.save", FileAccess.READ)
-		var nodes = save.get_var(true) as Array[Node]
 
-		print(nodes)
+		var nodes = $Active.get_children()
 
 		for node in nodes:
-			print(node.name)
-			#save.store_var(node)
+			
+			var test = inst_to_dict(node)
+			print(test)
+			print("\n\n--------\n\n")
+			# var copy = dict_to_inst(test)
+			# $Active.add_child(copy)
+
+		pass
+
+
 		
+	if event.is_action("load"):
+
+
+		var scene = load("res://my_scene.tscn") as PackedScene
+		
+		var instance = scene.instantiate()
+
+		for child in instance.get_children():
+			print(child.name)
+		
+
+
+		pass
+

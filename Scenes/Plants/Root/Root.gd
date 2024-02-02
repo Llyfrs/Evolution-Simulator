@@ -1,8 +1,8 @@
 extends Node2D
 class_name Root
-@export var rootMap : TileMap
-@export var run : bool
 
+
+@export var run : bool
 
 var dna : PlantDNA
 
@@ -18,29 +18,28 @@ var inactive_roots = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-#	var start = rootMap.local_to_map(rootMap.to_local(global_position))
-#
-#	set_cell(start, true)
-#	index_map[start] = 0
+	var start = GlobalMaps.rootMap.local_to_map(GlobalMaps.rootMap.to_local(global_position))
+
+	set_cell(start, true)
+	index_map[start] = 0
 	
 	if run:
 		dna = PlantDNA.new()
-		set_rootMap(rootMap)
+		#set_rootMap(rootMap)
 		$Timer.start()
 
 
 	pass	
 
 func set_rootMap(map : TileMap):
-	rootMap = map
+	# var start = GlobalMaps.rootMap.local_to_map(GlobalMaps.rootMap.to_local(global_position))
 	
-	var start = rootMap.local_to_map(rootMap.to_local(global_position))
+	# if GlobalMaps.rootMap.get_cell_tile_data(0, start) != null:
+	# 	return;
 	
-	if rootMap.get_cell_tile_data(0, start) != null:
-		return;
-	
-	set_cell(start, true)
-	index_map[start] = 0
+	# set_cell(start, true)
+	# index_map[start] = 0
+	pass
 	
 
 # Grows the root by one step
@@ -66,10 +65,10 @@ func grow(plantDNA : PlantDNA) -> int:
 		return true
 	
 	var cells_grown = 0
-	var surround = rootMap.get_surrounding_cells(source)
+	var surround = GlobalMaps.rootMap.get_surrounding_cells(source)
 	
 	for i in range(4):
-		if rootMap.get_cell_source_id(0,surround[i]) == -1 and pattern[i] != -1:
+		if GlobalMaps.rootMap.get_cell_source_id(0,surround[i]) == -1 and pattern[i] != -1:
 			set_cell(surround[i], true)
 			index_map[surround[i]] = pattern[i]
 			cells_grown += 1
@@ -89,7 +88,7 @@ func get_tilemap_presence(tilemap : TileMap, p_dna : PlantDNA):
 	var presence = Dictionary()
 	
 	for root in roots:
-		var global = rootMap.to_global(rootMap.map_to_local(root))
+		var global = GlobalMaps.rootMap.to_global(GlobalMaps.rootMap.map_to_local(root))
 		var cords = tilemap.local_to_map(tilemap.to_local(global))
 		
 		if presence.has(cords) : 
@@ -104,7 +103,7 @@ func get_tilemap_presence(tilemap : TileMap, p_dna : PlantDNA):
 
 
 func set_cell(cords : Vector2i, active : bool):
-	rootMap.set_cell(0, cords,0,Vector2(0,0),active)
+	GlobalMaps.rootMap.set_cell(0, cords,0,Vector2(0,0),active)
 	
 	if active:
 		active_roots.append(cords)
@@ -118,12 +117,12 @@ func highlight_owned_roots(highlight : bool):
 	var state = 2 if highlight else 0
 	
 	for root in inactive_roots:
-		rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
+		GlobalMaps.rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
 	
 	state = 2 if highlight else 1
 	
 	for root in active_roots:
-		rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
+		GlobalMaps.rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
 	
 	pass
 
@@ -138,9 +137,9 @@ func compare(a : Vector2i, b: Vector2i):
 
 func _on_tree_exiting():
 	for root in active_roots:
-		rootMap.erase_cell(0, root)
+		GlobalMaps.rootMap.erase_cell(0, root)
 		
 	for root in inactive_roots:
-		rootMap.erase_cell(0, root)
+		GlobalMaps.rootMap.erase_cell(0, root)
 	
 	pass # Replace with function body.

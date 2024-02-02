@@ -18,3 +18,7 @@ func get_energy(position :Vector2) -> int:
 func set_energy(position : Vector2, value : int):
 	energy[position] = value
 	pass
+
+
+func _ready():
+	print("map")

@@ -11,6 +11,7 @@ font_size = 36
 font_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node"]
+process_priority = -1
 script = ExtResource("1_r0ole")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

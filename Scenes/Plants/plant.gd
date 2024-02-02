@@ -17,8 +17,9 @@ var seed_sceen = preload("res://seed.tscn") as PackedScene
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	root = $Root as Root
-	root.set_rootMap(rootMap)
 	
+	print("Plant")	
+	root.set_rootMap(rootMap)
 	
 	if dna == null:
 		dna = PlantDNA.new()

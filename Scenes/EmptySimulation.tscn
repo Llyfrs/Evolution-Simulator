@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=3 uid="uid://tllkepyb4yx0"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_2h15m"]
-[ext_resource type="Script" path="res://Stats.gd" id="1_fupfc"]
-[ext_resource type="PackedScene" uid="uid://cfkfsgmltqp2a" path="res://Scenes/Camera/camera.tscn" id="2_v4ifj"]
+[ext_resource type="Script" path="res://main.gd" id="1_kh2tx"]
+[ext_resource type="Script" path="res://Stats.gd" id="2_ycivp"]
+[ext_resource type="PackedScene" uid="uid://cfkfsgmltqp2a" path="res://Scenes/Camera/camera.tscn" id="3_6w3fc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_glbfn"]
 font_size = 36
 font_color = Color(0, 0, 0, 1)
 
 [node name="Node" type="Node"]
-script = ExtResource("1_2h15m")
+script = ExtResource("1_kh2tx")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -29,6 +29,6 @@ offset_right = 172.0
 offset_bottom = 62.0
 text = "Test Text"
 label_settings = SubResource("LabelSettings_glbfn")
-script = ExtResource("1_fupfc")
+script = ExtResource("2_ycivp")
 
-[node name="Camera2D" parent="." instance=ExtResource("2_v4ifj")]
+[node name="Camera2D" parent="." instance=ExtResource("3_6w3fc")]

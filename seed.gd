@@ -40,6 +40,7 @@ func root():
 		plant.global_position = self.global_position
 		
 		get_parent().add_child(plant)
+		plant.owner = get_parent()
 	
 	EnergyManager.add_lost_energy(energy)
 	EnergyManager.unsubscribe(self)

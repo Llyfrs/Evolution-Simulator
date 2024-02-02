@@ -17,8 +17,9 @@ config/icon="res://Textures/icon.svg"
 
 [autoload]
 
-EnergyManager="*res://EnergyManager.gd"
-MyTools="*res://Tools.gd"
+EnergyManager="*res://Scripts/Global/EnergyManager.gd"
+MyTools="*res://Scripts/Global/Tools.gd"
+GlobalMaps="*res://Scripts/Global/GlobalMaps.gd"
 
 [debug]
 

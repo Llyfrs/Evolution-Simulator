@@ -1,7 +1,7 @@
 extends Node
 
 var tiles  : Dictionary
-var plants : Array[Plant]
+var plants : Array[Plant] 
 var seeds : Array[Seed]
 
 var mutex : Mutex = Mutex.new()
