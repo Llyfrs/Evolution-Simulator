@@ -1,9 +1,6 @@
 extends Node2D
 class_name Plant
 
-@export var map : TileMap
-@export var rootMap : TileMap
-
 var root : Root
 var dna  : PlantDNA
 
@@ -17,8 +14,6 @@ var seed_sceen = preload("res://seed.tscn") as PackedScene
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	root = $Root as Root
-
-	root.set_rootMap(rootMap)
 	
 	if dna == null:
 		dna = PlantDNA.new()
@@ -39,7 +34,7 @@ func set_dna(plantDNA: PlantDNA):
 ## Adds vlaue to current energy and returns all the left over energy
 ## or returns 0 if the energy didn't overflown
 func add_energy(value : float) -> float:
-	var leftover: int = 0
+	var leftover = 0
 	
 	# Manages adding energy to the plant
 	# If the energy is overflown it returns the difference
@@ -66,7 +61,7 @@ func add_energy(value : float) -> float:
 ## If there is less energy that it's called to be removed
 ## it returns by how much was the difference
 func sub_energy(value: float) -> float:
-	var leftover: int = 0
+	var leftover = 0
 	energy -= value
 	if energy < 0:
 		leftover = energy
@@ -115,8 +110,6 @@ func reproduce():
 	for i in range(n):
 		@warning_ignore("shadowed_global_identifier")
 		var seed = seed_sceen.instantiate() as Seed
-		seed.map = map
-		seed.rootMap = rootMap
 		seed.energy = dna.seed_nutrition
 		seed.global_position = global_position
 		seed.dna = dna.mutate(0.4, 0.4)
@@ -134,7 +127,6 @@ func reproduce():
 func die():
 	
 	var sd: Seed = seed_sceen.instantiate() as Seed
-	sd.map = map
 	sd.energy = health + energy 
 	sd.global_position = global_position
 
@@ -147,6 +139,8 @@ func die():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+
+	print(self.name)
 	
 
 

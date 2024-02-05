@@ -42,16 +42,6 @@ func unsubscribe(sub : Object):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
-	
-	for sd in seeds:
-		var degrade = 1 * delta
-		var leftover = sd.remove_energy(degrade)
-		
-		add_energy(sd.get_tile(), degrade - leftover)
-
-
-	
 	
 	# Holds total for presence 
 	var list = Dictionary()
@@ -60,7 +50,7 @@ func _process(delta):
 	# Creates dictionary where key is the tile cords and 
 	# value is total number of roots from all plants
 	for plant in plants:
-		var presence = plant.root.get_tilemap_presence(plant.map, plant.dna)
+		var presence = plant.root.get_tilemap_presence(GlobalMaps.mainMap, plant.dna)
 		
 		for key in presence: 
 			if list.has(key):
@@ -71,7 +61,7 @@ func _process(delta):
 				lock_energy[key] = get_energy(key)
 				
 	for plant in plants:
-		var presence = plant.root.get_tilemap_presence(plant.map, plant.dna)
+		var presence = plant.root.get_tilemap_presence(GlobalMaps.mainMap, plant.dna)
 		for key in presence: 
 			var energy = 0
 			if list[key] * delta <= get_energy(key):

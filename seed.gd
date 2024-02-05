@@ -1,8 +1,7 @@
 extends RigidBody2D
 class_name Seed
 
-@export var map : TileMap 
-@export var rootMap : TileMap
+
 
 var dna : PlantDNA = null
 var energy : float
@@ -25,8 +24,8 @@ func remove_energy(value: float):
 
 
 func get_tile():
-	var local = map.to_local(global_position)
-	return map.local_to_map(local)
+	var local = GlobalMaps.mainMap.to_local(global_position)
+	return GlobalMaps.mainMap.local_to_map(local)
 
 func root():
 	if dna != null:
@@ -34,11 +33,7 @@ func root():
 		## Carefull we are getting freed so the plant needs to go to our parrents
 
 		plant.set_dna(dna)
-		plant.map = map
-		plant.rootMap = rootMap
 
-
-		
 		plant.global_position = self.global_position
 		
 		get_parent().add_child(plant)
@@ -64,15 +59,21 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	var l_position = map.local_to_map(map.to_local(global_position))
-	
-	var data = map.get_cell_atlas_coords(0, l_position)
+func _process(delta):
+	var l_position = GlobalMaps.mainMap.local_to_map(GlobalMaps.mainMap.to_local(global_position))
+	var data = GlobalMaps.mainMap.get_cell_atlas_coords(0, l_position)
 	
 	# Delete your self if outside the map
 	if data == null or data == Vector2i(18,1):
 		EnergyManager.add_lost_energy(energy)
 		EnergyManager.unsubscribe(self)
 		queue_free()
+
+	# Decomposes itself over time on to the tile it is on
+	# For food this is way to give energy to plants 
+	# For seeds this is way to root
+	var degrade = 1 * delta
+	var leftover = remove_energy(degrade)
+	EnergyManager.add_energy(get_tile(), degrade - leftover)
 	
 	pass

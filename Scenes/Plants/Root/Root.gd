@@ -31,20 +31,20 @@ func _ready():
 
 	pass	
 
-func set_rootMap(map : TileMap):
-	# var start = GlobalMaps.rootMap.local_to_map(GlobalMaps.rootMap.to_local(global_position))
+# func set_rootMap(map : TileMap):
+# 	var start = GlobalMaps.rootMap.local_to_map(GlobalMaps.rootMap.to_local(global_position))
 	
-	# if GlobalMaps.rootMap.get_cell_tile_data(0, start) != null:
-	# 	return;
+# 	if GlobalMaps.rootMap.get_cell_tile_data(0, start) != null:
+# 		return;
 	
-	# set_cell(start, true)
-	# index_map[start] = 0
-	pass
+# 	set_cell(start, true)
+# 	index_map[start] = 0
+# 	pass
 	
 
-# Grows the root by one step
-# Returns true if the growth was succesfull, 
-# Returns false if it wasn't and there aren't any more active roots
+## Grows the root by one step
+## Returns true if the growth was succesfull, 
+## Returns false if it wasn't and there aren't any more active roots
 func grow(plantDNA : PlantDNA) -> int:
 	
 	_grown = true
@@ -77,6 +77,8 @@ func grow(plantDNA : PlantDNA) -> int:
 	
 	return cells_grown
 
+## Returns list of MainMap tiles and how many roots are present on them.  
+## Caches the results to potencially improve performance if called on not grown root
 func get_tilemap_presence(tilemap : TileMap, p_dna : PlantDNA):
 	
 	if !_grown:

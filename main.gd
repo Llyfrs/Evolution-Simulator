@@ -4,6 +4,9 @@ extends Node
 # Called when the node enters the scene tree for the first time.
 
 
+
+# Enter tree gets called in order from root to leaf, making sure that the maps are loaded before
+# other objects that depend on them request them.
 func _enter_tree():
 	GlobalMaps.mainMap = $Active/map_1/TileMap
 	GlobalMaps.rootMap = $Active/map_1/RootMap
@@ -23,6 +26,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	## print(EnergyManager.get_total_energy())
+	
+	print("------------------------------------------")
 	pass
 
 
@@ -60,10 +65,7 @@ func _input(event):
 
 
 		var scene = load("res://my_scene.tscn") as PackedScene
-
-
-
-
+ 
 		var instance = scene.instantiate()
 
 		for child in instance.get_children():
