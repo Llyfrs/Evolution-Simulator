@@ -1,5 +1,5 @@
-extends Node2D
 class_name Plant
+extends Node2D
 
 var root : Root
 var dna  : PlantDNA
@@ -20,7 +20,6 @@ func _ready():
 		$PlantSmall.set_modulate(dna.color)
 
 
-	
 	EnergyManager.subscribe(self)
 	pass 
 
@@ -129,7 +128,8 @@ func die():
 	var sd: Seed = seed_sceen.instantiate() as Seed
 	sd.energy = health + energy 
 	sd.global_position = global_position
-
+	
+	## Hopefully this saves some performance, we don't need the food to move
 	sd.set_physics_process(false)
 	get_parent().add_child(sd)
 	
@@ -139,10 +139,6 @@ func die():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
-	print(self.name)
-	
-
 
 	## Handles growing / health adding 
 	var grow_value      = dna.plant_grow_speed * delta

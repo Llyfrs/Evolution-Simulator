@@ -6,7 +6,7 @@ class_name Seed
 var dna : PlantDNA = null
 var energy : float
 
-var plant_scene = preload("res://Scenes/Plants/plant.tscn")
+var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 var food_texture = preload("res://Textures/food.png")
 
 	
@@ -29,20 +29,21 @@ func get_tile():
 
 func root():
 	if dna != null:
-		var plant: Plant = plant_scene.instantiate()
-		## Carefull we are getting freed so the plant needs to go to our parrents
+		
 
+		var plant = plant_scene.instantiate()
+		
 		plant.set_dna(dna)
-
 		plant.global_position = self.global_position
 		
-		get_parent().add_child(plant)
+		
+		## Carefull we are getting freed so the plant needs to go to our parrent
+		get_parent().call_thread_safe("add_child", plant)
 		plant.owner = get_parent()
 	
 	EnergyManager.add_lost_energy(energy)
 	EnergyManager.unsubscribe(self)
 	queue_free()
-	
 	pass
 	
 	
@@ -71,7 +72,7 @@ func _process(delta):
 
 	# Decomposes itself over time on to the tile it is on
 	# For food this is way to give energy to plants 
-	# For seeds this is way to root
+	# For seeds this is way to root 
 	var degrade = 1 * delta
 	var leftover = remove_energy(degrade)
 	EnergyManager.add_energy(get_tile(), degrade - leftover)

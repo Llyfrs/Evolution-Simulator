@@ -15,8 +15,8 @@ func get_energy(position :Vector2) -> int:
 	
 	pass
 
-func set_energy(position : Vector2, value : int):
-	energy[position] = value
+func set_energy(pos : Vector2, value : int):
+	energy[pos] = value
 	pass
 
 
