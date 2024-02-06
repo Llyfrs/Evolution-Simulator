@@ -1,48 +1,48 @@
 extends Resource
 class_name PlantDNA
 
-var energy_consumption : int
+@export var energy_consumption : int
 
 # How faraway from the source should the next active root be used
 # 0 - the closest 
 # 1 - the furthes 
-var root_distance_from_source : float # 0-1
+@export var root_distance_from_source : float # 0-1
 
 # Form of contex free gramar, can result in basically any pattern
 # but most of them are going to be bad, that's where natural selection kicks in
-var root_pattern : Array[Array]
+@export var root_pattern : Array[Array]
 
 # At what energy level should energy be spend to grow more root
-var root_grow_threshold: int 
+@export var root_grow_threshold: int 
 # How effective are roots at picking up energy frome tiles, also deternimes 
 # root grow cost
-var root_effectivnes : float
+@export var root_effectivnes : float
 
 # How much energy can plant store, determines when it's ready to reproduce
-var energy : int
+@export var energy : int
 
 # Determines grow state of the plant in extension to determining it's current health
 # To defend it's self from animals
-var health : int 
+@export var health : int 
 
 
 # How quicky does the plant grow (HP)
-var plant_grow_speed: float
+@export var plant_grow_speed: float
 
 # Determines amount of seeds
-var seed_quantity : int
+@export var seed_quantity : int
 
 
 # Controls where the seed is going to be realesed
-var seed_direction : float 
-var seed_spread : float
-var seed_distance : int
+@export var seed_direction : float 
+@export var seed_spread : float
+@export var seed_distance : int
 
 # Statistics for the seed 
-var seed_nutrition : int
-var seed_durability : int 
+@export var seed_nutrition : int
+@export var seed_durability : int 
 
-var color : Color
+@export var color : Color
 
 # Te
 func _init():

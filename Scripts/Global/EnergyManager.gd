@@ -1,6 +1,12 @@
 extends Node
 
+## Energy for each existing tile 
 var tiles  : Dictionary
+
+## All energy that was lost and needs to be redistributed
+var lostEnergy : float = 0
+
+
 var plants : Array[Plant] 
 var seeds : Array[Seed]
 
@@ -8,7 +14,7 @@ var mutex : Mutex = Mutex.new()
 
 
 
-var lostEnergy : float = 0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

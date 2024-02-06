@@ -78,3 +78,26 @@ func _process(delta):
 	EnergyManager.add_energy(get_tile(), degrade - leftover)
 	
 	pass
+
+
+func save() -> SeedSave:
+	var sv = SeedSave.new()
+
+	sv.dna = dna
+	sv.energy = energy
+	sv.pos = global_position
+	sv.lin_vel = linear_velocity
+
+	return sv
+
+
+func _exit_tree():
+	EnergyManager.unsubscribe(self)
+
+func load(sv : SeedSave):
+	
+	## Duplicate prevents circular referencing of a resources
+	dna = null if sv.dna == null else sv.dna.duplicate()
+	energy = sv.energy
+	linear_velocity = sv.lin_vel
+	global_position = sv.pos

@@ -4,6 +4,7 @@ class_name Root
 
 @export var run : bool
 
+## Only used for testing, does otherwise not hold DNA on it's own
 var dna : PlantDNA
 
 ## If plant grown since last tilemap presence was calculated. This infromation
@@ -15,14 +16,21 @@ var index_map = Dictionary()
 var active_roots = []
 var inactive_roots = []
 
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	var start = GlobalMaps.rootMap.local_to_map(GlobalMaps.rootMap.to_local(global_position))
 
-	set_cell(start, true)
-	index_map[start] = 0
-	
+
+	if GlobalMaps.rootMap.get_cell_tile_data(0, start) == null:
+		set_cell(start, true)
+		index_map[start] = 0
+
+
+
+
 	if run:
 		dna = PlantDNA.new()
 		#set_rootMap(rootMap)
@@ -140,8 +148,24 @@ func compare(a : Vector2i, b: Vector2i):
 func _on_tree_exiting():
 	for root in active_roots:
 		GlobalMaps.rootMap.erase_cell(0, root)
-		
 	for root in inactive_roots:
 		GlobalMaps.rootMap.erase_cell(0, root)
 	
 	pass # Replace with function body.
+
+
+func save() -> RootSave:
+	var sv = RootSave.new()
+
+	sv.index_map = index_map
+	sv.active_roots = active_roots
+	sv.inactive_roots = inactive_roots
+
+	return sv
+
+
+func load(sv : RootSave): 
+	
+	index_map = sv.index_map
+	active_roots = sv.active_roots
+	inactive_roots = sv.inactive_roots

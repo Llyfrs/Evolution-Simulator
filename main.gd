@@ -8,8 +8,10 @@ extends Node
 # Enter tree gets called in order from root to leaf, making sure that the maps are loaded before
 # other objects that depend on them request them.
 func _enter_tree():
-	GlobalMaps.mainMap = $Active/map_1/TileMap
-	GlobalMaps.rootMap = $Active/map_1/RootMap
+	GlobalMaps.mainMap = $Map/TileMap
+	GlobalMaps.rootMap = $Map/RootMap
+
+
 
 func _ready():
 	
@@ -17,7 +19,7 @@ func _ready():
 	
 	#var plant_sceen = load("res://Scenes/Plants/plant.tscn") as PackedScene
 	Engine.time_scale = 5
-	EnergyManager.init_map($Active/map_1/TileMap)
+	EnergyManager.init_map(GlobalMaps.mainMap)
 	
 	
 		
@@ -43,34 +45,80 @@ func _input(event):
 		if Engine.time_scale > 1:
 			Engine.time_scale -= 1
 		print("Changing speed to: " + str(Engine.time_scale) + "x")
+
+
+
+
 		
 	if event.is_action_pressed("save"):
+
+		var save = SimulationSave.new()
+
 
 		var nodes = $Active.get_children()
 
 		for node in nodes:
+			if "save" in node:
+				save.active.append(node.save())
+				
+		
+		save.lost_energy = EnergyManager.lostEnergy
+		save.tile_energy = EnergyManager.tiles
+
+		var map_data = GlobalMaps.rootMap.get_used_cells(0)
+		for cell in map_data:
+			save.rootMap[cell] = TileSave.new().save(GlobalMaps.rootMap, cell)
+
+		map_data = GlobalMaps.mainMap.get_used_cells(0)
+		for cell in map_data:
+			save.mainMap[cell] = TileSave.new().save(GlobalMaps.mainMap, cell)
 			
-			var test = inst_to_dict(node)
-			print(test)
-			print("\n\n--------\n\n")
-			# var copy = dict_to_inst(test)
-			# $Active.add_child(copy)
+			
+			
+		ResourceSaver.save(save, "res://test.tres")
 
 		pass
 
 
 		
 	if event.is_action("load"):
+		for child in $Active.get_children():
+			## Quite aggressive compare to queue_free, but prevents the calling of tree exiting after the map is loaded and there for the root deleting tiles that we already placed.
+			child.free()
 
 
-		var scene = load("res://my_scene.tscn") as PackedScene
- 
-		var instance = scene.instantiate()
+		GlobalMaps.rootMap.clear()
+		GlobalMaps.mainMap.clear()
 
-		for child in instance.get_children():
-			print(child.name)
+		var save = ResourceLoader.load("res://test.tres", "SimulationSave") as SimulationSave
+
+		var sd = preload("res://seed.tscn")
+		var plt = preload("res://Scenes/Plants/plant.tscn")
+
+		for obj in save.active:
+
+			if obj is PlantSave:
+				var temp_plant = plt.instantiate()
+				temp_plant.load(obj)
+
+				$Active.add_child(temp_plant)
+
+			if obj is SeedSave:
+				var temp_seed = sd.instantiate()
+				temp_seed.load(obj)
+
+				$Active.add_child(temp_seed)
+
 		
+		for cell in save.rootMap:
+			save.rootMap[cell].load(GlobalMaps.rootMap, cell) 
 
+		for cell in save.mainMap:
+			save.mainMap[cell].load(GlobalMaps.mainMap, cell) 
 
+		
+		EnergyManager.lostEnergy = save.lost_energy
+		EnergyManager.tiles = save.tile_energy
+		
 		pass
 

@@ -174,4 +174,32 @@ func _on_area_2d_mouse_exited():
 	root.highlight_owned_roots(false)
 	pass # Replace with function body.
 
+func _exit_tree():
+	EnergyManager.unsubscribe(self)
 
+func save() -> PlantSave:
+	var sv = PlantSave.new()
+
+	sv.health = health
+	sv.energy = energy
+	sv.can_grow = can_grow
+	sv.dna = dna
+	sv.pos = global_position
+
+	sv.root = root.save()
+
+	return sv
+
+
+func load(sv : PlantSave):
+
+	health = sv.health
+	energy = sv.energy
+	can_grow = sv.can_grow
+	global_position = sv.pos
+
+	## To modulate the color of the plant
+	set_dna(sv.dna.duplicate())
+
+	## Do not use the root variable as it gets rewriten when the plant eneters tree
+	$Root.load(sv.root)

@@ -1,12 +1,38 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck35fvud83iuj"]
+[gd_scene load_steps=4 format=3 uid="uid://dgepv0f7ytj2"]
 
-[ext_resource type="Script" path="res://Scenes/Maps/map_1.gd" id="1_8sp0d"]
 [ext_resource type="TileSet" uid="uid://de5vkfa0xul6j" path="res://Textures/TileSets/MainTileSet.tres" id="1_15j6h"]
 [ext_resource type="TileSet" uid="uid://sh0qm7kx82pw" path="res://Scenes/Plants/Root/root.tres" id="3_ahjvv"]
 
+[sub_resource type="GDScript" id="GDScript_j365j"]
+script/source = "extends Node2D
+
+var energy = Dictionary()
+
+
+func get_energy(position :Vector2) -> int:
+	
+	var tile = energy.get(position)
+	
+	if tile != null:
+		return tile
+	else:
+		energy[position] = 40
+		return 40
+	
+	pass
+
+func set_energy(pos : Vector2, value : int):
+	energy[pos] = value
+	pass
+
+
+func _ready():
+	print(\"map\")
+"
+
 [node name="map_1" type="Node2D"]
 position = Vector2(-3, -5)
-script = ExtResource("1_8sp0d")
+script = SubResource("GDScript_j365j")
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2(-5, 5)
