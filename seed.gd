@@ -1,18 +1,19 @@
 extends RigidBody2D
 class_name Seed
 
-
-
 var dna : PlantDNA = null
 var energy : float
 
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 var food_texture = preload("res://Textures/food.png")
 
+
+
 	
 func remove_energy(value: float):
 	var leftover = 0 
-	
+
+
 	if energy > value: 
 		energy -= value
 	else:

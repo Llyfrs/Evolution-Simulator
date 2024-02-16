@@ -1,14 +1,14 @@
-extends Resource
-class_name PlantDNA
+class_name PlantDNA extends Resource
+
 
 @export var energy_consumption : int
 
 # How faraway from the source should the next active root be used
 # 0 - the closest 
-# 1 - the furthes 
+# 1 - the furthest
 @export var root_distance_from_source : float # 0-1
 
-# Form of contex free gramar, can result in basically any pattern
+# Form of context free grammar, can result in basically any pattern
 # but most of them are going to be bad, that's where natural selection kicks in
 @export var root_pattern : Array[Array]
 
@@ -26,15 +26,15 @@ class_name PlantDNA
 @export var health : int 
 
 
-# How quicky does the plant grow (HP)
+# How quickly does the plant grow (HP)
 @export var plant_grow_speed: float
 
 # Determines amount of seeds
 @export var seed_quantity : int
 
 
-# Controls where the seed is going to be realesed
-@export var seed_direction : float 
+# Controls where the seed is going to be released
+@export var seed_direction : float
 @export var seed_spread : float
 @export var seed_distance : int
 
@@ -44,52 +44,6 @@ class_name PlantDNA
 
 @export var color : Color
 
-# Te
-func _init():
-	
-	root_pattern = generate_random_pattern(5, 3, 2)
-	root_distance_from_source = randf()
-	energy = randi_range(10, 200)
-	health = randi_range(10, 200)
-	root_grow_threshold = randi_range(0,energy)
-	root_effectivnes = randf() * 10
-	
-	plant_grow_speed = randf() * 3
-	
-	seed_quantity = randi_range(1, 10)
-	seed_nutrition = randi_range(1, 10)
-	
-	
-	seed_direction = randf_range(0, 2*PI)
-	seed_spread	= randf_range(0, 2*PI)
-	
-
-	
-	color = Color(randf(), randf(), randf())
-	
-
-	pass
-
-# Generates pattern 
-# mutables is how many variables are there going to be, 
-# options, is how max many rules can be asigned to specific variable
-# emptines increases chance for rule to contain empty cell, this is good to prevent
-# to many patterns that are just big solid mass
-func generate_random_pattern(mutables : int, options : int, emptines : float = 0.1):
-	var pattern : Array[Array] = []
-	pattern.resize(mutables)
-	
-	var choices = range(-1, mutables)
-	
-	for i in range(mutables * emptines):
-		choices.push_back(-1)
-	
-	for i in range(mutables):
-		for j in range(randi_range(0, options)):
-			pattern[i].append([choices.pick_random(), choices.pick_random(), choices.pick_random(), choices.pick_random()])
-			
-	return pattern
-	
 
 var property_rules = {
 	"energy": {
@@ -132,6 +86,11 @@ var property_rules = {
 		"min": 1,
 		"max": 50,
 	},
+	"seed_durability" :{
+		"base_change": 3,
+		"min": 1,
+		"max": 50,
+	},
 	"seed_direction" :{
 		"base_change": deg_to_rad(5),
 		"min": 0,
@@ -142,11 +101,61 @@ var property_rules = {
 		"min": 0,
 		"max": 2*PI,
 	}, 
+	"seed_distance" :{
+		"base_change": 10,
+		"min": 0,
+		"max": 1000,
+	}, 
 
 }
 
+
+
+func _init():
+	
+	root_pattern = generate_random_pattern(5, 3, 2)
+	color = Color(randf(), randf(), randf())
+
+	for property in get_property_list():
+		var name = property["name"]
+		if not property_rules.has(name):
+			continue
+		var rules = property_rules[name]
+		
+		if property["type"] == 2:
+			self.set(name, randi_range(rules["min"], rules["max"]))
+		elif property["type"] == 3:
+			self.set(name, randf_range(rules["min"], rules["max"]))
+
+
+	
+
+	pass
+
+## Generates pattern 
+## mutables is how many variables are there going to be, 
+## options, is how max many rules can be assigned to specific variable
+## emptiness increases chance for rule to contain empty cell, this is good to prevent
+## to many patterns that are just big solid mass
+func generate_random_pattern(mutables : int, options : int, emptines : float = 0.1):
+	var pattern : Array[Array] = []
+	pattern.resize(mutables)
+	
+	var choices = range(-1, mutables)
+	
+	for i in range(mutables * emptines):
+		choices.push_back(-1)
+	
+	for i in range(mutables):
+		for j in range(randi_range(0, options)):
+			pattern[i].append([choices.pick_random(), choices.pick_random(), choices.pick_random(), choices.pick_random()])
+			
+	return pattern
+	
+
+
 ## Returns new mutated DNA
-## Frequency is how often should mutation happen per property. Should be value between 0 and 1
+## Frequency is how often should mutation happen per property. Should be value between 0 and 1.
 ## Strength is how big should the mutation be.
 ## Value of 1 means that the mutation is going to use the default mutation rules, 
 ## any other value is going to multiply the base mutation value. 

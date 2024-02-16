@@ -95,6 +95,15 @@ load={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="TileMap"
+2d_physics/layer_2="Plant"
+2d_physics/layer_3="Food"
+2d_physics/layer_4="Creature Mouth"
+2d_physics/layer_5="Creature Body"
+2d_physics/layer_6="Creature Sensor"
+
 [physics]
 
 2d/run_on_separate_thread=true

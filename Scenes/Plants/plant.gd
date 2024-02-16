@@ -86,43 +86,46 @@ func sub_health(value: float) -> float:
 	health = max(health,0)
 	return leftover
 
+
+
 func reproduce():
-	var cost = dna.seed_nutrition * dna.seed_quantity
-	
-	#print("With: " + str(dna.seed_nutrition)+ " " + str(dna.seed_quantity))
-	#print("We have cost of: " + str(cost))
-	
-	var n = 0
 
-	
-	if cost <= health:
-		health -= cost
-		n = dna.seed_quantity
-	else: 
-		n = floori(health / dna.seed_nutrition)
-		health -= n * dna.seed_nutrition
-		EnergyManager.add_lost_energy(health)
-		health = 0
+	for i in range(dna.seed_quantity):
+		var distance_cost = pow(dna.seed_distance / 50.0, 2)
+		var seed_cost = dna.seed_nutrition + distance_cost
 
-	
-	
-	for i in range(n):
-		@warning_ignore("shadowed_global_identifier")
-		var seed = seed_sceen.instantiate() as Seed
-		seed.energy = dna.seed_nutrition
-		seed.global_position = global_position
-		seed.dna = dna.mutate(0.4, 0.4)
+
+		## Results in death if the cost of reproduction is greater that available health 
+		## provides decision between preservation of it's self or maximizing offsprings
+		if seed_cost > health:
+			EnergyManager.add_lost_energy(health)
+			health = 0
+			break
+
+		health -= seed_cost
+		EnergyManager.add_lost_energy(distance_cost)
+		
+		var sd = seed_sceen.instantiate() as Seed
+		sd.energy = dna.seed_nutrition
+		sd.global_position = global_position
+
+		sd.dna = dna.mutate(0.4, 0.4)
 
 		var direction = Vector2(1, 0)
-		
+	
 		direction = direction.rotated(dna.seed_direction + randf_range(-dna.seed_spread, dna.seed_spread))
 				
-		seed.linear_velocity = direction * randi_range(30, 100)
+		sd.linear_velocity = direction * randi_range(dna.seed_distance, ceil(dna.seed_distance * 1.05))
 		
 		#seed.global_position = Vector2i(global_position.x + randi_range(-50, 50), global_position.y + randi_range(-50, 50))
-		get_parent().add_child(seed)
+		get_parent().add_child(sd)
 		
 
+		pass
+		
+
+
+## Needs to unsubscribe and delete it's self form the tree
 func die():
 	
 	var sd: Seed = seed_sceen.instantiate() as Seed
@@ -136,6 +139,8 @@ func die():
 	# print(self.name + ": Died" )
 	EnergyManager.unsubscribe(self)
 	queue_free()
+
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -156,9 +161,11 @@ func _process(delta):
 
 
 	## Energy unlike health is mannaged in the EnergyManager
-
-	$Panel/Energy.text = "Energy: " + str(int(energy)) + "/" + str(dna.energy)
-	$Panel/Health.text = "Health: " + str(int(health)) + "/" + str(dna.health)
+	
+	if $Panel.visible:
+		$Panel/Energy.text = "Energy: " + str(int(energy)) + "/" + str(dna.energy)
+		$Panel/Health.text = "Health: " + str(int(health)) + "/" + str(dna.health)
+		
 	#energy -= delta * 1
 	pass
 
@@ -187,7 +194,7 @@ func save() -> PlantSave:
 	sv.pos = global_position
 
 	sv.root = root.save()
-
+	
 	return sv
 
 
@@ -201,5 +208,8 @@ func load(sv : PlantSave):
 	## To modulate the color of the plant
 	set_dna(sv.dna.duplicate())
 
+
 	## Do not use the root variable as it gets rewriten when the plant eneters tree
 	$Root.load(sv.root)
+
+

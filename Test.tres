@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CreatureDNA" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scenes/CreatureDNA.gd" id="1_6wxl4"]
+
+[resource]
+script = ExtResource("1_6wxl4")
+energy = 135
+health = 92
+sensors = [Object(RayCast2D,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"enabled":true,"exclude_parent":true,"target_position":Vector2(0, 50),"collision_mask":1,"hit_from_inside":false,"collide_with_areas":false,"collide_with_bodies":true,"script":Resource("res://Scenes/Maps/Sensor.gd"),"conf":null)
+]

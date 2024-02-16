@@ -2,5 +2,15 @@ extends Control
 
 
 func _on_new_simulation_pressed():
-	get_tree().change_scene_to_file("res://.godot/exported/133200997/export-3070c538c03ee49b7677ff960a3f5195-main.scn")
+	
+	var data = load("res://main.tscn") as PackedScene
+	var new_simulation = data.instantiate()
+	
+	new_simulation.get_node("SaveManager").save_path = "res://test.tres"
+	
+	queue_free()
+	get_tree().root.add_child(new_simulation)
+	
+	new_simulation.get_node("SaveManager").load()
+		
 	pass # Replace with function body.

@@ -66,7 +66,7 @@ func grow(plantDNA : PlantDNA) -> int:
 
 	var source = active_roots[index]
 	
-	var pattern = plantDNA.root_pattern[index_map[source]].pick_random()
+	var pattern = null if plantDNA.root_pattern[index_map[source]].is_empty() else plantDNA.root_pattern[index_map[source]].pick_random()
 	
 	if pattern == null:
 		set_cell(source, false)

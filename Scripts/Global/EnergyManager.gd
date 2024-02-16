@@ -13,7 +13,8 @@ var seeds : Array[Seed]
 var mutex : Mutex = Mutex.new()
 
 
-
+var redistribution_amount = 100
+var redistribution_percentage = 0.5
 
 
 # Called when the node enters the scene tree for the first time.
@@ -42,8 +43,6 @@ func unsubscribe(sub : Object):
 	pass
 	mutex.unlock()
 	
-
-
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -78,10 +77,17 @@ func _process(delta):
 			set_energy(key, get_energy(key) - energy + plant.add_energy(energy))
 	
 	
+
+	if lostEnergy < redistribution_amount:
+		return;
+
+	var energy = redistribution_amount / (tiles.size() * redistribution_percentage)
+	for cords in tiles:
+		if randf() < redistribution_percentage:
+			add_energy(cords, energy)
+			add_lost_energy(-energy)
+
 	pass
-
-
-
 
 
 ## Returns total amount of energy in the world, including all subscribed plants and seeds 
@@ -137,7 +143,7 @@ func add_energy(location: Vector2i, energy: float):
 ## but is not nessecery for the EnergyManager to run
 func init_map(map : TileMap):
 	for cell in map.get_used_cells(0):
-		set_energy(cell, 100)
+		set_energy(cell, 1000)
 
 	print(get_total_energy())
 	

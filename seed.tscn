@@ -6,8 +6,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_g8mmw"]
 radius = 4.12311
 
-[node name="RigidBody2D" type="RigidBody2D"]
-collision_layer = 2
+[node name="Seed" type="RigidBody2D"]
+collision_layer = 4
 gravity_scale = 0.0
 linear_damp = 1.0
 script = ExtResource("1_xthth")
