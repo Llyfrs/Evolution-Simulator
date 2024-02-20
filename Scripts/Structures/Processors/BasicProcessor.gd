@@ -14,7 +14,8 @@ var detectable_values = ["health", "energy", "durability"]
 # TODO: implement initialization
 func _init():
 
-	var ar = [randi_range(0, 100),  randi_range(0, 100)]
+	var ar = 	[randi_range(0, Globals.PROCESSOR_MAX_LIMIT),  
+				 randi_range(0, Globals.PROCESSOR_MAX_LIMIT)]
 
 	upper_limit = ar.max()
 	lower_limit = ar.min()
@@ -26,9 +27,11 @@ func _init():
 
 	pass
 
-func process(data : Data):
-	if value in data:
+func process(data : Data) -> bool:
+	if value in data and is_in_distance(data):
 		return upper_limit > data.get(value) and lower_limit < data.get(value)
+	
+	return false
 
 
 

@@ -8,7 +8,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var dna : CreatureDNA
 
-
+var energy : float
+var health : float
 
 enum Influence {
 	ROTATE_LEFT,
@@ -33,6 +34,9 @@ func _ready():
 
 	dna = CreatureDNA.new()
 
+	energy = randi_range(0, dna.energy)
+	health = randi_range(0, dna.health)
+
 
 	
 	for sensor in dna.sensors:
@@ -50,26 +54,44 @@ func _ready():
 
 func _process(delta):
 
-	## Needs to be caculated on tile type
+	# Needs to be caculated on tile type
 	var speed = 200
+
+	var rspeed = 30
 	
-	## Float so we can calculate the strength
+	# Forward and backward influence handling
 	var fw : float = influence[Influence.MOVE_FORWARD]
 	var bw : float = influence[Influence.MOVE_BACKWARDS]
 	
 
 	if min(fw, bw) == 0:
 		velocity = Vector2(0, sign(fw - bw) * speed)
-	elif fw > bw:
-		var str = (1 - bw / fw)
-		velocity = Vector2(0, -1) * (speed * str)
-	elif fw < bw:
-		var str = (1 - fw / bw)
-		velocity = Vector2(0, 1) * (speed * str)
-		
-
+	else:
+		var strg = (1 - min(fw, bw) / max(fw, bw))
+		velocity = Vector2(0, sign(fw - bw) * (speed * strg))
 
 	
+	
+	# Rotate Influence Handling
+	var rl : float = influence[Influence.ROTATE_LEFT]
+	var rr : float = influence[Influence.ROTATE_RIGHT]
+
+	if min(rl, rr) == 0:
+		rotate( deg_to_rad(rspeed * sign(rr - rl) * delta))
+	else:
+		var strg = (1 - min(rr, rl) / max(rr, rl))
+		rotate( deg_to_rad( strg * rspeed * sign(rr - rl) * delta))
+
+
+	# Reproduction
+	
+
+	
+
+	# Rotating velocity so we are moving in the direction we are facing
+	# this would not work if the velocity would not be set every frame anew, but it is.
+	velocity = velocity.rotated(rotation)
+
 	influence_decay(delta)
 	move_and_slide()
 	pass 
@@ -87,7 +109,15 @@ func add_influence(inf_value : float, inf_type : Creature.Influence):
 func influence_decay(delta):
 	for i in range(Influence.size()):
 		influence[i] = max(0,  influence[i] - dna.influence_decay[i] * delta)
-	
+
+
+func get_data() -> CreatureData:
+	var data = CreatureData.new()
+
+	data.energy = energy
+	data.health = health
+
+	return data
 
 
 

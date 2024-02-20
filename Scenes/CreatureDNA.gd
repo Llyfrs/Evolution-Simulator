@@ -20,7 +20,7 @@ class_name CreatureDNA extends Resource
 
 @export var influence_decay : Array
 
-var processors = [ColorProcessor, BasicProcessor]
+var processors = [ColorProcessor, BasicProcessor, SelfProcessor]
 
 
 
@@ -51,7 +51,7 @@ func _init():
         sensor.range = randi_range(50,300)
         sensor.angle = randf_range(0, 2 * PI)
 
-        sensor.influence = randi_range(1,20)
+        sensor.influence = randi_range(1,60)
 
         sensors.append(sensor)
     
