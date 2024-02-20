@@ -19,7 +19,7 @@ config/icon="res://Textures/icon.svg"
 
 EnergyManager="*res://Scripts/Global/EnergyManager.gd"
 MyTools="*res://Scripts/Global/Tools.gd"
-GlobalMaps="*res://Scripts/Global/GlobalMaps.gd"
+Globals="*res://Scripts/Global/Globals.gd"
 
 [debug]
 

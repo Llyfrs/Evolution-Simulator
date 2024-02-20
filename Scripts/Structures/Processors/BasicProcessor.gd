@@ -10,6 +10,7 @@ class_name BasicProcessor extends Processor
 
 var detectable_values = ["health", "energy", "durability"]
 
+
 # TODO: implement initialization
 func _init():
 
@@ -19,6 +20,8 @@ func _init():
 	lower_limit = ar.min()
 
 	value = detectable_values.pick_random()
+
+	masks = [Globals.Mask.FOOD, Globals.Mask.PLANT, Globals.Mask.TILE_MAP]
 
 
 	pass

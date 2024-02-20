@@ -25,8 +25,8 @@ func remove_energy(value: float):
 
 
 func get_tile():
-	var local = GlobalMaps.mainMap.to_local(global_position)
-	return GlobalMaps.mainMap.local_to_map(local)
+	var local = Globals.mainMap.to_local(global_position)
+	return Globals.mainMap.local_to_map(local)
 
 func root():
 	if dna != null:
@@ -62,11 +62,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var l_position = GlobalMaps.mainMap.local_to_map(GlobalMaps.mainMap.to_local(global_position))
-	var data = GlobalMaps.mainMap.get_cell_atlas_coords(0, l_position)
+	var l_position = Globals.mainMap.local_to_map(Globals.mainMap.to_local(global_position))
+	var data = Globals.mainMap.get_cell_atlas_coords(0, l_position)
 	
 	# Delete your self if outside the map
-	if data == null or data == Vector2i(18,1):
+	if data == null or data == Globals.WALL_TILE:
 		EnergyManager.add_lost_energy(energy)
 		EnergyManager.unsubscribe(self)
 		queue_free()

@@ -14,7 +14,6 @@ class_name SensorSettings extends Resource
 @export var influence : int
 
 
-
 @export var range : float
 @export var angle : float
 

@@ -8,8 +8,8 @@ extends Node
 # Enter tree gets called in order from root to leaf, making sure that the maps are loaded before
 # other objects that depend on them request them.
 func _enter_tree():
-	GlobalMaps.mainMap = $Map/TileMap
-	GlobalMaps.rootMap = $Map/RootMap
+	Globals.mainMap = $Map/TileMap
+	Globals.rootMap = $Map/RootMap
 
 
 
@@ -19,18 +19,17 @@ func _ready():
 	
 	#var plant_sceen = load("res://Scenes/Plants/plant.tscn") as PackedScene
 	Engine.time_scale = 5
-	EnergyManager.init_map(GlobalMaps.mainMap)
+	EnergyManager.init_map(Globals.mainMap)
 	
 	
-	
-		
+
 	pass # Replace with function body.
 
 
 func _input(event):
 	if event.is_action_pressed("ui_left_mouse_button"):
-		var position = GlobalMaps.mainMap.get_local_mouse_position() as Vector2
-		position = GlobalMaps.mainMap.local_to_map(position)
+		var position = Globals.mainMap.get_local_mouse_position() as Vector2
+		position = Globals.mainMap.local_to_map(position)
 		print(EnergyManager.get_energy(position))
 	
 	if event.is_action_pressed("speed_up"):

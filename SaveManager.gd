@@ -25,13 +25,13 @@ func _save_thread(nodes : Array):
 	save.lost_energy = EnergyManager.lostEnergy
 	save.tile_energy = EnergyManager.tiles
 
-	var map_data = GlobalMaps.rootMap.get_used_cells(0)
+	var map_data = Globals.rootMap.get_used_cells(0)
 	for cell in map_data:
-		save.rootMap[cell] = TileSave.new().save(GlobalMaps.rootMap, cell)
+		save.rootMap[cell] = TileSave.new().save(Globals.rootMap, cell)
 
-	map_data = GlobalMaps.mainMap.get_used_cells(0)
+	map_data = Globals.mainMap.get_used_cells(0)
 	for cell in map_data:
-		save.mainMap[cell] = TileSave.new().save(GlobalMaps.mainMap, cell)
+		save.mainMap[cell] = TileSave.new().save(Globals.mainMap, cell)
 	
 	ResourceSaver.save(save, "res://test.tres")
 	
@@ -63,8 +63,8 @@ func load():
 		child.free()
 
 
-	GlobalMaps.rootMap.clear()
-	GlobalMaps.mainMap.clear()
+	Globals.rootMap.clear()
+	Globals.mainMap.clear()
 	
 
 
@@ -89,10 +89,10 @@ func load():
 
 	
 	for cell in save.rootMap:
-		save.rootMap[cell].load(GlobalMaps.rootMap, cell) 
+		save.rootMap[cell].load(Globals.rootMap, cell) 
 
 	for cell in save.mainMap:
-		save.mainMap[cell].load(GlobalMaps.mainMap, cell) 
+		save.mainMap[cell].load(Globals.mainMap, cell) 
 
 	
 	EnergyManager.lostEnergy = save.lost_energy

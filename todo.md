@@ -9,3 +9,10 @@ expand default data by creature informations and collect them in the scaners
 create basic creature data processor should (good for moving when noting else scans 
 mask definitinons for processors for optimalization 
 collision buffer
+map editing 
+working save system 
+mob spawner 
+plant spawner 
+data collection 
+add distance to data 
+creature could start with some influence so they aren't stuck after brith / creation? 

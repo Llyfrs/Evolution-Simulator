@@ -19,14 +19,17 @@ enum Influence {
 }
 
 
-var influence : Array
+## Need to be float to work over 60 frames per second for example
+var influence : Array[float]
 
 
 
 
 func _ready():
 	influence.resize(Influence.size())
-	influence.fill(0)
+
+	for i in range(Creature.Influence.size()):
+		influence[i] = randi_range(0, 20)
 
 	dna = CreatureDNA.new()
 
@@ -55,12 +58,8 @@ func _process(delta):
 	var bw : float = influence[Influence.MOVE_BACKWARDS]
 	
 
-	if fw == 0 and bw == 0:
-		velocity = Vector2(0,0)
-	elif fw == 0 and bw != 0:
-		velocity = Vector2(0, 1) * speed
-	elif fw != 0 and bw == 0:
-		velocity = Vector2(0, -1) * speed
+	if min(fw, bw) == 0:
+		velocity = Vector2(0, sign(fw - bw) * speed)
 	elif fw > bw:
 		var str = (1 - bw / fw)
 		velocity = Vector2(0, -1) * (speed * str)
@@ -68,8 +67,10 @@ func _process(delta):
 		var str = (1 - fw / bw)
 		velocity = Vector2(0, 1) * (speed * str)
 		
+
+
 	
-	influence.fill(0)
+	influence_decay(delta)
 	move_and_slide()
 	pass 
 
@@ -77,10 +78,16 @@ func _process(delta):
 
 
 
-func add_influence(inf_value : int, inf_type : Creature.Influence):
+func add_influence(inf_value : float, inf_type : Creature.Influence):
 	influence[inf_type] += inf_value
 	pass
 
+
+
+func influence_decay(delta):
+	for i in range(Influence.size()):
+		influence[i] = max(0,  influence[i] - dna.influence_decay[i] * delta)
+	
 
 
 

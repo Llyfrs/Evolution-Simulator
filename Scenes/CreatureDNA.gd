@@ -18,7 +18,11 @@ class_name CreatureDNA extends Resource
 @export var sensors : Array[SensorSettings]
 
 
+@export var influence_decay : Array
+
 var processors = [ColorProcessor, BasicProcessor]
+
+
 
 func _init():
 
@@ -29,6 +33,12 @@ func _init():
     health = randi_range(10,200)
 
     bite_strength = randi_range(1,10)
+
+    influence_decay.resize(Creature.Influence.size())
+    
+    for i in range(Creature.Influence.size()):
+        influence_decay[i] = randi_range(0, 20)
+
 
     for i in range(0,randi_range(2,5)):
         var sensor = SensorSettings.new()

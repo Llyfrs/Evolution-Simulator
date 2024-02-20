@@ -13,20 +13,21 @@ func _ready():
 	target_position = distance.rotated(conf.angle)
 
 
-	enabled = true
-	
-	set_collision_mask_value(1,1)
-	set_collision_mask_value(2,1)
-	set_collision_mask_value(3,1)
 
+	for masks in conf.processor.masks:
+		set_collision_mask_value(masks, 1)
+
+
+	enabled = true
 	collide_with_areas = true
+	collide_with_bodies = true
 
 	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 # I think we can ignore delta as the processing of influence is going to happen withing the same frame as it's defining
-func _process(_delta):
+func _process(delta):
 
 
 	## NOTE: Maybe add buffer? could be quite expensive to run and really we don't need to run it ever frame
@@ -74,7 +75,9 @@ func _process(_delta):
 	if data == null:
 		return
 
+	data.distance = get_collision_point().distance_to(global_position)
+
 	if conf.processor.process(data):
-		detection.emit(conf.influence, conf.receiver)
+		detection.emit(conf.influence * delta, conf.receiver)
 
 

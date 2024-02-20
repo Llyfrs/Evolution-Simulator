@@ -21,10 +21,10 @@ var inactive_roots = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	var start = GlobalMaps.rootMap.local_to_map(GlobalMaps.rootMap.to_local(global_position))
+	var start = Globals.rootMap.local_to_map(Globals.rootMap.to_local(global_position))
 
 
-	if GlobalMaps.rootMap.get_cell_tile_data(0, start) == null:
+	if Globals.rootMap.get_cell_tile_data(0, start) == null:
 		set_cell(start, true)
 		index_map[start] = 0
 
@@ -73,10 +73,10 @@ func grow(plantDNA : PlantDNA) -> int:
 		return true
 	
 	var cells_grown = 0
-	var surround = GlobalMaps.rootMap.get_surrounding_cells(source)
+	var surround = Globals.rootMap.get_surrounding_cells(source)
 	
 	for i in range(4):
-		if GlobalMaps.rootMap.get_cell_source_id(0,surround[i]) == -1 and pattern[i] != -1:
+		if Globals.rootMap.get_cell_source_id(0,surround[i]) == -1 and pattern[i] != -1:
 			set_cell(surround[i], true)
 			index_map[surround[i]] = pattern[i]
 			cells_grown += 1
@@ -98,7 +98,7 @@ func get_tilemap_presence(tilemap : TileMap, p_dna : PlantDNA):
 	var presence = Dictionary()
 	
 	for root in roots:
-		var global = GlobalMaps.rootMap.to_global(GlobalMaps.rootMap.map_to_local(root))
+		var global = Globals.rootMap.to_global(Globals.rootMap.map_to_local(root))
 		var cords = tilemap.local_to_map(tilemap.to_local(global))
 		
 		if presence.has(cords) : 
@@ -113,7 +113,7 @@ func get_tilemap_presence(tilemap : TileMap, p_dna : PlantDNA):
 
 
 func set_cell(cords : Vector2i, active : bool):
-	GlobalMaps.rootMap.set_cell(0, cords,0,Vector2(0,0),active)
+	Globals.rootMap.set_cell(0, cords,0,Vector2(0,0),active)
 	
 	if active:
 		active_roots.append(cords)
@@ -127,12 +127,12 @@ func highlight_owned_roots(highlight : bool):
 	var state = 2 if highlight else 0
 	
 	for root in inactive_roots:
-		GlobalMaps.rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
+		Globals.rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
 	
 	state = 2 if highlight else 1
 	
 	for root in active_roots:
-		GlobalMaps.rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
+		Globals.rootMap.set_cell(0, root, 0, Vector2(0, 0), state)
 	
 	pass
 
@@ -147,9 +147,9 @@ func compare(a : Vector2i, b: Vector2i):
 
 func _on_tree_exiting():
 	for root in active_roots:
-		GlobalMaps.rootMap.erase_cell(0, root)
+		Globals.rootMap.erase_cell(0, root)
 	for root in inactive_roots:
-		GlobalMaps.rootMap.erase_cell(0, root)
+		Globals.rootMap.erase_cell(0, root)
 	
 	pass # Replace with function body.
 
