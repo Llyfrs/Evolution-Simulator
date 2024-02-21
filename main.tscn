@@ -151,7 +151,7 @@ position = Vector2(1130, 350)
 
 [node name="Creature" parent="Active" instance=ExtResource("8_ch8fj")]
 position = Vector2(-272, 238)
-rotation = 0.639444
+rotation = 0.43311
 
 [node name="Creature2" parent="Active" instance=ExtResource("8_ch8fj")]
 position = Vector2(-39, 465)
@@ -170,5 +170,143 @@ position = Vector2(-61, 35)
 
 [node name="Creature7" parent="Active" instance=ExtResource("8_ch8fj")]
 position = Vector2(162, 322)
+
+[node name="Plant28" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(525, -175)
+
+[node name="Plant29" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-327, 483)
+
+[node name="Plant30" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-171, 435)
+
+[node name="Plant31" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(583, 105)
+
+[node name="Plant32" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(663, -71)
+
+[node name="Plant33" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-417, 267)
+
+[node name="Plant34" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-405, -449)
+
+[node name="Plant35" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(477, -57)
+
+[node name="Plant36" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(583, -37)
+
+[node name="Plant37" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(379, -494)
+
+[node name="Plant38" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(4, -497)
+
+[node name="Plant39" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-333, 169)
+
+[node name="Plant40" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(109, 498)
+
+[node name="Plant41" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(446, -368)
+
+[node name="Plant42" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(530, 463)
+
+[node name="Plant43" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-478, -202)
+
+[node name="Plant44" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-513, -543)
+
+[node name="Plant45" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(806, 41)
+
+[node name="Plant46" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(1009, -71)
+
+[node name="Plant47" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(1086, 393)
+
+[node name="Plant48" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(20.1, -82)
+
+[node name="Plant49" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(137, -289)
+
+[node name="Plant50" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-49, -275)
+
+[node name="Plant51" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(57, -325)
+
+[node name="Plant52" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(115, -45)
+
+[node name="Plant53" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(195, -221)
+
+[node name="Plant54" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(9, -207)
+
+[node name="Plant55" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(115, -187)
+
+[node name="Plant56" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(13, -282)
+
+[node name="Plant57" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(71, -2)
+
+[node name="Plant58" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(151, -178)
+
+[node name="Plant59" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(-35, -164)
+
+[node name="Plant60" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(71, -144)
+
+[node name="Plant61" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(330.1, 393)
+
+[node name="Plant62" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(447, 186)
+
+[node name="Plant63" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(261, 200)
+
+[node name="Plant64" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(367, 150)
+
+[node name="Plant65" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(425, 430)
+
+[node name="Plant66" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(505, 254)
+
+[node name="Plant67" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(319, 268)
+
+[node name="Plant68" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(425, 288)
+
+[node name="Plant69" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(323, 193)
+
+[node name="Plant70" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(381, 473)
+
+[node name="Plant71" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(461, 297)
+
+[node name="Plant72" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(275, 311)
+
+[node name="Plant73" parent="Active" instance=ExtResource("2_a65en")]
+position = Vector2(381, 331)
 
 [connection signal="timeout" from="SaveManager/AutoSave" to="SaveManager" method="save"]

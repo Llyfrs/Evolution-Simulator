@@ -8,8 +8,8 @@ radius = 20.0
 height = 78.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_75som"]
-radius = 6.99999
-height = 22.0
+radius = 14.0
+height = 34.0
 
 [node name="Creature" type="CharacterBody2D"]
 collision_layer = 16
@@ -23,13 +23,15 @@ shape = SubResource("CapsuleShape2D_w2dtx")
 
 [node name="Mouth" type="Area2D" parent="."]
 collision_layer = 8
-collision_mask = 3
+collision_mask = 6
 
 [node name="Mouth Shape" type="CollisionShape2D" parent="Mouth"]
-position = Vector2(-2, -31)
-rotation = 1.57079
+position = Vector2(-2, -42)
+rotation = 3.14159
 shape = SubResource("CapsuleShape2D_75som")
 
 [node name="Creature" type="Sprite2D" parent="."]
 scale = Vector2(0.5625, 0.5625)
 texture = ExtResource("1_mthpi")
+
+[connection signal="body_entered" from="Mouth" to="." method="eat"]

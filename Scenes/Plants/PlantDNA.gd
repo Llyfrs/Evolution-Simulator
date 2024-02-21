@@ -54,7 +54,7 @@ var property_rules = {
 	"health": {
 		"base_change": 10,
 		"min": 1,
-		"max": 1000
+		"max": 300
 	},
 	"root_effectivnes": {
 		"base_change": 0.1,

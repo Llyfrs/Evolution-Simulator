@@ -25,6 +25,13 @@ enum Mask{
 }
 
 
+enum Tile{
+	GRASS,
+	STONE,
+	WATER,
+	SAND
+}
+
 """
 General Constants to adjust default behavior of the program
 """ 

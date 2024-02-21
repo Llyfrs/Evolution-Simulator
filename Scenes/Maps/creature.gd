@@ -20,7 +20,7 @@ enum Influence {
 }
 
 
-## Need to be float to work over 60 frames per second for example
+## Needs to be float to work over 60 frames per second for example
 var influence : Array[float]
 
 
@@ -30,7 +30,7 @@ func _ready():
 	influence.resize(Influence.size())
 
 	for i in range(Creature.Influence.size()):
-		influence[i] = randi_range(0, 20)
+		influence[i] = randi_range(0, 200)
 
 	dna = CreatureDNA.new()
 
@@ -86,7 +86,16 @@ func _process(delta):
 	# Reproduction
 	
 
+	# Energy 
+
 	
+	var used_energy = velocity.length() * delta 
+
+	used_energy += dna.proficiency_tax()
+	used_energy += dna.sensor_tax()
+
+	
+	sub_energy(used_energy)
 
 	# Rotating velocity so we are moving in the direction we are facing
 	# this would not work if the velocity would not be set every frame anew, but it is.
@@ -97,14 +106,60 @@ func _process(delta):
 	pass 
 
 
+func eat(body: Node2D):
+	
 
+	body = body as Seed
+
+	if body.dna != null and body.dna.seed_durability > dna.bite_strength:
+		print("To Strong")
+		return
+	
+	
+	print("Ate")
+	var leftover = add_energy(body.energy)
+	
+	if leftover == 0:
+		body.queue_free()
+	else:
+		body.energy = leftover
+
+
+func die():
+
+	queue_free()
+
+
+## Adds value to current energy and returns all the left over energy
+## or returns 0 if the energy didn't overflown
+func add_energy(value : float) -> float:
+	var leftover = 0
+	
+	# Manages adding energy to the plant
+	# If the energy is overflown it returns the difference
+	energy += value
+	if energy > dna.energy:
+		leftover = energy - dna.energy
+		energy = dna.energy
+	
+
+	return leftover
+
+
+func sub_energy(value : float):
+	var leftover = 0
+	energy -= value
+	if energy < 0:
+		leftover = energy
+		energy = 0
+	
+	
+	return leftover
 
 
 func add_influence(inf_value : float, inf_type : Creature.Influence):
 	influence[inf_type] += inf_value
 	pass
-
-
 
 func influence_decay(delta):
 	for i in range(Influence.size()):
@@ -118,8 +173,6 @@ func get_data() -> CreatureData:
 	data.health = health
 
 	return data
-
-
 
 func save() -> CreatureSave:
 
