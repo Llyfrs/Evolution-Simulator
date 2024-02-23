@@ -19,3 +19,13 @@ class_name SensorSettings extends Resource
 
 ## TODO: what type off sensor was this setting for
 @export var type : int
+
+
+
+func mutate(frequency : float, strength : float):
+    var mutated_sensor = SensorSettings.new()
+
+    mutated_sensor.processor = processor.mutate(frequency, strength)
+    mutated_sensor.receiver = receiver
+
+    

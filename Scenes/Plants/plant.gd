@@ -86,6 +86,12 @@ func sub_health(value: float) -> float:
 	health = max(health,0)
 	return leftover
 
+func take_damage(damage: float):
+	var leftover = sub_health(damage)
+	EnergyManager.add_lost_energy(damage + leftover)
+
+	if leftover != 0:
+		die()
 
 
 func reproduce():
@@ -139,6 +145,7 @@ func die():
 	# print(self.name + ": Died" )
 	EnergyManager.unsubscribe(self)
 	queue_free()
+
 
 
 

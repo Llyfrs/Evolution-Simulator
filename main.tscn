@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Stats.gd" id="4_hqmbn"]
 [ext_resource type="TileSet" uid="uid://sh0qm7kx82pw" path="res://Scenes/Plants/Root/root.tres" id="5_43tlv"]
 [ext_resource type="Script" path="res://SaveManager.gd" id="7_e4msc"]
-[ext_resource type="PackedScene" uid="uid://dasktks3v1w44" path="res://Scenes/Maps/creature.tscn" id="8_ch8fj"]
+[ext_resource type="PackedScene" uid="uid://0q1pr350mdmh" path="res://Scenes/Maps/creature.tscn" id="8_ch8fj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_naes2"]
 font_size = 36

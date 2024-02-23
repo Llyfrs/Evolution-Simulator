@@ -46,40 +46,42 @@ text = "Settings
 "
 
 [node name="New Simulation Menu" type="GridContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 328.0
-offset_top = -186.0
-offset_right = -316.0
-offset_bottom = -154.0
+offset_left = 336.0
+offset_top = -163.0
+offset_right = -308.0
+offset_bottom = -131.0
 grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 
-[node name="TextEdit" type="TextEdit" parent="New Simulation Menu"]
+[node name="TextEdit" type="LineEdit" parent="New Simulation Menu"]
 custom_minimum_size = Vector2(400, 32)
 layout_mode = 2
-wrap_mode = 1
+max_length = 42
 
-[node name="Button" type="Button" parent="New Simulation Menu"]
+[node name="Start New Simulation" type="Button" parent="New Simulation Menu"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Begin"
 
 [node name="Load Simulation Menu" type="GridContainer" parent="."]
+visible = false
 layout_mode = 2
 anchor_left = 0.166
 anchor_top = 0.555
 anchor_right = 0.166
 anchor_bottom = 0.555
-offset_left = 152.768
-offset_top = 58.36
-offset_right = 609.768
-offset_bottom = 271.36
+offset_left = 160.768
+offset_top = -143.64
+offset_right = 617.768
+offset_bottom = 69.36
 
 [node name="ItemList" type="ItemList" parent="Load Simulation Menu"]
 custom_minimum_size = Vector2(300, 200)
@@ -88,3 +90,5 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [connection signal="pressed" from="VBoxContainer/New Simulation" to="." method="_on_new_simulation_pressed"]
+[connection signal="pressed" from="VBoxContainer/Load Simulation" to="." method="_on_load_simulation_pressed"]
+[connection signal="pressed" from="New Simulation Menu/Start New Simulation" to="." method="_on_start_new_simulation_pressed"]

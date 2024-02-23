@@ -191,7 +191,11 @@ func mutate(frequency : float, strength : float ):
 			mutated_dna.set(name, self.get(name))
 	
 	
-	mutate_pattern(frequency)
+	mutated_dna.root_pattern.assign(mutate_pattern(frequency))
+	
+	# print("Assigned")
+	# MyTools.print_patten(mutated_dna.root_pattern)
+
 	return mutated_dna
 
 #● TYPE_NIL = 0
@@ -207,7 +211,7 @@ func property_mutation(current, change ,maximum, minimum, type = 2):
 	
 	var mutation = 0
 	if type == 2:
-		change = round(change)
+		change = ceil(change)
 		mutation = clamp(current - randi_range(-change, change), minimum, maximum)
 	if type == 3:
 		mutation = clamp(current - randf_range(-change, change), minimum, maximum)
@@ -266,7 +270,7 @@ func mutate_pattern(frequency : float):
 	# print( "New pattern: ")
 	# MyTools.print_patten(new_pattern)
 
-
+	return new_pattern
 
 	pass
 

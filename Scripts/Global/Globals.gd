@@ -15,8 +15,9 @@ var mainMap : TileMap
 var rootMap : TileMap
 
 
+# Enums start from zero but masks start from 1 
 enum Mask{
-	TILE_MAP,
+	TILE_MAP=1,
 	PLANT,
 	FOOD,
 	CREATURE_MOUTH,

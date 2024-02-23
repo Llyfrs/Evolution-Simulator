@@ -16,15 +16,19 @@ enum Influence {
 	ROTATE_RIGHT,
 	MOVE_FORWARD,
 	MOVE_BACKWARDS,
-	REPRODUCE
+	PAUSE_REPRODUCTION,
+	PAUSE_ATTACKING, 
 }
 
 
 ## Needs to be float to work over 60 frames per second for example
 var influence : Array[float]
 
+## Plants and Creatures that are in the mouth range
+var targets : Array
 
 
+var creature_scene = preload("res://Scenes/Maps/creature.tscn")
 
 func _ready():
 	influence.resize(Influence.size())
@@ -34,8 +38,8 @@ func _ready():
 
 	dna = CreatureDNA.new()
 
-	energy = randi_range(0, dna.energy)
-	health = randi_range(0, dna.health)
+	energy =  dna.energy
+	health = 0
 
 
 	
@@ -55,9 +59,9 @@ func _ready():
 func _process(delta):
 
 	# Needs to be caculated on tile type
-	var speed = 200
+	var speed = dna.speed
 
-	var rspeed = 30
+	var rspeed = dna.rotation_speed
 	
 	# Forward and backward influence handling
 	var fw : float = influence[Influence.MOVE_FORWARD]
@@ -89,34 +93,38 @@ func _process(delta):
 	# Energy 
 
 	
-	var used_energy = velocity.length() * delta 
+	var used_energy =  (pow(velocity.length(), 2) * 0.0005) * delta
 
-	used_energy += dna.proficiency_tax()
-	used_energy += dna.sensor_tax()
+	#print("Traveling cost" + str(used_energy) )
 
+	used_energy += dna.proficiency_tax() * delta
+	used_energy += dna.sensor_tax() * delta
+
+
+	#print("Using: " + str(used_energy) + " From: " + str(energy))
 	
-	sub_energy(used_energy)
+	var leftover = sub_energy(used_energy) 
+	if leftover != 0:
+		die()
 
 	# Rotating velocity so we are moving in the direction we are facing
 	# this would not work if the velocity would not be set every frame anew, but it is.
 	velocity = velocity.rotated(rotation)
-
+	
 	influence_decay(delta)
+	attack(delta)
 	move_and_slide()
 	pass 
 
 
 func eat(body: Node2D):
-	
 
 	body = body as Seed
 
 	if body.dna != null and body.dna.seed_durability > dna.bite_strength:
-		print("To Strong")
 		return
 	
 	
-	print("Ate")
 	var leftover = add_energy(body.energy)
 	
 	if leftover == 0:
@@ -124,10 +132,45 @@ func eat(body: Node2D):
 	else:
 		body.energy = leftover
 
+# Not my proudest pice of code
+func attack(delta):
+	for target in targets:
+		if "take_damage" in target:
+			target.take_damage(dna.bite_strength * delta)
+		elif "take_damage" in target.get_parent():
+			target.get_parent().take_damage(dna.bite_strength * delta)
+
+func start_attacking(body):
+	targets.append(body)
+	pass
+
+func stop_attacking(body):
+	targets.erase(body)
+	pass
+
 
 func die():
+	#queue_free()
+	pass
 
-	queue_free()
+
+func reproduce():
+
+	for i in range(dna.offsprings):
+
+		if dna.offspring_energy > health:
+			break
+
+		health -= dna.offspring_energy
+
+		var offspring = creature_scene.instantiate() as Creature
+
+		offspring.dna = dna.mutate(0.4, 0.4)
+
+
+
+
+	pass
 
 
 ## Adds value to current energy and returns all the left over energy
@@ -135,7 +178,7 @@ func die():
 func add_energy(value : float) -> float:
 	var leftover = 0
 	
-	# Manages adding energy to the plant
+	# Manages adding energy to the creature
 	# If the energy is overflown it returns the difference
 	energy += value
 	if energy > dna.energy:
@@ -179,4 +222,6 @@ func save() -> CreatureSave:
 	var save = CreatureSave.new()
 
 	return save
+
+
 

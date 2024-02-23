@@ -91,14 +91,16 @@ func save() -> SeedSave:
 
 	return sv
 
-
-func _exit_tree():
-	EnergyManager.unsubscribe(self)
-
 func load(sv : SeedSave):
-	
+
 	## Duplicate prevents circular referencing of a resources
 	dna = null if sv.dna == null else sv.dna.duplicate()
 	energy = sv.energy
 	linear_velocity = sv.lin_vel
 	global_position = sv.pos
+
+
+func _exit_tree():
+	EnergyManager.unsubscribe(self)
+
+

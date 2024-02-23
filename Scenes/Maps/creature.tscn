@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dasktks3v1w44"]
+[gd_scene load_steps=5 format=3 uid="uid://0q1pr350mdmh"]
 
 [ext_resource type="Script" path="res://Scenes/Maps/creature.gd" id="1_ff7ng"]
 [ext_resource type="Texture2D" uid="uid://mb67w1udwfkl" path="res://Scenes/Creatures/creature.png" id="1_mthpi"]
@@ -34,4 +34,8 @@ shape = SubResource("CapsuleShape2D_75som")
 scale = Vector2(0.5625, 0.5625)
 texture = ExtResource("1_mthpi")
 
+[connection signal="area_entered" from="Mouth" to="." method="start_attacking"]
+[connection signal="area_exited" from="Mouth" to="." method="stop_attacking"]
 [connection signal="body_entered" from="Mouth" to="." method="eat"]
+[connection signal="body_entered" from="Mouth" to="." method="start_attacking"]
+[connection signal="body_exited" from="Mouth" to="." method="stop_attacking"]
