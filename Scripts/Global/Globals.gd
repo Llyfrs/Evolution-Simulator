@@ -15,6 +15,36 @@ var mainMap : TileMap
 var rootMap : TileMap
 
 
+var selected : Array
+
+
+
+enum CursorMode {
+	SELECT,
+	PAINT
+}
+
+
+enum PaintMode{
+	GRASS,
+	STONE,
+	WATER,
+	SAND,
+	WALL
+}
+
+enum Tile{
+	GRASS,
+	STONE,
+	WATER,
+	SAND
+}
+
+
+var cursor : CursorMode = CursorMode.SELECT
+
+var paint_mode : PaintMode = PaintMode.GRASS
+
 # Enums start from zero but masks start from 1 
 enum Mask{
 	TILE_MAP=1,
@@ -26,12 +56,7 @@ enum Mask{
 }
 
 
-enum Tile{
-	GRASS,
-	STONE,
-	WATER,
-	SAND
-}
+
 
 """
 General Constants to adjust default behavior of the program
@@ -46,3 +71,12 @@ const PROCESSOR_MAX_LIMIT = 100
 
 ## Constants of atlas coordinations in TileMaps
 const WALL_TILE = Vector2i(9,0)
+
+const WATER_TILE = Vector2(1,1)
+const GRASS_TILE = Vector2(4,1)
+const STONE_TILE = Vector2(7,1)
+const SAND_TILE = Vector2(7,4)
+
+## Having it here prevents circular dependencies 
+var creature_scene = preload("res://Scenes/Maps/creature.tscn")
+var plant_scene = preload("res://Scenes/Plants/plant.tscn") 

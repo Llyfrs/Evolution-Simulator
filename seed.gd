@@ -29,10 +29,13 @@ func get_tile():
 	return Globals.mainMap.local_to_map(local)
 
 func root():
+	
+	process_thread_group = Node.PROCESS_THREAD_GROUP_MAIN_THREAD
+	
 	if dna != null:
 		
 
-		var plant = plant_scene.instantiate()
+		var plant = Globals.plant_scene.instantiate()
 		
 		plant.set_dna(dna)
 		plant.global_position = self.global_position
@@ -62,18 +65,20 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var l_position = Globals.mainMap.local_to_map(Globals.mainMap.to_local(global_position))
-	var data = Globals.mainMap.get_cell_atlas_coords(0, l_position)
+	# var l_position = Globals.mainMap.local_to_map(Globals.mainMap.to_local(global_position))
+	# var data = Globals.mainMap.get_cell_atlas_coords(0, l_position)
 	
-	# Delete your self if outside the map
-	if data == null or data == Globals.WALL_TILE:
-		EnergyManager.add_lost_energy(energy)
-		EnergyManager.unsubscribe(self)
-		queue_free()
+	# # Delete your self if outside the map
+	# if data == null or data == Globals.WALL_TILE:
+	# 	EnergyManager.add_lost_energy(energy)
+	# 	EnergyManager.unsubscribe(self)
+	# 	queue_free()
 
 	# Decomposes itself over time on to the tile it is on
 	# For food this is way to give energy to plants 
 	# For seeds this is way to root 
+	
+	
 	var degrade = 1 * delta
 	var leftover = remove_energy(degrade)
 	EnergyManager.add_energy(get_tile(), degrade - leftover)

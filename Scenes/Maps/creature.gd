@@ -28,18 +28,18 @@ var influence : Array[float]
 var targets : Array
 
 
-var creature_scene = preload("res://Scenes/Maps/creature.tscn")
-
 func _ready():
 	influence.resize(Influence.size())
 
 	for i in range(Creature.Influence.size()):
 		influence[i] = randi_range(0, 200)
+	
 
-	dna = CreatureDNA.new()
 
-	energy =  dna.energy
-	health = 0
+	if dna == null:
+		dna = CreatureDNA.new()
+		energy =  dna.energy
+		health = dna.health
 
 
 	
@@ -89,6 +89,9 @@ func _process(delta):
 
 	# Reproduction
 	
+	if health == dna.health and influence[Influence.PAUSE_REPRODUCTION] == 0:
+		reproduce()
+
 
 	# Energy 
 
@@ -111,6 +114,8 @@ func _process(delta):
 	# this would not work if the velocity would not be set every frame anew, but it is.
 	velocity = velocity.rotated(rotation)
 	
+	
+	grow(delta)
 	influence_decay(delta)
 	attack(delta)
 	move_and_slide()
@@ -134,11 +139,25 @@ func eat(body: Node2D):
 
 # Not my proudest pice of code
 func attack(delta):
+
+	if influence[Influence.PAUSE_ATTACKING] != 0:
+		return
+
 	for target in targets:
 		if "take_damage" in target:
 			target.take_damage(dna.bite_strength * delta)
 		elif "take_damage" in target.get_parent():
 			target.get_parent().take_damage(dna.bite_strength * delta)
+			
+func grow(delta):
+	var growth = dna.growth_speed * delta
+	
+	if energy > growth:
+		health += growth
+		if health > dna.health:
+			energy += health - dna.health
+			health = dna.health
+		energy -= growth
 
 func start_attacking(body):
 	targets.append(body)
@@ -150,7 +169,7 @@ func stop_attacking(body):
 
 
 func die():
-	#queue_free()
+	queue_free()
 	pass
 
 
@@ -163,12 +182,15 @@ func reproduce():
 
 		health -= dna.offspring_energy
 
-		var offspring = creature_scene.instantiate() as Creature
+		var offspring = Globals.creature_scene.instantiate() as Creature
 
+
+		offspring.energy = dna.offspring_energy
 		offspring.dna = dna.mutate(0.4, 0.4)
 
+		offspring.global_position = global_position
 
-
+		get_parent().add_child(offspring)
 
 	pass
 
@@ -224,4 +246,16 @@ func save() -> CreatureSave:
 	return save
 
 
+func _on_mouse_entered():
+	Globals.selected.append(self)
+	pass # Replace with function body.
 
+
+func _on_mouse_exited():
+	Globals.selected.erase(self)
+	pass # Replace with function body.
+
+
+func _on_tree_exiting():
+	Globals.selected.erase(self)
+	pass # Replace with function body.

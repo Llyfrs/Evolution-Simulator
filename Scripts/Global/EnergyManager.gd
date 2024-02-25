@@ -9,6 +9,7 @@ var lostEnergy : float = 0
 
 var plants : Array[Plant] 
 var seeds : Array[Seed]
+var creatures : Array[Creature]
 
 var mutex : Mutex = Mutex.new()
 
@@ -30,6 +31,8 @@ func subscribe(sub : Object):
 		plants.append(sub)
 	if sub is Seed:
 		seeds.append(sub)
+	if sub is Creature:
+		creatures.append(sub)
 	mutex.unlock()
 
 
@@ -40,6 +43,8 @@ func unsubscribe(sub : Object):
 		plants.erase(sub)
 	if sub is Seed:
 		seeds.erase(sub)
+	if sub is Creature:
+		creatures.erase(sub)
 	pass
 	mutex.unlock()
 	
@@ -74,7 +79,7 @@ func _process(delta):
 			else : 
 				var ration : float = presence[key] / float(list[key])
 				energy = lock_energy[key] * ration
-			set_energy(key, get_energy(key) - energy + plant.add_energy(energy))
+			add_energy(key, -energy + plant.add_energy(energy))
 	
 	
 
@@ -112,6 +117,8 @@ func get_total_energy() -> float:
 func get_total_entities() -> int:
 	return plants.size() + seeds.size()
 
+
+
 ## Gets energy from a location or set's it to 100 if the location wasn't loaded yet
 ## NOTE: REWRITE not a good place to have a static value in the future. 
 func get_energy(location : Vector2):
@@ -119,12 +126,10 @@ func get_energy(location : Vector2):
 	if tiles.has(location):
 		return tiles[location]
 	else:
-		tiles[location] = 100
-		return tiles[location]
-
+		return 0
 		
 
-
+		
 ## Set energy for a specific tile, this is not adding energy but rewrtiting the current value
 ## If the tile doesn't exits it results in error. 
 func set_energy(location : Vector2, energy : float):
@@ -137,12 +142,23 @@ func set_energy(location : Vector2, energy : float):
 	
 
 
-func add_energy(location: Vector2i, energy: float):
-	set_energy(location, get_energy(location) + energy)
+func add_energy(location: Vector2, energy: float):
+	#print("Adding energy to: " + str(location))
+	location = Vector2i(location)
+	if tiles.has(location):
+		tiles[location] += energy
+	else:
+		add_lost_energy(energy)
+
 ## Gives every tile in the map a energy value of 100, good for easy start and making sure everything is trackable
 ## but is not nessecery for the EnergyManager to run
 func init_map(map : TileMap):
 	for cell in map.get_used_cells(0):
+		
+		var data = Globals.mainMap.get_cell_atlas_coords(0, cell)
+		if data == Globals.WALL_TILE:
+			continue
+			
 		set_energy(cell, 1000)
 
 	print(get_total_energy())
@@ -154,3 +170,10 @@ func init_map(map : TileMap):
 ## Adds lost energy to the total lost, this value them will be redistributed to the system
 func add_lost_energy(energy : float):
 	lostEnergy += energy
+	
+
+func print_tiles():
+
+	print("---------------------")
+	for key in tiles:
+		print(str(key) + ": " + str(tiles[key]))

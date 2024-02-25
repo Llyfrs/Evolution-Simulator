@@ -27,7 +27,7 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action_pressed("ui_left_mouse_button"):
+	if event.is_action_pressed("ui_left_mouse_button") and Globals.cursor == Globals.CursorMode.SELECT:
 		var position = Globals.mainMap.get_local_mouse_position() as Vector2
 		position = Globals.mainMap.local_to_map(position)
 		print(EnergyManager.get_energy(position))

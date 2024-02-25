@@ -83,6 +83,8 @@ func _init():
 	offspring_energy = randi_range(10,100)
 	offsprings = randi_range(1,5)
 
+	growth_speed = randi_range(1,10)
+
 	influence_decay.resize(Creature.Influence.size())
 	for i in range(Creature.Influence.size()):
 		influence_decay[i] = randi_range(0, 20)
@@ -158,8 +160,10 @@ func mutate(frequency : float, strength : float):
 			print_debug("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
-	tile_efficiency = mutate_array(tile_efficiency, 0, 1, 0.01 * strength, frequency)
-	influence_decay = mutate_array(tile_efficiency, 30, 200, 10 * strength, frequency)
+			mutated_dna.tile_efficiency = mutate_array(tile_efficiency, 0, 1, 0.01 * strength, frequency)
+			mutated_dna.influence_decay = mutate_array(influence_decay, 30, 200, 10 * strength, frequency)
+
+	return mutated_dna
 
 
 
