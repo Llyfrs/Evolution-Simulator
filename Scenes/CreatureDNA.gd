@@ -69,8 +69,6 @@ var property_rules = {
 
 func _init():
 
-	print_debug("CreatureDNA init")
-
 
 	energy = randi_range(10,200)
 	health = randi_range(10,200)
@@ -157,11 +155,11 @@ func mutate(frequency : float, strength : float):
 		elif name == "color":
 			mutated_dna.color = Color(color)
 		else:
-			print_debug("Property: " + name + " is not mutating")
+			#print_debug("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
-			mutated_dna.tile_efficiency = mutate_array(tile_efficiency, 0, 1, 0.01 * strength, frequency)
-			mutated_dna.influence_decay = mutate_array(influence_decay, 30, 200, 10 * strength, frequency)
+	mutated_dna.tile_efficiency = mutate_array(tile_efficiency, 0, 1, 0.01 * strength, frequency)
+	mutated_dna.influence_decay = mutate_array(influence_decay, 30, 200, 10 * strength, frequency)
 
 	return mutated_dna
 

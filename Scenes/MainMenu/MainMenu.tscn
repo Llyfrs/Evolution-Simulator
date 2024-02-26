@@ -60,7 +60,7 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 
-[node name="TextEdit" type="LineEdit" parent="New Simulation Menu"]
+[node name="SavePath" type="LineEdit" parent="New Simulation Menu"]
 custom_minimum_size = Vector2(400, 32)
 layout_mode = 2
 max_length = 42
@@ -83,7 +83,7 @@ offset_top = -143.64
 offset_right = 617.768
 offset_bottom = 69.36
 
-[node name="ItemList" type="ItemList" parent="Load Simulation Menu"]
+[node name="FileList" type="ItemList" parent="Load Simulation Menu"]
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
 size_flags_horizontal = 3

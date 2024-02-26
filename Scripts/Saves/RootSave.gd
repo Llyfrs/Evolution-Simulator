@@ -1,5 +1,4 @@
-class_name RootSave
-extends Resource
+class_name RootSave extends Resource
 
 @export var index_map : Dictionary
 @export var active_roots: Array

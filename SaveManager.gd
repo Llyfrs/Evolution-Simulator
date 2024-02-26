@@ -69,20 +69,15 @@ func load():
 
 	var sd = preload("res://seed.tscn")
 	var plt = preload("res://Scenes/Plants/plant.tscn")
+	var cr = preload("res://Scenes/Maps/creature.tscn")
+
 
 	for obj in save.active:
 
-		if obj is PlantSave:
-			var temp_plant = plt.instantiate()
-			temp_plant.load(obj)
+		var temp = load(obj.file_path).instantiate()
+		temp.load(obj)
 
-			Active.add_child(temp_plant)
-
-		if obj is SeedSave:
-			var temp_seed = sd.instantiate()
-			temp_seed.load(obj)
-
-			Active.add_child(temp_seed)
+		Active.add_child(temp)
 
 	
 	for cell in save.rootMap:

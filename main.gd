@@ -10,7 +10,11 @@ extends Node
 func _enter_tree():
 	Globals.mainMap = $Map/TileMap
 	Globals.rootMap = $Map/RootMap
-	$SaveManager.save_path = "res://test.tres"
+	
+	if $SaveManager.save_path == null:
+		$SaveManager.save_path = "res://test.tres"
+	
+
 
 
 

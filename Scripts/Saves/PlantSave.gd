@@ -1,5 +1,4 @@
-class_name PlantSave
-extends Resource
+class_name PlantSave extends Save
 
 @export var health : float
 @export var energy : float

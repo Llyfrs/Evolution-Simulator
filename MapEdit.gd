@@ -85,6 +85,8 @@ func un_obscure():
 func draw_tile(position: Vector2, type : int):
 	var map = $TileMap as TileMap
 	map.set_cell(0, position, 0, tiles[type])
+
+	EnergyManager.set_energy(position, 100)
 	
 	var surounding = map.get_surrounding_cells(position)
 	
@@ -99,6 +101,8 @@ func draw_tile(position: Vector2, type : int):
 func delete_tile(position : Vector2):
 	var map = $TileMap as TileMap
 	map.erase_cell(0, position)
+
+	EnergyManager.tiles.erase(position)
 	
 	var surounding = map.get_surrounding_cells(position)
 	

@@ -49,8 +49,6 @@ func _ready():
 		child.detection.connect(add_influence)
 		$Sensors.add_child(child)
 
-		print("adding sensor")
-
 	EnergyManager.subscribe(self)
 
 		
@@ -243,9 +241,37 @@ func get_data() -> CreatureData:
 
 func save() -> CreatureSave:
 
-	var save = CreatureSave.new()
+	var sv = CreatureSave.new()
 
-	return save
+	sv.file_path = scene_file_path
+
+	sv.dna = dna
+
+	sv.energy = energy
+	sv.health = health
+
+	sv.pos = global_position
+	sv.rot = rotation
+	sv.vel = velocity
+
+	sv.influence = influence.duplicate()
+
+	return sv
+
+
+func load(sv : CreatureSave):
+	
+	dna = sv.dna
+
+	energy = sv.energy
+	health = sv.health
+	velocity = sv.vel
+
+	global_position = sv.pos
+	rotation = sv.rot
+
+	influence = sv.influence.duplicate()
+
 
 
 func _on_mouse_entered():

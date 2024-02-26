@@ -77,6 +77,8 @@ func _process(delta):
 func save() -> SeedSave:
 	var sv = SeedSave.new()
 
+	sv.file_path = scene_file_path
+
 	sv.dna = dna
 	sv.energy = energy
 	sv.pos = global_position

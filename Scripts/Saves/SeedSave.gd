@@ -1,5 +1,4 @@
-class_name SeedSave
-extends Resource
+class_name SeedSave extends Save
 
 @export var dna : PlantDNA
 @export var energy : float

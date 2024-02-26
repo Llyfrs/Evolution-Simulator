@@ -194,6 +194,8 @@ func _exit_tree():
 func save() -> PlantSave:
 	var sv = PlantSave.new()
 
+	sv.file_path = scene_file_path
+
 	sv.health = health
 	sv.energy = energy
 	sv.can_grow = can_grow
