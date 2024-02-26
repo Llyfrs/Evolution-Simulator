@@ -35,22 +35,24 @@ func _on_start_new_simulation_pressed():
 		return
 	
 	var empty_save = SimulationSave.new()
-	var err = ResourceSaver.save(empty_save, path_text)
+	ResourceSaver.save(empty_save, path_text)
 	
-	print(err)
+	start_simulation(path_text)
+
+	
+
+
+func start_simulation(path : String):
 	
 	var data = load("res://main.tscn") as PackedScene
 	var new_simulation = data.instantiate()
 	
-	new_simulation.get_node("SaveManager").save_path = path_text
+	new_simulation.get_node("SaveManager").save_path = path
 	
 	queue_free()
 	get_tree().root.add_child(new_simulation)
 	
 	new_simulation.get_node("SaveManager").load()
-	
-	pass # Replace with function body.
-
 
 func _on_load_simulation_pressed():
 	
@@ -64,3 +66,11 @@ func _on_load_simulation_pressed():
 	
 	
 	pass # Replace with function body.
+
+
+func _on_start_pressed():
+	
+	var list = $"Load Simulation Menu/FileList" as ItemList
+	var indx = list.get_selected_items()[0]
+	
+	start_simulation("user://Saves/" + list.get_item_text(indx))

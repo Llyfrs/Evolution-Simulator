@@ -83,6 +83,10 @@ offset_top = -143.64
 offset_right = 617.768
 offset_bottom = 69.36
 
+[node name="Button" type="Button" parent="Load Simulation Menu"]
+layout_mode = 2
+text = "Start"
+
 [node name="FileList" type="ItemList" parent="Load Simulation Menu"]
 custom_minimum_size = Vector2(300, 200)
 layout_mode = 2
@@ -92,3 +96,4 @@ size_flags_vertical = 3
 [connection signal="pressed" from="VBoxContainer/New Simulation" to="." method="_on_new_simulation_pressed"]
 [connection signal="pressed" from="VBoxContainer/Load Simulation" to="." method="_on_load_simulation_pressed"]
 [connection signal="pressed" from="New Simulation Menu/Start New Simulation" to="." method="_on_start_new_simulation_pressed"]
+[connection signal="pressed" from="Load Simulation Menu/Button" to="." method="_on_start_pressed"]

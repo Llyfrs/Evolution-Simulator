@@ -30,7 +30,7 @@ func _save_thread(nodes : Array):
 	for cell in map_data:
 		save.mainMap[cell] = TileSave.new().save(Globals.mainMap, cell)
 	
-	ResourceSaver.save(save, "res://test.tres")
+	ResourceSaver.save(save, save_path)
 	
 	
 

@@ -11,7 +11,7 @@ func _enter_tree():
 	Globals.mainMap = $Map/TileMap
 	Globals.rootMap = $Map/RootMap
 	
-	if $SaveManager.save_path == null:
+	if $SaveManager.save_path == "":
 		$SaveManager.save_path = "res://test.tres"
 	
 
