@@ -10,6 +10,7 @@ extends Node
 func _enter_tree():
 	Globals.mainMap = $Map/TileMap
 	Globals.rootMap = $Map/RootMap
+	$SaveManager.save_path = "res://test.tres"
 
 
 
@@ -21,7 +22,7 @@ func _ready():
 	Engine.time_scale = 5
 	EnergyManager.init_map(Globals.mainMap)
 	
-	
+
 
 	pass # Replace with function body.
 

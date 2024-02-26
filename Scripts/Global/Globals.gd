@@ -19,6 +19,24 @@ var selected : Array
 
 
 
+
+enum Tile{
+	GRASS,
+	STONE,
+	WATER,
+	SAND
+}
+
+
+
+"""
+
+CURSOR
+
+All global variables around a cursor
+
+"""
+
 enum CursorMode {
 	SELECT,
 	PAINT
@@ -31,13 +49,6 @@ enum PaintMode{
 	WATER,
 	SAND,
 	WALL
-}
-
-enum Tile{
-	GRASS,
-	STONE,
-	WATER,
-	SAND
 }
 
 
@@ -80,3 +91,5 @@ const SAND_TILE = Vector2(7,4)
 ## Having it here prevents circular dependencies 
 var creature_scene = preload("res://Scenes/Maps/creature.tscn")
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
+
+

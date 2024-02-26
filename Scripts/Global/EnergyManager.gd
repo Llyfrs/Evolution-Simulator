@@ -143,12 +143,19 @@ func set_energy(location : Vector2, energy : float):
 
 
 func add_energy(location: Vector2, energy: float):
+	
+
+	
 	#print("Adding energy to: " + str(location))
 	location = Vector2i(location)
 	if tiles.has(location):
+		mutex.lock()
 		tiles[location] += energy
+		mutex.unlock()
 	else:
 		add_lost_energy(energy)
+		
+
 
 ## Gives every tile in the map a energy value of 100, good for easy start and making sure everything is trackable
 ## but is not nessecery for the EnergyManager to run
@@ -169,7 +176,9 @@ func init_map(map : TileMap):
 
 ## Adds lost energy to the total lost, this value them will be redistributed to the system
 func add_lost_energy(energy : float):
+	mutex.lock()
 	lostEnergy += energy
+	mutex.unlock()
 	
 
 func print_tiles():

@@ -51,6 +51,8 @@ func _ready():
 
 		print("adding sensor")
 
+	EnergyManager.subscribe(self)
+
 		
 		
 	
@@ -258,4 +260,5 @@ func _on_mouse_exited():
 
 func _on_tree_exiting():
 	Globals.selected.erase(self)
+	EnergyManager.unsubscribe(self)
 	pass # Replace with function body.

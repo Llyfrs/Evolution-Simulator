@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://5fi63cnp3si4"]
+[gd_scene load_steps=16 format=3 uid="uid://5fi63cnp3si4"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_r0ole"]
 [ext_resource type="PackedScene" uid="uid://cnkifw66wsqbf" path="res://Scenes/Plants/plant.tscn" id="2_a65en"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://MapEdit.gd" id="7_4owip"]
 [ext_resource type="Script" path="res://SaveManager.gd" id="7_e4msc"]
 [ext_resource type="PackedScene" uid="uid://beqpgg051ofkk" path="res://Scenes/Maps/creature.tscn" id="8_ch8fj"]
+[ext_resource type="Script" path="res://Active.gd" id="11_uj4c2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_naes2"]
 font_size = 36
@@ -217,6 +218,7 @@ position = Vector2(-153, 144)
 metadata/_edit_use_anchors_ = true
 
 [node name="Active" type="Node" parent="."]
+script = ExtResource("11_uj4c2")
 
 [node name="Plant" parent="Active" instance=ExtResource("2_a65en")]
 position = Vector2(-471, 524)

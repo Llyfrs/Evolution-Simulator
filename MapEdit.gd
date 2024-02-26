@@ -17,6 +17,7 @@ var tiles = [
 ]
 
 var is_drawing : bool = false
+var is_deleting: bool = false
 var is_obsucred : bool = false 
 
 # Called when the node enters the scene tree for the first time.
@@ -28,14 +29,16 @@ var temp_timer = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var position = Globals.mainMap.local_to_map(Globals.mainMap.get_local_mouse_position())
+	
+
 	
 	if is_drawing and not is_obsucred:
-		var position = Globals.mainMap.local_to_map(Globals.mainMap.get_local_mouse_position())
 		draw_tile(position, Globals.paint_mode)
-	
+	elif is_deleting and not is_obsucred:
+		delete_tile(position)
 	
 	temp_timer += delta
-	
 	if temp_timer >= 1:
 		draw_energy()
 		temp_timer = 0
@@ -80,7 +83,6 @@ func un_obscure():
 	is_obsucred = false
 
 func draw_tile(position: Vector2, type : int):
-	
 	var map = $TileMap as TileMap
 	map.set_cell(0, position, 0, tiles[type])
 	
@@ -94,6 +96,16 @@ func draw_tile(position: Vector2, type : int):
 			map.set_cell(0, cell, 0, Globals.WALL_TILE)
 	
 	
+func delete_tile(position : Vector2):
+	var map = $TileMap as TileMap
+	map.erase_cell(0, position)
+	
+	var surounding = map.get_surrounding_cells(position)
+	
+	for cell in surounding:
+		var cords = map.get_cell_atlas_coords(0, cell)
+		if cords != Globals.WALL_TILE and cords != Vector2i(-1, -1):
+			map.set_cell(0, cell, 0, Globals.WALL_TILE)
 	
 
 func draw_energy():
@@ -121,7 +133,12 @@ func _input(event):
 		
 	if event.is_action_released("ui_left_mouse_button"):
 		is_drawing = false
+	
+	if event.is_action_pressed("ui_right_mouse_button"):
+		is_deleting = true
 		
+	if event.is_action_released("ui_right_mouse_button"):
+		is_deleting = false
 	
 	
 	

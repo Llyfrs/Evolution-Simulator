@@ -30,20 +30,8 @@ func get_tile():
 
 func root():
 	
-	process_thread_group = Node.PROCESS_THREAD_GROUP_MAIN_THREAD
-	
 	if dna != null:
-		
-
-		var plant = Globals.plant_scene.instantiate()
-		
-		plant.set_dna(dna)
-		plant.global_position = self.global_position
-		
-		
-		## Carefull we are getting freed so the plant needs to go to our parrent
-		get_parent().call_thread_safe("add_child", plant)
-		plant.owner = get_parent()
+		get_parent().call_thread_safe("root_seed", dna, global_position)
 	
 	EnergyManager.add_lost_energy(energy)
 	EnergyManager.unsubscribe(self)
