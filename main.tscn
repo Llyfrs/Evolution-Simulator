@@ -459,6 +459,18 @@ position = Vector2(275, 311)
 [node name="Plant73" parent="Active" instance=ExtResource("2_a65en")]
 position = Vector2(381, 331)
 
+[node name="Creature8" parent="Active" instance=ExtResource("8_ch8fj")]
+position = Vector2(756, -18)
+
+[node name="Creature9" parent="Active" instance=ExtResource("8_ch8fj")]
+position = Vector2(634, 299)
+
+[node name="Creature10" parent="Active" instance=ExtResource("8_ch8fj")]
+position = Vector2(1030, 395)
+
+[node name="Creature11" parent="Active" instance=ExtResource("8_ch8fj")]
+position = Vector2(-314, -492)
+
 [connection signal="timeout" from="SaveManager/AutoSave" to="SaveManager" method="save"]
 [connection signal="mouse_entered" from="CanvasLayer/EditTool/VBoxContainer/Grass" to="Map" method="obscure"]
 [connection signal="mouse_exited" from="CanvasLayer/EditTool/VBoxContainer/Grass" to="Map" method="un_obscure"]
