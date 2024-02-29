@@ -15,7 +15,6 @@ var selected
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
@@ -57,5 +56,9 @@ func change_selected(new_selected):
 			var label = Label.new()
 			label.text = property["name"] + ": " + str(selected.dna.get(property["name"]))
 			DNAGrid.add_child(label)
+	
+	var label = Label.new()
+	label.text = "Prof Tax: " + str(selected.dna.proficiency_tax())
+	DNAGrid.add_child(label)
 	
 	pass

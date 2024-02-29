@@ -74,7 +74,7 @@ var property_rules = {
 	"plant_grow_speed": {
 		"base_change": 0.2,
 		"min": 0.1,
-		"max": 10
+		"max": 5
 	}, 
 	"seed_quantity": {
 		"base_change": 1,
@@ -271,8 +271,6 @@ func mutate_pattern(frequency : float):
 	# MyTools.print_patten(new_pattern)
 
 	return new_pattern
-
-	pass
 
 
 func generate_new_cell(rules_size: int):

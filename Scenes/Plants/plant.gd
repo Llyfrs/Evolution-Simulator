@@ -97,6 +97,12 @@ func take_damage(damage: float):
 func reproduce():
 
 	for i in range(dna.seed_quantity):
+
+
+		if EnergyManager.is_limited(Limits.SEED):
+			break
+
+
 		var distance_cost = pow(dna.seed_distance / 50.0, 2)
 		var seed_cost = dna.seed_nutrition + distance_cost
 
@@ -139,7 +145,6 @@ func die():
 	sd.global_position = global_position
 	
 	## Hopefully this saves some performance, we don't need the food to move
-	sd.set_physics_process(false)
 	get_parent().add_child(sd)
 	
 	# print(self.name + ": Died" )

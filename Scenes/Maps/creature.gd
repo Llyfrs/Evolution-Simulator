@@ -11,6 +11,9 @@ var dna : CreatureDNA
 var energy : float
 var health : float
 
+
+var is_immortal : bool = true
+
 enum Influence {
 	ROTATE_LEFT,
 	ROTATE_RIGHT,
@@ -102,7 +105,9 @@ func _process(delta):
 
 	used_energy += dna.proficiency_tax() * delta
 	used_energy += dna.sensor_tax() * delta
-
+	
+	
+	used_energy = used_energy / 1000
 
 	#print("Using: " + str(used_energy) + " From: " + str(energy))
 	
@@ -118,7 +123,10 @@ func _process(delta):
 	grow(delta)
 	influence_decay(delta)
 	attack(delta)
-	move_and_slide()
+	
+	if not velocity.is_zero_approx():
+		move_and_slide()
+	
 	pass 
 
 
@@ -169,7 +177,10 @@ func stop_attacking(body):
 
 
 func die():
-	queue_free()
+	
+	if !is_immortal:
+		queue_free()
+	
 	pass
 
 
@@ -177,7 +188,7 @@ func reproduce():
 
 	for i in range(dna.offsprings):
 
-		if dna.offspring_energy > health:
+		if dna.offspring_energy > health or EnergyManager.is_limited(Limits.CREATURE):
 			break
 
 		health -= dna.offspring_energy
@@ -287,4 +298,9 @@ func _on_mouse_exited():
 func _on_tree_exiting():
 	Globals.selected.erase(self)
 	EnergyManager.unsubscribe(self)
+	pass # Replace with function body.
+
+
+func _on_mortality_timeout():
+	is_immortal = false
 	pass # Replace with function body.

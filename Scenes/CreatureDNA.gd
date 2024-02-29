@@ -90,7 +90,7 @@ func _init():
 	tile_efficiency.resize(Globals.Tile.size())
 	for i in range(Globals.Tile.size()):
 		tile_efficiency[i] = randf_range(0, 1)
-
+	
 
 	for i in range(0,randi_range(2,5)):
 		var sensor = SensorSettings.new()

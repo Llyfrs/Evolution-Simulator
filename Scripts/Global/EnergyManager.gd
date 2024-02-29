@@ -38,6 +38,7 @@ func subscribe(sub : Object):
 
 ## Unsubscribe seed or plant from the energy manager 
 func unsubscribe(sub : Object):
+	
 	mutex.lock()
 	if sub is Plant:
 		plants.erase(sub)
@@ -142,11 +143,8 @@ func set_energy(location : Vector2, energy : float):
 	
 
 
-func add_energy(location: Vector2, energy: float):
-	
 
-	
-	#print("Adding energy to: " + str(location))
+func add_energy(location: Vector2, energy: float):
 	location = Vector2i(location)
 	if tiles.has(location):
 		mutex.lock()
@@ -155,6 +153,7 @@ func add_energy(location: Vector2, energy: float):
 	else:
 		add_lost_energy(energy)
 		
+
 
 
 ## Gives every tile in the map a energy value of 100, good for easy start and making sure everything is trackable
@@ -186,3 +185,15 @@ func print_tiles():
 	print("---------------------")
 	for key in tiles:
 		print(str(key) + ": " + str(tiles[key]))
+
+
+func is_limited(type):
+
+	if type == Limits.CREATURE:
+		return creatures.size() >= Limits.limits[Limits.CREATURE]
+
+	if type == Limits.PLANT:
+		return plants.size() >= Limits.limits[Limits.PLANT]
+
+	if type == Limits.SEED:
+		return seeds.size() >= Limits.limits[Limits.SEED]

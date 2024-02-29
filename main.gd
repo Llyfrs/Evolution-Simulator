@@ -23,7 +23,7 @@ func _ready():
 	print("Main")
 	
 	#var plant_sceen = load("res://Scenes/Plants/plant.tscn") as PackedScene
-	Engine.time_scale = 5
+	Engine.time_scale = 1
 	EnergyManager.init_map(Globals.mainMap)
 	
 
@@ -44,5 +44,7 @@ func _input(event):
 		if Engine.time_scale > 1:
 			Engine.time_scale -= 1
 		print("Changing speed to: " + str(Engine.time_scale) + "x")
+
+
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://5fi63cnp3si4"]
+[gd_scene load_steps=17 format=3 uid="uid://5fi63cnp3si4"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_r0ole"]
 [ext_resource type="PackedScene" uid="uid://cnkifw66wsqbf" path="res://Scenes/Plants/plant.tscn" id="2_a65en"]
@@ -11,6 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Back.tres" id="5_pyv2h"]
 [ext_resource type="Script" path="res://MapEdit.gd" id="7_4owip"]
 [ext_resource type="Script" path="res://SaveManager.gd" id="7_e4msc"]
+[ext_resource type="Script" path="res://ToolBar.gd" id="7_g4e2r"]
 [ext_resource type="PackedScene" uid="uid://beqpgg051ofkk" path="res://Scenes/Maps/creature.tscn" id="8_ch8fj"]
 [ext_resource type="Script" path="res://Active.gd" id="11_uj4c2"]
 
@@ -192,6 +193,49 @@ layout_mode = 2
 focus_mode = 0
 text = "Wall
 "
+
+[node name="ToolBar" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("7_g4e2r")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ToolBar"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Select" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+focus_mode = 0
+text = "Select"
+
+[node name="Paint" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+focus_mode = 0
+text = "Paint"
+
+[node name="Plant" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+focus_mode = 0
+text = "Plant"
+
+[node name="Creature" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+focus_mode = 0
+text = "Creature"
 
 [node name="Map" type="Node2D" parent="."]
 position = Vector2(143, -157)
@@ -490,3 +534,7 @@ position = Vector2(-314, -492)
 [connection signal="mouse_exited" from="CanvasLayer/EditTool/VBoxContainer/Wall" to="Map" method="un_obscure"]
 [connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Wall" to="Map" method="_on_sand_pressed"]
 [connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Wall" to="Map" method="_on_wall_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/HBoxContainer/Select" to="CanvasLayer/ToolBar" method="_on_select_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/HBoxContainer/Paint" to="CanvasLayer/ToolBar" method="_on_paint_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/HBoxContainer/Plant" to="CanvasLayer/ToolBar" method="_on_plant_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/HBoxContainer/Creature" to="CanvasLayer/ToolBar" method="_on_creature_pressed"]

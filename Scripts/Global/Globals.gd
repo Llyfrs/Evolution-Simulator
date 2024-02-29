@@ -39,7 +39,9 @@ All global variables around a cursor
 
 enum CursorMode {
 	SELECT,
-	PAINT
+	PAINT,
+	PLANT,
+	CREATURE,
 }
 
 

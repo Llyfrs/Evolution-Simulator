@@ -7,8 +7,6 @@ var energy : float
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 var food_texture = preload("res://Textures/food.png")
 
-
-
 	
 func remove_energy(value: float):
 	var leftover = 0 
@@ -30,8 +28,8 @@ func get_tile():
 
 func root():
 	
-	if dna != null:
-		get_parent().call_thread_safe("root_seed", dna, global_position)
+	if dna != null and not EnergyManager.is_limited(Limits.PLANT):
+		get_parent().call_deferred("root_seed", dna, global_position)
 	
 	EnergyManager.add_lost_energy(energy)
 	EnergyManager.unsubscribe(self)
@@ -42,17 +40,25 @@ func root():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	EnergyManager.subscribe(self)
-
-	
+		
 	if dna == null:
 		$Texture.texture = food_texture
 		scale = Vector2(0.3,0.3)
 		$Texture.scale = scale
 
 
-
+var acumulator = 0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	acumulator += delta
+	
+	if acumulator < 1:
+		return
+		
+	delta = acumulator
+	acumulator = 0
+	
 	# var l_position = Globals.mainMap.local_to_map(Globals.mainMap.to_local(global_position))
 	# var data = Globals.mainMap.get_cell_atlas_coords(0, l_position)
 	
@@ -67,9 +73,11 @@ func _process(delta):
 	# For seeds this is way to root 
 	
 	
-	var degrade = 1 * delta
+	var degrade = 5 * delta
 	var leftover = remove_energy(degrade)
 	EnergyManager.add_energy(get_tile(), degrade - leftover)
+	
+	
 	
 	pass
 

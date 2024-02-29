@@ -20,6 +20,7 @@ config/icon="res://Textures/icon.svg"
 EnergyManager="*res://Scripts/Global/EnergyManager.gd"
 MyTools="*res://Scripts/Global/Tools.gd"
 Globals="*res://Scripts/Global/Globals.gd"
+Limits="*res://Scripts/Global/Limits.gd"
 
 [debug]
 
@@ -108,7 +109,3 @@ ui_right_mouse_button={
 2d_physics/layer_4="Creature Mouth"
 2d_physics/layer_5="Creature Body"
 2d_physics/layer_6="Creature Sensor"
-
-[physics]
-
-2d/run_on_separate_thread=true
