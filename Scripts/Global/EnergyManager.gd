@@ -165,7 +165,7 @@ func init_map(map : TileMap):
 		if data == Globals.WALL_TILE:
 			continue
 			
-		set_energy(cell, 1000)
+		set_energy(cell, 300)
 
 	print(get_total_energy())
 	
