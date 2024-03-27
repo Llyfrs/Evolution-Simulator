@@ -108,7 +108,7 @@ func _process(delta):
 	used_energy += dna.sensor_tax() * delta
 	
 	
-	used_energy = used_energy / 1000
+	used_energy = used_energy / 100
 
 	#print("Using: " + str(used_energy) + " From: " + str(energy))
 	
@@ -119,6 +119,16 @@ func _process(delta):
 	# Rotating velocity so we are moving in the direction we are facing
 	# this would not work if the velocity would not be set every frame anew, but it is.
 	velocity = velocity.rotated(rotation)
+	
+	# Aply speed modifier based on the best possible tile
+	var terrain = Globals.get_tile_type(get_current_tile())
+	var best = 0
+	for type in terrain:
+		best = max(best, dna.tile_efficiency[type])
+	
+	
+	
+	velocity *= best
 	
 	
 	grow(delta)
@@ -305,3 +315,6 @@ func _on_tree_exiting():
 func _on_mortality_timeout():
 	is_immortal = false
 	pass # Replace with function body.
+
+func get_current_tile():
+	return Globals.mainMap.local_to_map(Globals.mainMap.to_local(global_position))

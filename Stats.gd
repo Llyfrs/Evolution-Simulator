@@ -17,7 +17,8 @@ func _process(_delta):
 	message += " (C: " + str(EnergyManager.creatures.size()) 
 	message += " P: " + str(EnergyManager.plants.size())
 	message += " S: " + str(EnergyManager.seeds.size()) + ")\n"
-	message += "FPS: " + str(Engine.get_frames_per_second()) + "\n"
+	message += "FPS: " + str(Engine.get_frames_per_second())
+	message += " (Speed " + str(Engine.time_scale) + "x)\n"
 
 
 	text = message

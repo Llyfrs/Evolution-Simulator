@@ -10,11 +10,9 @@ class_name CreatureDNA extends Resource
 @export var growth_speed : int
 
 @export var offsprings : int
-
 @export var offspring_energy : int
 
 @export var speed: int
-
 @export var rotation_speed : int
 
 ## Determines damage dealt to other creatures and plants and also if the creature can eat seeds based on their durability
@@ -86,8 +84,16 @@ func _init():
 		influence_decay[i] = randi_range(0, 20)
 
 	tile_efficiency.resize(Globals.Tile.size())
-	for i in range(Globals.Tile.size()):
-		tile_efficiency[i] = randf_range(0, 1)
+
+	var total = randf_range(0.5, 3)
+	var array = Globals.Tile.values().duplicate()
+	array.shuffle()
+
+	for i in array:
+		tile_efficiency[i] = total * randf()
+		total -= tile_efficiency[i]
+
+	tile_efficiency[array.back()] += total
 	
 
 	for i in range(0,randi_range(2,5)):

@@ -1,8 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://oekptli57t6k"]
+[gd_scene load_steps=13 format=3 uid="uid://oekptli57t6k"]
 
 [ext_resource type="Script" path="res://CreatureInfo.gd" id="1_aaqh4"]
 [ext_resource type="Theme" uid="uid://cqv6gnwwow7vr" path="res://Theme.tres" id="2_318h0"]
 [ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Back.tres" id="3_vkwqg"]
+[ext_resource type="Texture2D" uid="uid://bcupjxsdyyuor" path="res://Textures/TileTypes/grass.png" id="4_mps55"]
+[ext_resource type="Texture2D" uid="uid://cu56bpblqlaaj" path="res://Textures/TileTypes/sand.png" id="5_c6pwv"]
+[ext_resource type="Texture2D" uid="uid://c4h7h41t102dt" path="res://Textures/TileTypes/stone.png" id="6_j0p72"]
+[ext_resource type="Texture2D" uid="uid://bi0e4e3luxkfm" path="res://Textures/TileTypes/watter.png" id="7_1shrl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nw8y"]
 bg_color = Color(0.603922, 0.4, 0.164706, 0.721569)
@@ -13,27 +17,40 @@ bg_color = Color(0.935134, 0.00337122, 0.351631, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pgp2o"]
 bg_color = Color(0.164706, 0.607843, 0.768627, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_cfxop"]
+font_size = 13
+
+[sub_resource type="LabelSettings" id="LabelSettings_it4wm"]
+font_size = 11
+
 [node name="CreatureInfo" type="Control"]
 layout_mode = 3
-anchors_preset = 1
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-offset_left = -1434.0
-offset_bottom = 863.0
+anchor_bottom = 0.5
+offset_left = -214.0
+offset_top = -204.5
+offset_bottom = 204.5
 grow_horizontal = 0
+grow_vertical = 2
 size_flags_horizontal = 8
 mouse_filter = 2
 script = ExtResource("1_aaqh4")
 
 [node name="PanelContainer2" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
+anchor_bottom = 0.5
 offset_left = -211.0
-offset_top = 205.0
-offset_bottom = 617.0
+offset_top = -206.0
+offset_bottom = 206.0
 grow_horizontal = 0
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2nw8y")
 
 [node name="PanelContainer" type="VBoxContainer" parent="PanelContainer2"]
@@ -196,4 +213,76 @@ size_flags_vertical = 0
 [node name="Imortal" type="Label" parent="PanelContainer2/PanelContainer"]
 layout_mode = 2
 text = "Is Imortal"
+horizontal_alignment = 1
+
+[node name="ProficienctyLable" type="Label" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+text = "Proficiency
+"
+horizontal_alignment = 1
+
+[node name="Proficiency" type="GridContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 0
+columns = 4
+
+[node name="Grass" type="TextureRect" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(35, 30)
+layout_mode = 2
+texture = ExtResource("4_mps55")
+expand_mode = 4
+
+[node name="Sand" type="TextureRect" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(35, 30)
+layout_mode = 2
+texture = ExtResource("5_c6pwv")
+expand_mode = 4
+
+[node name="Rock" type="TextureRect" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(35, 30)
+layout_mode = 2
+texture = ExtResource("6_j0p72")
+expand_mode = 4
+
+[node name="Watter" type="TextureRect" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(35, 30)
+layout_mode = 2
+texture = ExtResource("7_1shrl")
+expand_mode = 4
+
+[node name="GrassT" type="Label" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "1.00x"
+label_settings = SubResource("LabelSettings_cfxop")
+horizontal_alignment = 1
+
+[node name="SandT" type="Label" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "1.00x"
+label_settings = SubResource("LabelSettings_cfxop")
+horizontal_alignment = 1
+
+[node name="RockT" type="Label" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "1.00x"
+label_settings = SubResource("LabelSettings_cfxop")
+horizontal_alignment = 1
+
+[node name="WatterT" type="Label" parent="PanelContainer2/PanelContainer/Proficiency"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "1.00x"
+label_settings = SubResource("LabelSettings_cfxop")
+horizontal_alignment = 1
+
+[node name="TaxCost" type="Label" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+text = "Cost 
+"
+label_settings = SubResource("LabelSettings_it4wm")
 horizontal_alignment = 1

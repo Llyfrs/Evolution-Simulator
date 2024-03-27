@@ -18,7 +18,6 @@ var tiles = [
 
 var is_drawing : bool = false
 var is_deleting: bool = false
-var is_obsucred : bool = false 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,9 +31,9 @@ func _process(delta):
 	var position = Globals.mainMap.local_to_map(Globals.mainMap.get_local_mouse_position())
 	
 
-	if is_drawing and not is_obsucred:
+	if is_drawing and not Globals.cursor_obscured :
 		draw_tile(position, Globals.paint_mode)
-	elif is_deleting and not is_obsucred:
+	elif is_deleting and not Globals.cursor_obscured :
 		delete_tile(position)
 	
 	temp_timer += delta
@@ -76,10 +75,10 @@ func _on_wall_pressed():
 	pass # Replace with function body.	
 
 func obscure():
-	is_obsucred = true
+	Globals.cursor_obscured = true
 	
 func un_obscure():
-	is_obsucred = false
+	Globals.cursor_obscured = false
 
 func draw_tile(position: Vector2, type : int):
 	var map = $TileMap as TileMap

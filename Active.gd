@@ -25,6 +25,9 @@ func spawn_creature(dna: CreatureDNA, global_pos):
 
 func _input(event):
 	
+	if Globals.cursor_obscured:
+		return
+	
 	if event.is_action_pressed("ui_left_mouse_button"):
 		var position = Globals.mainMap.get_global_mouse_position()
 		if Globals.cursor == Globals.CursorMode.CREATURE:

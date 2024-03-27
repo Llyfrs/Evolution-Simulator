@@ -18,8 +18,6 @@ var rootMap : TileMap
 var selected : Array
 
 
-
-
 enum Tile{
 	GRASS,
 	STONE,
@@ -27,8 +25,27 @@ enum Tile{
 	SAND
 }
 
+func get_tile_type(cords : Vector2i):
+	var types = mainMap.get_cell_tile_data(0,cords).get_custom_data("Type")
 
+	var value = []
+	for type in types:
+		match type:
 
+			"sand":
+				value.append(Tile.SAND)
+
+			"water":
+				value.append(Tile.WATER)
+			
+			"grass":
+				value.append(Tile.GRASS)
+			
+			"stone":
+				value.append(Tile.STONE)
+
+	
+	return value
 """
 
 CURSOR
@@ -57,6 +74,8 @@ enum PaintMode{
 var cursor : CursorMode = CursorMode.SELECT
 
 var paint_mode : PaintMode = PaintMode.GRASS
+
+var cursor_obscured : bool = false
 
 # Enums start from zero but masks start from 1 
 enum Mask{

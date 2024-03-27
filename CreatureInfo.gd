@@ -10,6 +10,13 @@ extends Control
 
 @onready var DNAGrid = $PanelContainer2/PanelContainer/DNAGrid
 
+@onready var water = $PanelContainer2/PanelContainer/Proficiency/WatterT
+@onready var rock = $PanelContainer2/PanelContainer/Proficiency/RockT
+@onready var sand = $PanelContainer2/PanelContainer/Proficiency/SandT
+@onready var grass = $PanelContainer2/PanelContainer/Proficiency/GrassT
+
+@onready var tax = $PanelContainer2/PanelContainer/TaxCost
+
 var influence : Dictionary
 
 var selected
@@ -52,7 +59,6 @@ func _process(delta):
 		$PanelContainer2/PanelContainer/Imortal.text = "Is Imortal"
 	else: 
 		$PanelContainer2/PanelContainer/Imortal.text = "Is Mortal"
-	
 	pass
 
 
@@ -66,7 +72,7 @@ func _input(event):
 
 
 func change_selected(new_selected):
-	selected = new_selected
+	selected = new_selected as Creature
 	
 	energy_bar.max_value = selected.dna.energy
 	health_bar.max_value = selected.dna.health
@@ -74,14 +80,31 @@ func change_selected(new_selected):
 	for child in DNAGrid.get_children():
 		child.queue_free()
 	
-	for property in selected.dna.get_property_list():
-		if property["type"] == 2 or property["type"] == 3:
-			var label = Label.new()
-			label.text = property["name"] + ": " + str(selected.dna.get(property["name"]))
-			DNAGrid.add_child(label)
+
+	var offspring = Label.new()
+	offspring.text = "Offsprings: " + str(selected.dna.offsprings) + " (" + str(selected.dna.offspring_energy) + "e)" 
+	DNAGrid.add_child(offspring)
+
+
+	var bite_strength = Label.new()
+	bite_strength.text = "Bite: " + str(selected.dna.bite_strength)
+	DNAGrid.add_child(bite_strength)
+
+
+	var speed = Label.new()
+	speed.text = "Speed: " + str(selected.dna.speed) + " (R: " + str(selected.dna.rotation_speed) + ")"
+	DNAGrid.add_child(speed)
+
+
+	for value in Creature.Influence.values():
+		influence[value].tooltip_text = "Decay: " + str(selected.dna.influence_decay[value]	)
+
+
+	water.text = str(snapped(selected.dna.tile_efficiency[Globals.Tile.WATER], 0.01)) + "x"
+	grass.text = str(snapped(selected.dna.tile_efficiency[Globals.Tile.GRASS], 0.01)) + "x"
+	rock.text  = str(snapped(selected.dna.tile_efficiency[Globals.Tile.STONE], 0.01)) + "x"
+	sand.text  = str(snapped(selected.dna.tile_efficiency[Globals.Tile.SAND], 0.01)) + "x"
 	
-	var label = Label.new()
-	label.text = "Prof Tax: " + str(selected.dna.proficiency_tax())
-	DNAGrid.add_child(label)
+	tax.text = "Cost: " + str(selected.dna.proficiency_tax())
 	
 	pass
