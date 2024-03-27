@@ -30,6 +30,6 @@ func _process(_delta):
 
 	var fps_avg = fps_history.reduce(func(a, b) : return a + b, 0)/fps_history.size()
 
-	print("Avg FPS: " + str(fps_avg) )
+	#print("Avg FPS: " + str(fps_avg) )
 
 	pass

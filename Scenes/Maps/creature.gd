@@ -171,7 +171,7 @@ func attack(delta):
 			target.get_parent().take_damage(dna.bite_strength * delta)
 			
 func grow(delta):
-	var growth = dna.growth_speed * delta
+	var growth = dna.growth_speed * delta * 0.2
 	
 	if energy > growth:
 		health += growth

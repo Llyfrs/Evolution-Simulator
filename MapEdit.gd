@@ -86,7 +86,7 @@ func draw_tile(position: Vector2, type : int):
 	
 	
 	if not EnergyManager.tiles.has(position):
-		EnergyManager.set_energy(position, 100)
+		EnergyManager.set_energy(position, 300)
 	
 	var surounding = map.get_surrounding_cells(position)
 	
