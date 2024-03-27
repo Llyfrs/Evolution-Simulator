@@ -21,7 +21,6 @@ class_name CreatureDNA extends Resource
 @export var bite_strength : int
 
 
-
 @export var tile_efficiency : Array
 
 @export var influence_decay : Array
@@ -68,7 +67,6 @@ var property_rules = {
 
 
 func _init():
-
 
 	energy = randi_range(10,200)
 	health = randi_range(10,200)
@@ -193,3 +191,7 @@ func mutate_array(array, max, min, change, frequency):
 	
 
 	return new_array
+
+
+
+
