@@ -117,7 +117,6 @@ func _init():
 
 
 func proficiency_tax() -> float:
-
 	var sum = 0
 	for value in tile_efficiency:
 		sum += value

@@ -5,11 +5,13 @@ const JUMP_VELOCITY = -400.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var seed_sceen = preload("res://seed.tscn") as PackedScene
 
 var dna : CreatureDNA
 
 var energy : float
 var health : float
+
 
 
 var is_immortal : bool = true
@@ -189,8 +191,19 @@ func stop_attacking(body):
 
 func die():
 	
-	if !is_immortal:
-		queue_free()
+	if is_immortal:
+		return  
+
+	var sd: Seed = seed_sceen.instantiate() as Seed
+	sd.energy = health + energy 
+	sd.global_position = global_position
+	
+	## Hopefully this saves some performance, we don't need the food to move
+	get_parent().add_child(sd)
+	
+	# print(self.name + ": Died" )
+	EnergyManager.unsubscribe(self)
+	queue_free()
 	
 	pass
 

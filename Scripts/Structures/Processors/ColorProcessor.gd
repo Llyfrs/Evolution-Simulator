@@ -21,3 +21,16 @@ func process(data: Data) -> bool:
 
 
 	return false
+
+
+func mutate(frequency : float, strenght : float ):
+
+	var base_change = strenght * 10
+
+	if randf() < frequency:
+		distance = randi_range(distance - base_change, distance + base_change)
+
+	
+
+
+	pass
