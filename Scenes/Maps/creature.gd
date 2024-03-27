@@ -73,10 +73,10 @@ func _process(delta):
 	
 
 	if min(fw, bw) == 0:
-		velocity = Vector2(0, sign(fw - bw) * speed)
+		velocity = Vector2(0, sign(bw - fw) * speed)
 	else:
 		var strg = (1 - min(fw, bw) / max(fw, bw))
-		velocity = Vector2(0, sign(fw - bw) * (speed * strg))
+		velocity = Vector2(0, sign(bw - fw) * (speed * strg))
 
 	
 	
