@@ -39,6 +39,7 @@ func _ready():
 	
 
 
+	## For in editor placed Creatures
 	if dna == null:
 		dna = CreatureDNA.new()
 		energy =  dna.energy
@@ -112,7 +113,7 @@ func _process(delta):
 	#print("Using: " + str(used_energy) + " From: " + str(energy))
 	
 	var leftover = sub_energy(used_energy) 
-	if leftover != 0:
+	if leftover != 0 or energy <= 0:
 		die()
 
 	# Rotating velocity so we are moving in the direction we are facing

@@ -1,14 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://5fi63cnp3si4"]
+[gd_scene load_steps=14 format=3 uid="uid://5fi63cnp3si4"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_r0ole"]
 [ext_resource type="PackedScene" uid="uid://cnkifw66wsqbf" path="res://Scenes/Plants/plant.tscn" id="2_a65en"]
 [ext_resource type="PackedScene" uid="uid://cfkfsgmltqp2a" path="res://Scenes/Camera/camera.tscn" id="3_gk7hy"]
 [ext_resource type="TileSet" uid="uid://de5vkfa0xul6j" path="res://Textures/TileSets/MainTileSet.tres" id="4_6rp24"]
-[ext_resource type="Script" path="res://CreatureInfo.gd" id="4_cy67u"]
+[ext_resource type="PackedScene" uid="uid://oekptli57t6k" path="res://CreatureInfo.tscn" id="4_ebm4a"]
 [ext_resource type="Script" path="res://Stats.gd" id="4_hqmbn"]
-[ext_resource type="Theme" uid="uid://cqv6gnwwow7vr" path="res://Theme.tres" id="4_q8mgx"]
 [ext_resource type="TileSet" uid="uid://sh0qm7kx82pw" path="res://Scenes/Plants/Root/root.tres" id="5_43tlv"]
-[ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Back.tres" id="5_pyv2h"]
 [ext_resource type="Script" path="res://MapEdit.gd" id="7_4owip"]
 [ext_resource type="Script" path="res://SaveManager.gd" id="7_e4msc"]
 [ext_resource type="Script" path="res://ToolBar.gd" id="7_g4e2r"]
@@ -18,9 +16,6 @@
 [sub_resource type="LabelSettings" id="LabelSettings_naes2"]
 font_size = 36
 font_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1406g"]
-bg_color = Color(0.935134, 0.00337122, 0.351631, 1)
 
 [node name="Main" type="Node"]
 process_priority = -1
@@ -56,89 +51,8 @@ text = "Test Text"
 label_settings = SubResource("LabelSettings_naes2")
 script = ExtResource("4_hqmbn")
 
-[node name="CreatureInfo" type="Control" parent="CanvasLayer"]
+[node name="CreatureInfo" parent="CanvasLayer" instance=ExtResource("4_ebm4a")]
 visible = false
-layout_mode = 3
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -1434.0
-offset_bottom = 863.0
-grow_horizontal = 0
-size_flags_horizontal = 8
-mouse_filter = 2
-script = ExtResource("4_cy67u")
-
-[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/CreatureInfo"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -199.0
-offset_top = 205.0
-offset_bottom = 617.0
-grow_horizontal = 0
-
-[node name="PanelContainer" type="VBoxContainer" parent="CanvasLayer/CreatureInfo/PanelContainer2"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="Energy" type="Label" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer"]
-layout_mode = 2
-text = "Energy
-"
-horizontal_alignment = 1
-
-[node name="EnergyCenter" type="CenterContainer" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer"]
-layout_mode = 2
-
-[node name="EnergyBar" type="ProgressBar" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer/EnergyCenter"]
-custom_minimum_size = Vector2(150, 25)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 1
-theme = ExtResource("4_q8mgx")
-theme_override_styles/background = ExtResource("5_pyv2h")
-value = 10.0
-show_percentage = false
-
-[node name="EnergyCount" type="Label" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer/EnergyCenter"]
-layout_mode = 2
-text = "10 / 100"
-
-[node name="Health" type="Label" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer"]
-layout_mode = 2
-text = "Health"
-horizontal_alignment = 1
-
-[node name="HealthCenter" type="CenterContainer" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer"]
-layout_mode = 2
-
-[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer/HealthCenter"]
-custom_minimum_size = Vector2(150, 25)
-layout_direction = 1
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 1
-theme = ExtResource("4_q8mgx")
-theme_override_styles/background = ExtResource("5_pyv2h")
-theme_override_styles/fill = SubResource("StyleBoxFlat_1406g")
-value = 10.0
-show_percentage = false
-
-[node name="HealthCount" type="Label" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer/GridContainer/HealthCenter"]
-layout_mode = 2
-text = "10 / 100
-"
-
-[node name="DNAGrid" type="GridContainer" parent="CanvasLayer/CreatureInfo/PanelContainer2/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
 
 [node name="PlantInfo" type="Control" parent="CanvasLayer"]
 layout_mode = 3

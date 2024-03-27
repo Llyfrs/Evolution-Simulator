@@ -26,6 +26,8 @@ func _ready():
 	Engine.time_scale = 1
 	EnergyManager.init_map(Globals.mainMap)
 	
+	
+
 
 
 	pass # Replace with function body.

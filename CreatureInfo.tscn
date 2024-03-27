@@ -1,0 +1,199 @@
+[gd_scene load_steps=7 format=3 uid="uid://oekptli57t6k"]
+
+[ext_resource type="Script" path="res://CreatureInfo.gd" id="1_aaqh4"]
+[ext_resource type="Theme" uid="uid://cqv6gnwwow7vr" path="res://Theme.tres" id="2_318h0"]
+[ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Back.tres" id="3_vkwqg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2nw8y"]
+bg_color = Color(0.603922, 0.4, 0.164706, 0.721569)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1406g"]
+bg_color = Color(0.935134, 0.00337122, 0.351631, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pgp2o"]
+bg_color = Color(0.164706, 0.607843, 0.768627, 1)
+
+[node name="CreatureInfo" type="Control"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1434.0
+offset_bottom = 863.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+mouse_filter = 2
+script = ExtResource("1_aaqh4")
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -211.0
+offset_top = 205.0
+offset_bottom = 617.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2nw8y")
+
+[node name="PanelContainer" type="VBoxContainer" parent="PanelContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Energy" type="Label" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+text = "Energy
+"
+horizontal_alignment = 1
+
+[node name="EnergyCenter" type="CenterContainer" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="EnergyBar" type="ProgressBar" parent="PanelContainer2/PanelContainer/GridContainer/EnergyCenter"]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme = ExtResource("2_318h0")
+theme_override_styles/background = ExtResource("3_vkwqg")
+value = 10.0
+show_percentage = false
+
+[node name="EnergyCount" type="Label" parent="PanelContainer2/PanelContainer/GridContainer/EnergyCenter"]
+layout_mode = 2
+text = "10 / 100"
+
+[node name="Health" type="Label" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+text = "Health"
+horizontal_alignment = 1
+
+[node name="HealthCenter" type="CenterContainer" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="PanelContainer2/PanelContainer/GridContainer/HealthCenter"]
+custom_minimum_size = Vector2(150, 25)
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme = ExtResource("2_318h0")
+theme_override_styles/background = ExtResource("3_vkwqg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1406g")
+value = 10.0
+show_percentage = false
+
+[node name="HealthCount" type="Label" parent="PanelContainer2/PanelContainer/GridContainer/HealthCenter"]
+layout_mode = 2
+text = "10 / 100
+"
+
+[node name="Label" type="Label" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+text = "Influnece"
+horizontal_alignment = 1
+
+[node name="Influence" type="GridContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 5
+columns = 2
+
+[node name="Label" type="Label" parent="PanelContainer2/PanelContainer/Influence"]
+layout_mode = 2
+tooltip_text = "Rotate Left "
+mouse_filter = 1
+text = "Rotate L"
+
+[node name="InfluenceRotateL" type="ProgressBar" parent="PanelContainer2/PanelContainer/Influence"]
+custom_minimum_size = Vector2(110, 15)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_pgp2o")
+value = 20.0
+show_percentage = false
+
+[node name="Label2" type="Label" parent="PanelContainer2/PanelContainer/Influence"]
+layout_mode = 2
+tooltip_text = "Rotate Right"
+mouse_filter = 1
+text = "Rotate R"
+
+[node name="InfluenceRotateR" type="ProgressBar" parent="PanelContainer2/PanelContainer/Influence"]
+custom_minimum_size = Vector2(110, 15)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_pgp2o")
+value = 20.0
+show_percentage = false
+
+[node name="Label3" type="Label" parent="PanelContainer2/PanelContainer/Influence"]
+layout_mode = 2
+tooltip_text = "Move Forward"
+mouse_filter = 1
+text = "Move F"
+
+[node name="InfluenceMoveF" type="ProgressBar" parent="PanelContainer2/PanelContainer/Influence"]
+custom_minimum_size = Vector2(110, 15)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_pgp2o")
+value = 20.0
+show_percentage = false
+
+[node name="Label4" type="Label" parent="PanelContainer2/PanelContainer/Influence"]
+layout_mode = 2
+tooltip_text = "Move Backwards"
+mouse_filter = 1
+text = "Move B"
+
+[node name="InfluenceMoveB" type="ProgressBar" parent="PanelContainer2/PanelContainer/Influence"]
+custom_minimum_size = Vector2(110, 15)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_pgp2o")
+value = 20.0
+show_percentage = false
+
+[node name="Label5" type="Label" parent="PanelContainer2/PanelContainer/Influence"]
+layout_mode = 2
+tooltip_text = "Pause Reproduction
+"
+mouse_filter = 1
+text = "Pause R"
+
+[node name="InfluenceStopR" type="ProgressBar" parent="PanelContainer2/PanelContainer/Influence"]
+custom_minimum_size = Vector2(110, 15)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_pgp2o")
+value = 20.0
+show_percentage = false
+
+[node name="Label6" type="Label" parent="PanelContainer2/PanelContainer/Influence"]
+layout_mode = 2
+tooltip_text = "Pause Attacking"
+mouse_filter = 1
+text = "Pause A"
+
+[node name="InfluenceStopA" type="ProgressBar" parent="PanelContainer2/PanelContainer/Influence"]
+custom_minimum_size = Vector2(110, 15)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_pgp2o")
+value = 20.0
+show_percentage = false
+
+[node name="DNAGrid" type="GridContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Imortal" type="Label" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+text = "Is Imortal"
+horizontal_alignment = 1

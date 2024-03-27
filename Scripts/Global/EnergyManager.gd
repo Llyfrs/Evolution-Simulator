@@ -38,7 +38,6 @@ func subscribe(sub : Object):
 
 ## Unsubscribe seed or plant from the energy manager 
 func unsubscribe(sub : Object):
-	
 	mutex.lock()
 	if sub is Plant:
 		plants.erase(sub)

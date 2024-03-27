@@ -10,9 +10,19 @@ extends Control
 
 @onready var DNAGrid = $PanelContainer2/PanelContainer/DNAGrid
 
+var influence : Dictionary
+
 var selected
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	influence[Creature.Influence.MOVE_BACKWARDS] = $PanelContainer2/PanelContainer/Influence/InfluenceMoveB
+	influence[Creature.Influence.MOVE_FORWARD] = $PanelContainer2/PanelContainer/Influence/InfluenceMoveF
+	influence[Creature.Influence.ROTATE_LEFT] = $PanelContainer2/PanelContainer/Influence/InfluenceRotateL
+	influence[Creature.Influence.ROTATE_RIGHT] = $PanelContainer2/PanelContainer/Influence/InfluenceRotateR
+	influence[Creature.Influence.PAUSE_ATTACKING] = $PanelContainer2/PanelContainer/Influence/InfluenceStopA
+	influence[Creature.Influence.PAUSE_REPRODUCTION] = $PanelContainer2/PanelContainer/Influence/InfluenceStopR
+
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,10 +35,23 @@ func _process(delta):
 		
 	
 	energy_bar.value = selected.energy
+	energy_bar.tooltip_text = str(selected.energy)
 	health_bar.value = selected.health
+	health_bar.tooltip_text = str(selected.health)
 	
 	energy_count.text = str(round(selected.energy)) + " / " + str(selected.dna.energy)
 	health_count.text = str(round(selected.health)) + " / " + str(selected.dna.health)
+	
+	
+	var max = max(selected.influence.max(), 1)
+	for value in Creature.Influence.values():
+		influence[value].value = selected.influence[value]
+		influence[value].max_value = max
+	
+	if selected.is_immortal:
+		$PanelContainer2/PanelContainer/Imortal.text = "Is Imortal"
+	else: 
+		$PanelContainer2/PanelContainer/Imortal.text = "Is Mortal"
 	
 	pass
 
