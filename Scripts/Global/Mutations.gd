@@ -48,24 +48,88 @@ static func PropertyVariations(variations : Dictionary):
 	return new_variations
 
 
-static func Pattern(pattern : Array[Array], variation : float):
-	var new_pattern = []
-	var change = {}
+static func generate_new_cell(rules_size: int):
+	var cell = []
+	for i in range(4):
+		cell.append(randi_range(-1, rules_size-1))
+	return cell
 
+
+static func Pattern(pattern : Array, variation : float):
+
+	"""
+	
+	This is long and convoluted function, but it is only removing or adding rules
+	and then changing references to them accordingly. This is the result of the format
+	I decided to represent the pattern as. While here annoying in other parts of the code
+	the format is useful. 
+	
+	"""
+
+
+
+	var new_pattern = []
+	var change_up = []
+	var change_down = []
+
+	# Changes or removes rules at random. 
 	for rule in range(pattern.size()):
 		var roll = randfn(0, variation)
+		new_pattern.append(pattern[rule])
 
 
 		if roll > 2:
+			change_up.append(rule)
 			new_pattern.append([])
-			change[rule] = 1
-
-
-		if roll < -2: 
-			return
-
-		new_pattern.append(pattern[rule])
 		
+		if roll < -2:
+			change_down.append(rule)
+			new_pattern.pop_back()
+		
+	
+	# Changes references to rules
+	for change in change_up:
+		for i in range(new_pattern.size()):
+			for j in range(new_pattern[i].size()):
+				for k in range(4):
+					if new_pattern[i][j][k] >= change:
+						new_pattern[i][j][k] += 1
+
+	# Changes references to rules 		
+	for change in change_down:
+		for i in range(new_pattern.size()):
+			for j in range(new_pattern[i].size()):
+				for k in range(4):
+					
+					if new_pattern[i][j][k] > change:
+						new_pattern[i][j][k] -= 1
+						
+					if new_pattern[i][j][k] == change:
+						new_pattern[i][j][k] = -1
+
+	
+	for rule in range(new_pattern.size()):
+		var roll = randfn(0, variation)
+
+		if roll > 2:
+			new_pattern[rule].append(generate_new_cell(new_pattern.size()))
+		
+		if roll < -2 and new_pattern[rule].size() > 0:
+			new_pattern[rule].remove_at(range(new_pattern[rule].size()).pick_random())
+
+
+
+	var rules = range(new_pattern.size())
+	for i in range(new_pattern.size()):
+			for j in range(new_pattern[i].size()):
+				for k in range(4):
+					var roll = randfn(0, variation)
+
+					if roll > 1.64 and new_pattern[i][j][k] != -1:
+						new_pattern[i][j][k] = -1
+					elif roll > 1.64 and new_pattern[i][j][k] == -1:
+						new_pattern[i][j][k] = rules.pick_random()
+
 
 
 

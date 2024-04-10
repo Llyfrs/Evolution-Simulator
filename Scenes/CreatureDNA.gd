@@ -148,7 +148,7 @@ func mutate(frequency : float, strength : float):
 			mutated_dna.color = Mutation.Color(self.get(name), 1)
 			# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
 		else:
-			print("Property: " + name + " is not mutating")
+			# print("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
 	mutated_dna.tile_efficiency = Mutation.FloatArray(tile_efficiency, property_variations["tile_efficiency"])

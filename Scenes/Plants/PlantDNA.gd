@@ -10,7 +10,7 @@ class_name PlantDNA extends Resource
 
 # Form of context free grammar, can result in basically any pattern
 # but most of them are going to be bad, that's where natural selection kicks in
-@export var root_pattern : Array[Array]
+@export var root_pattern : Array
 
 # At what energy level should energy be spend to grow more root
 @export var root_grow_threshold: int 
@@ -142,11 +142,14 @@ func mutate(_frequency : float, _strength : float):
 			mutated_dna.color = Mutation.Color(self.get(name), 1)
 			# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
 		else:
-			print("Property: " + name + " is not mutating")
+			# print("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
-
+	
+	root_pattern = Mutation.Pattern(root_pattern, property_variations["root_pattern"])
+	
 	property_variations = Mutation.PropertyVariations(property_variations)
+
 
 	return mutated_dna
 
