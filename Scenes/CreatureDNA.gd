@@ -19,9 +19,9 @@ class_name CreatureDNA extends Resource
 @export var bite_strength : int
 
 
-@export var tile_efficiency : Array
+@export var tile_efficiency : Array[float]
 
-@export var influence_decay : Array
+@export var influence_decay : Array[int]
 
 
 @export var color : Color
@@ -33,20 +33,7 @@ class_name CreatureDNA extends Resource
 var processors = [ColorProcessor, BasicProcessor, SelfProcessor, TileTypeProcessor]
 
 
-var property_rules = {
-	"energy": 2,
-	"health": 2,
-	"growth_speed": 1,
-	"offspring_energy": 2,
-	"offsprings": 0.2,
-	"speed": 2,
-	"rotation_speed": 1,
-	"bite_strength": 0.5,
-	"tile_efficiency": 0.05,
-	"influence_decay": 0.1,
-	"color": 0.4,
-	"sensors" : 0.1
-}
+var property_variations;
 
 
 func _init():
@@ -98,6 +85,22 @@ func _init():
 
 		sensors.append(sensor)
 	
+	## Defines the variation / deviation for the normal distribution used to mutate each property 
+	property_variations = {
+	"self": 0.01,
+	"energy": 2,
+	"health": 2,
+	"growth_speed": 1,
+	"offspring_energy": 2,
+	"offsprings": 0.2,
+	"speed": 2,
+	"rotation_speed": 1,
+	"bite_strength": 0.5,
+	"tile_efficiency": 0.05,
+	"influence_decay": 0.1,
+	"color": 0.4,
+	"sensors" : 0.1
+	}
 
 
 	pass
@@ -124,14 +127,14 @@ func mutate(frequency : float, strength : float):
 	for property in mutated_dna.get_property_list():
 		var name = property["name"]
 
-		if property_rules.has(name):
+		if property_variations.has(name):
 			var new_value;
 
 			if property["type"] == TYPE_INT:
-				new_value = Mutation.Integer(self.get(name), property_rules[name])
+				new_value = Mutation.Integer(self.get(name), property_variations[name])
 
 			elif property["type"] == TYPE_FLOAT:
-				new_value = Mutation.Float(self.get(name), property_rules[name])
+				new_value = Mutation.Float(self.get(name), property_variations[name])
 
 			else:
 				new_value = self.get(name)
@@ -148,42 +151,10 @@ func mutate(frequency : float, strength : float):
 			print("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
-	mutated_dna.tile_efficiency = Mutation.FloatArray(tile_efficiency, property_rules["tile_efficiency"])
-	mutated_dna.influence_decay = Mutation.IntegerArray(influence_decay, property_rules["influence_decay"])
+	mutated_dna.tile_efficiency = Mutation.FloatArray(tile_efficiency, property_variations["tile_efficiency"])
+	mutated_dna.influence_decay = Mutation.IntegerArray(influence_decay, property_variations["influence_decay"])
+
+	property_variations = Mutation.PropertyVariations(property_variations)
 
 	return mutated_dna
-
-
-
-
-func property_mutation(current, change ,maximum, minimum, type = 2):
-	# Rolls dice on if the mutation should even happen
-	
-	var mutation = 0
-	if type == 2:
-		change = ceil(change)
-		mutation = clamp(current - randi_range(-change, change), minimum, maximum)
-	if type == 3:
-		mutation = clamp(current - randf_range(-change, change), minimum, maximum)
-	
-	return current + mutation
-
-
-@warning_ignore("SHADOWED_GLOBAL_IDENTIFIER")
-func mutate_array(array, max, min, change, frequency):
-
-	var new_array = []
-	for value in array:
-
-
-		if randf() < frequency:
-			new_array.append(clamp(value - randf_range(-change, change), min, max))
-		else:
-			new_array.append(value)
-	
-
-	return new_array
-
-
-
 

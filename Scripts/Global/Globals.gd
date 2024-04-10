@@ -19,20 +19,22 @@ var selected : Array
 
 
 enum Tile{
+	UNKNOWN = -1,
 	GRASS,
 	STONE,
 	WATER,
 	SAND
 }
 
-func get_tile_type(cords : Vector2i):
+
+func get_tile_type(cords : Vector2i) -> Array[Tile]:
 	var data = mainMap.get_cell_tile_data(0,cords)
 	if data == null:
-		return 0
+		return [Tile.UNKNOWN]
 		
 	var types = data.get_custom_data("Type")
 
-	var value = []
+	var value : Array[Tile] = []
 	for type in types:
 		match type:
 

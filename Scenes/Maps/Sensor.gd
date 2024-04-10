@@ -25,6 +25,7 @@ func _ready():
 	pass
 
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 # I think we can ignore delta as the processing of influence is going to happen withing the same frame as it's defining
 func _process(delta):
@@ -35,7 +36,7 @@ func _process(delta):
 		if conf.processor.process(dt):
 			detection.emit(conf.influence * delta, conf.receiver)
 		dt = TileTypeData.new()
-		dt.type = Globals.get_tile_type(global_position + target_position)
+		dt.tiles = Globals.get_tile_type(global_to_map(global_position + target_position))
 		if conf.processor.process(dt):
 			detection.emit(conf.influence * delta, conf.receiver)
 
@@ -97,3 +98,5 @@ func _process(delta):
 		detection.emit(conf.influence * delta, conf.receiver)
 
 
+func global_to_map(pos):
+	return Globals.mainMap.local_to_map(Globals.mainMap.to_local(pos))

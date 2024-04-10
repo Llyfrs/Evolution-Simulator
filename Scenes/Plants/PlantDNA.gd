@@ -45,69 +45,7 @@ class_name PlantDNA extends Resource
 @export var color : Color
 
 
-var property_rules = {
-	"energy": {
-		"base_change": 10,
-		"min": 1,
-		"max": 1000
-	},
-	"health": {
-		"base_change": 10,
-		"min": 1,
-		"max": 300
-	},
-	"root_effectivnes": {
-		"base_change": 0.1,
-		"min": 0.1,
-		"max": 10
-	},
-	"root_grow_threshold": {
-		"base_change": 10,
-		"min": 1,
-		"max": 1000 # This should be based on max energy, change latter
-	},
-	"root_distance_from_source":{
-		"base_change": 0.05,
-		"min": 0,
-		"max": 1 # This should be based on max energy, change latter
-	},
-	"plant_grow_speed": {
-		"base_change": 0.2,
-		"min": 0.1,
-		"max": 5
-	}, 
-	"seed_quantity": {
-		"base_change": 1,
-		"min": 1,
-		"max": 10
-	}, 
-	"seed_nutrition" :{
-		"base_change": 3,
-		"min": 1,
-		"max": 50,
-	},
-	"seed_durability" :{
-		"base_change": 3,
-		"min": 1,
-		"max": 50,
-	},
-	"seed_direction" :{
-		"base_change": deg_to_rad(5),
-		"min": 0,
-		"max": 2*PI,
-	}, 
-	"seed_spread" :{
-		"base_change": deg_to_rad(5),
-		"min": 0,
-		"max": 2*PI,
-	}, 
-	"seed_distance" :{
-		"base_change": 10,
-		"min": 0,
-		"max": 1000,
-	}, 
-
-}
+var property_variations
 
 
 
@@ -116,18 +54,36 @@ func _init():
 	root_pattern = generate_random_pattern(5, 3, 2)
 	color = Color(randf(), randf(), randf())
 
-	for property in get_property_list():
-		var name = property["name"]
-		if not property_rules.has(name):
-			continue
-		var rules = property_rules[name]
-		
-		if property["type"] == 2:
-			self.set(name, randi_range(rules["min"], rules["max"]))
-		elif property["type"] == 3:
-			self.set(name, randf_range(rules["min"], rules["max"]))
+	energy = randi_range(20, 200)
+	health = randi_range(20,200)
+	root_effectivnes =  randf_range(0, 10)
+	root_grow_threshold = randi_range(20, 200)
+	root_distance_from_source = randf()
+	plant_grow_speed = randf_range(0.1, 5)
+	seed_quantity = randi_range(1, 10)
+	seed_nutrition = randi_range(0,50)
+	seed_durability = randi_range(0,50)
+	seed_direction = randf_range(0, (PI * 2))
+	seed_spread = randf_range(0, (PI * 2))
+	seed_distance = randi_range(0, 300)
 
-
+	property_variations = {
+	"self" : 0.01,
+	"energy": 3,
+	"health": 3,
+	"root_effectivnes": 0.05,
+	"root_grow_threshold": 3 ,
+	"root_distance_from_source": 2,
+	"plant_grow_speed": 0.1 , 
+	"seed_quantity": 0.5, 
+	"seed_nutrition" : 1,
+	"seed_durability" : 0.5,
+	"seed_direction" : 0.043, 
+	"seed_spread" : 0.043, 
+	"seed_distance" : 3, 
+	"color" : 0.4,
+	"root_pattern" : 1
+	}
 	
 
 	pass
@@ -159,64 +115,40 @@ func generate_random_pattern(mutables : int, options : int, emptines : float = 0
 ## Strength is how big should the mutation be.
 ## Value of 1 means that the mutation is going to use the default mutation rules, 
 ## any other value is going to multiply the base mutation value. 
-func mutate(frequency : float, strength : float ):
-	var mutated_dna = PlantDNA.new()
-	
+func mutate(_frequency : float, _strength : float):
+	var mutated_dna = CreatureDNA.new()
+
 	for property in mutated_dna.get_property_list():
 		var name = property["name"]
-		
-		## Rolls a dice on if the mutation should even happen
-		if randf() > frequency:
-			mutated_dna.set(name, self.get(name))
-			continue
-		
-		if property_rules.has(name):
-			var rules = property_rules[name]
-			
-			var new_value = property_mutation(
-					self.get(name),
-					rules["base_change"]*strength,
-					rules["min"],
-					rules["max"],
-					property["type"]
-					)
-					
-			#print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
+
+		if property_variations.has(name):
+			var new_value;
+
+			if property["type"] == TYPE_INT:
+				new_value = Mutation.Integer(self.get(name), property_variations[name])
+
+			elif property["type"] == TYPE_FLOAT:
+				new_value = Mutation.Float(self.get(name), property_variations[name])
+
+			else:
+				new_value = self.get(name)
+
+
+
+			# print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
 			
 			mutated_dna.set(name, new_value)
-			
 		elif name == "color":
-			mutated_dna.color = Color(color)
-		else: # sets the property to the same value as the original DNA property
+			mutated_dna.color = Mutation.Color(self.get(name), 1)
+			# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
+		else:
+			print("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
-	
-	mutated_dna.root_pattern.assign(mutate_pattern(frequency))
-	
-	# print("Assigned")
-	# MyTools.print_patten(mutated_dna.root_pattern)
+
+	property_variations = Mutation.PropertyVariations(property_variations)
 
 	return mutated_dna
-
-#● TYPE_NIL = 0
-#Variable is null.
-#● TYPE_BOOL = 1
-#Variable is of type bool.
-#● TYPE_INT = 2
-#Variable is of type int.
-#● TYPE_FLOAT = 3
-
-func property_mutation(current, change ,maximum, minimum, type = 2):
-	# Rolls dice on if the mutation should even happen
-	
-	var mutation = 0
-	if type == 2:
-		change = ceil(change)
-		mutation = clamp(current - randi_range(-change, change), minimum, maximum)
-	if type == 3:
-		mutation = clamp(current - randf_range(-change, change), minimum, maximum)
-	
-	return current + mutation
 
 
 ## Mutates the pattern, right now the number of rules and number of cells in each rule stays the same

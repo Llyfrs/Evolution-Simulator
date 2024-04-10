@@ -5,11 +5,12 @@ class_name TileTypeProcessor extends Processor
 
 
 func _init():
-    masks = []
+	masks = []
 
 
 func process(data : Data):
-    if data is TileTypeData:
-        return data.type == tileType 
-    
-    return false
+	
+	if data is TileTypeData:
+		return tileType in data.tiles
+	
+	return false
