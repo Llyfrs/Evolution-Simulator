@@ -1,368 +1,384 @@
-[gd_scene load_steps=4 format=3 uid="uid://18538sg0ej71"]
+[gd_scene load_steps=5 format=3 uid="uid://18538sg0ej71"]
 
 [ext_resource type="PackedScene" uid="uid://cfkfsgmltqp2a" path="res://Scenes/Camera/camera.tscn" id="1_bd3p6"]
 [ext_resource type="TileSet" uid="uid://sh0qm7kx82pw" path="res://Scenes/Plants/Root/root.tres" id="2_ud1eo"]
 [ext_resource type="PackedScene" uid="uid://drwf3tjnijnam" path="res://Scenes/Plants/Root/root.tscn" id="3_3xnbj"]
+[ext_resource type="Script" path="res://Scenes/Testing/RootMap.gd" id="3_jnw3g"]
 
 [node name="RootTest" type="Node"]
 
 [node name="Camera2D" parent="." instance=ExtResource("1_bd3p6")]
 position = Vector2(646, 339)
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -387.0
+offset_top = -419.0
+offset_right = 1812.0
+offset_bottom = 1291.0
+
 [node name="RootMap" type="TileMap" parent="."]
-position = Vector2(626, 250)
+position = Vector2(683, 264)
 tile_set = ExtResource("2_ud1eo")
 format = 2
 layer_0/tile_data = PackedInt32Array(1572928, 1, 0, 1704000, 1, 0, 1638464, 1, 0, 1507392, 1, 0, 1441856, 1, 0, 1376320, 1, 0, 1310784, 1, 0, 1245248, 1, 0, 1179712, 1, 0, 1114176, 1, 0, 1048640, 1, 0, 983104, 1, 0, 917568, 1, 0, 852032, 1, 0, 786496, 1, 0, 720960, 1, 0, 655424, 1, 0, 589888, 1, 0, 524352, 1, 0, 458816, 1, 0, 393280, 1, 0, 327744, 1, 0, 262208, 1, 0, 196672, 1, 0, 131136, 1, 0, 65600, 1, 0, 64, 1, 0, -65472, 1, 0, -131008, 1, 0, -393152, 1, 0, -458688, 1, 0, -524224, 1, 0, -589760, 1, 0, -655296, 1, 0, -720832, 1, 0, -786368, 1, 0, -851904, 1, 0, -917440, 1, 0, -982976, 1, 0, -1048512, 1, 0, -1114048, 1, 0, -1179584, 1, 0, -1245120, 1, 0, -1310656, 1, 0, -1376192, 1, 0, -1441728, 1, 0, -1507264, 1, 0, -1572800, 1, 0, -1638336, 1, 0, -1703872, 1, 0, -1769408, 1, 0, -1834944, 1, 0, -1900480, 1, 0, -1966016, 1, 0, -2031552, 1, 0, -2097088, 1, 0, -2162624, 1, 0, -2228160, 1, 0, -2293696, 1, 0, -2359232, 1, 0, -3407808, 1, 0, -3342407, 1, 0, 5046201, 1, 0, 4980800, 1, 0, 5046336, 1, 0, 5046335, 1, 0, 5046334, 1, 0, 5046333, 1, 0, 5046332, 1, 0, 5046331, 1, 0, 5046330, 1, 0, 5046329, 1, 0, 5046328, 1, 0, 5046327, 1, 0, 5046326, 1, 0, 5046325, 1, 0, 5046324, 1, 0, 5046323, 1, 0, 5046322, 1, 0, 5046321, 1, 0, 5046320, 1, 0, 5046319, 1, 0, 5046318, 1, 0, 5046317, 1, 0, 5046316, 1, 0, 5046315, 1, 0, 5046314, 1, 0, 5046313, 1, 0, 5046312, 1, 0, 5046311, 1, 0, 5046310, 1, 0, 5046309, 1, 0, 5046308, 1, 0, 5046307, 1, 0, 5046306, 1, 0, 5046305, 1, 0, 5046304, 1, 0, 5046303, 1, 0, 5046302, 1, 0, 5046301, 1, 0, 5046300, 1, 0, 5046299, 1, 0, 5046298, 1, 0, 5046297, 1, 0, 5046296, 1, 0, 5046295, 1, 0, 5046294, 1, 0, 5046293, 1, 0, 5046292, 1, 0, 5046291, 1, 0, 5046290, 1, 0, 5046289, 1, 0, 5046288, 1, 0, 5046287, 1, 0, 5046286, 1, 0, 5046285, 1, 0, 5046284, 1, 0, 5046283, 1, 0, 5046282, 1, 0, 5046281, 1, 0, 5046280, 1, 0, 5046279, 1, 0, 5046278, 1, 0, 5046277, 1, 0, 5046276, 1, 0, 5046275, 1, 0, 5046274, 1, 0, 5046273, 1, 0, 5046272, 1, 0, 5111807, 1, 0, 5111806, 1, 0, 5111805, 1, 0, 5111804, 1, 0, 5111803, 1, 0, 5111802, 1, 0, 5111801, 1, 0, 5111800, 1, 0, 5111799, 1, 0, 5111798, 1, 0, 5111797, 1, 0, 5111796, 1, 0, 5111795, 1, 0, 5111794, 1, 0, 5111793, 1, 0, 5111792, 1, 0, 5111791, 1, 0, 5111790, 1, 0, 5111789, 1, 0, 5111788, 1, 0, 5111787, 1, 0, 5111786, 1, 0, 5111785, 1, 0, 5111784, 1, 0, 5111783, 1, 0, 5111782, 1, 0, 5111781, 1, 0, 5111780, 1, 0, 5111779, 1, 0, 5111778, 1, 0, 5111777, 1, 0, 5111776, 1, 0, 5111775, 1, 0, 5111774, 1, 0, 5111773, 1, 0, 5111772, 1, 0, 5111771, 1, 0, 5111770, 1, 0, 5111769, 1, 0, 5111768, 1, 0, 5111767, 1, 0, 5111766, 1, 0, 5111765, 1, 0, 5111764, 1, 0, 5111763, 1, 0, 5111762, 1, 0, 5111761, 1, 0, 5111760, 1, 0, 5111759, 1, 0, 5111758, 1, 0, 5111757, 1, 0, 5111756, 1, 0, 5111755, 1, 0, 5111754, 1, 0, 5111753, 1, 0, 5111752, 1, 0, 5111751, 1, 0, 5111750, 1, 0, 5111749, 1, 0, 5111748, 1, 0, 5111747, 1, 0, 5111746, 1, 0, 5111745, 1, 0, 5111744, 1, 0, 5111743, 1, 0, 5111742, 1, 0, 5111741, 1, 0, 5111740, 1, 0, 5111739, 1, 0, 5111738, 1, 0, 5111737, 1, 0, 4980665, 1, 0, 4915129, 1, 0, 4849593, 1, 0, 4784057, 1, 0, 4718521, 1, 0, 4652985, 1, 0, 4587449, 1, 0, 4521913, 1, 0, 4456377, 1, 0, 4390841, 1, 0, 4325305, 1, 0, 4259769, 1, 0, 4194233, 1, 0, 4128697, 1, 0, 4063161, 1, 0, 3997625, 1, 0, 3932089, 1, 0, 3866553, 1, 0, 3801017, 1, 0, 3735481, 1, 0, 3669945, 1, 0, 3604409, 1, 0, 3538873, 1, 0, 3473337, 1, 0, 3407801, 1, 0, 3342265, 1, 0, 3276729, 1, 0, 3211193, 1, 0, 3145657, 1, 0, 3080121, 1, 0, 3014585, 1, 0, 2949049, 1, 0, 2883513, 1, 0, 2817977, 1, 0, 2752441, 1, 0, 2686905, 1, 0, 2621369, 1, 0, 2555833, 1, 0, 2490297, 1, 0, 2424761, 1, 0, 2359225, 1, 0, 2293689, 1, 0, 2228153, 1, 0, 2162617, 1, 0, 2097081, 1, 0, 2031545, 1, 0, 1966009, 1, 0, 1900473, 1, 0, 1834937, 1, 0, 1769401, 1, 0, 1703865, 1, 0, 1638329, 1, 0, 1572793, 1, 0, 1507257, 1, 0, 1441721, 1, 0, 4915264, 1, 0, 4849728, 1, 0, 4784192, 1, 0, 4718656, 1, 0, 4653120, 1, 0, 4587584, 1, 0, 4522048, 1, 0, 4456512, 1, 0, 4390976, 1, 0, 4325440, 1, 0, 4259904, 1, 0, 4194368, 1, 0, 4128832, 1, 0, 4063296, 1, 0, 3997760, 1, 0, 3932224, 1, 0, 3866688, 1, 0, 3801152, 1, 0, 3735616, 1, 0, 3670080, 1, 0, 3604544, 1, 0, 3539008, 1, 0, 3473472, 1, 0, 3407936, 1, 0, 3342400, 1, 0, 3276864, 1, 0, 3211328, 1, 0, 3145792, 1, 0, 3080256, 1, 0, 3014720, 1, 0, 2949184, 1, 0, 2883648, 1, 0, 2818112, 1, 0, 2752576, 1, 0, 2687040, 1, 0, 2621504, 1, 0, 2555968, 1, 0, 2490432, 1, 0, 2424896, 1, 0, 2359360, 1, 0, 2293824, 1, 0, 2228288, 1, 0, 2162752, 1, 0, 2097216, 1, 0, 2031680, 1, 0, 1966144, 1, 0, 1900608, 1, 0, 1835072, 1, 0, 1769536, 1, 0, -327616, 1, 0, -262080, 1, 0, -196544, 1, 0, -2424768, 1, 0, -2490304, 1, 0, -2555840, 1, 0, -2621376, 1, 0, -2686912, 1, 0, -2752448, 1, 0, -2817984, 1, 0, -2883520, 1, 0, -2949056, 1, 0, -3014592, 1, 0, -3080128, 1, 0, -3145664, 1, 0, -3211200, 1, 0, -3276736, 1, 0, -3342272, 1, 0, -3473344, 1, 0, -3473345, 1, 0, -3473346, 1, 0, -3473347, 1, 0, -3473348, 1, 0, -3473349, 1, 0, -3473350, 1, 0, -3473351, 1, 0, -3473352, 1, 0, -3473353, 1, 0, -3473354, 1, 0, -3473355, 1, 0, -3473356, 1, 0, -3473357, 1, 0, -3473358, 1, 0, -3473359, 1, 0, -3473360, 1, 0, -3473361, 1, 0, -3473362, 1, 0, -3473363, 1, 0, -3473364, 1, 0, -3473365, 1, 0, -3473366, 1, 0, -3473367, 1, 0, -3473368, 1, 0, -3473369, 1, 0, -3473370, 1, 0, -3473371, 1, 0, -3473372, 1, 0, -3473373, 1, 0, -3473374, 1, 0, -3473375, 1, 0, -3473376, 1, 0, -3473377, 1, 0, -3473378, 1, 0, -3473379, 1, 0, -3473380, 1, 0, -3473381, 1, 0, -3473382, 1, 0, -3473383, 1, 0, -3473384, 1, 0, -3473385, 1, 0, -3473386, 1, 0, -3473387, 1, 0, -3473388, 1, 0, -3473389, 1, 0, -3473390, 1, 0, -3473391, 1, 0, -3473392, 1, 0, -3473393, 1, 0, -3473394, 1, 0, -3473395, 1, 0, -3473396, 1, 0, -3473397, 1, 0, -3473398, 1, 0, -3473399, 1, 0, -3473400, 1, 0, -3473401, 1, 0, -3473402, 1, 0, -3473403, 1, 0, -3473404, 1, 0, -3473405, 1, 0, -3473406, 1, 0, -3473407, 1, 0, -3473408, 1, 0, -3407873, 1, 0, -3407874, 1, 0, -3407875, 1, 0, -3407876, 1, 0, -3407877, 1, 0, -3407878, 1, 0, -3407879, 1, 0, -3407880, 1, 0, -3407881, 1, 0, -3407882, 1, 0, -3407883, 1, 0, -3407884, 1, 0, -3407885, 1, 0, -3407886, 1, 0, -3407887, 1, 0, -3407888, 1, 0, -3407889, 1, 0, -3407890, 1, 0, -3407891, 1, 0, -3407892, 1, 0, -3407893, 1, 0, -3407894, 1, 0, -3407895, 1, 0, -3407896, 1, 0, -3407897, 1, 0, -3407898, 1, 0, -3407899, 1, 0, -3407900, 1, 0, -3407901, 1, 0, -3407902, 1, 0, -3407903, 1, 0, -3407904, 1, 0, -3407905, 1, 0, -3407906, 1, 0, -3407907, 1, 0, -3407908, 1, 0, -3407909, 1, 0, -3407910, 1, 0, -3407911, 1, 0, -3407912, 1, 0, -3407913, 1, 0, -3407914, 1, 0, -3407915, 1, 0, -3407916, 1, 0, -3407917, 1, 0, -3407918, 1, 0, -3407919, 1, 0, -3407920, 1, 0, -3407921, 1, 0, -3407922, 1, 0, -3407923, 1, 0, -3407924, 1, 0, -3407925, 1, 0, -3407926, 1, 0, -3407927, 1, 0, -3407928, 1, 0, -3407929, 1, 0, -3407930, 1, 0, -3407931, 1, 0, -3407932, 1, 0, -3407933, 1, 0, -3407934, 1, 0, -3407935, 1, 0, -3407936, 1, 0, -3407937, 1, 0, -3407938, 1, 0, -3407939, 1, 0, -3407940, 1, 0, -3407941, 1, 0, -3407942, 1, 0, -3407943, 1, 0, -3276871, 1, 0, -3211335, 1, 0, -3145799, 1, 0, -3080263, 1, 0, -3014727, 1, 0, -2949191, 1, 0, -2883655, 1, 0, -2818119, 1, 0, -2752583, 1, 0, -2687047, 1, 0, -2621511, 1, 0, -2555975, 1, 0, -2490439, 1, 0, -2424903, 1, 0, -2359367, 1, 0, -2293831, 1, 0, -2228295, 1, 0, -2162759, 1, 0, -2097223, 1, 0, -2031687, 1, 0, -1966151, 1, 0, -1900615, 1, 0, -1835079, 1, 0, -1769543, 1, 0, -1704007, 1, 0, -1638471, 1, 0, -1572935, 1, 0, -1507399, 1, 0, -1441863, 1, 0, -1376327, 1, 0, -1310791, 1, 0, -1245255, 1, 0, -1179719, 1, 0, -1114183, 1, 0, -1048647, 1, 0, -983111, 1, 0, -917575, 1, 0, -852039, 1, 0, -786503, 1, 0, -720967, 1, 0, -655431, 1, 0, -589895, 1, 0, -524359, 1, 0, -458823, 1, 0, -393287, 1, 0, -327751, 1, 0, -262215, 1, 0, -196679, 1, 0, -131143, 1, 0, -65607, 1, 0, -71, 1, 0, 65465, 1, 0, 131001, 1, 0, 196537, 1, 0, 262073, 1, 0, 327609, 1, 0, 393145, 1, 0, 458681, 1, 0, 524217, 1, 0, 589753, 1, 0, 655289, 1, 0, 720825, 1, 0, 786361, 1, 0, 851897, 1, 0, 917433, 1, 0, 982969, 1, 0, 1048505, 1, 0, 1114041, 1, 0, 1179577, 1, 0, 1245113, 1, 0, 1310649, 1, 0, 1376185, 1, 0)
+script = ExtResource("3_jnw3g")
 
-[node name="Root" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(278, 75)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root2" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root2" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(109, 69)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root3" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root3" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(271, 173)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root4" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root4" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(102, 167)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root5" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root5" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(271, 266)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root6" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root6" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(102, 260)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root7" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root7" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(275, 368)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root8" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root8" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(106, 362)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root9" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root9" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(277, 477)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root10" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root10" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(108, 471)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root11" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root11" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(280, 616)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root12" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root12" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(111, 610)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root13" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root13" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(279, 749)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root14" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root14" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(110, 743)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root15" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root15" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(280, 902)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root16" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root16" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(111, 896)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root17" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root17" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(621, 68)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root18" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root18" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(455, 72)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root19" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root19" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(614, 166)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root20" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root20" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(448, 170)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root21" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root21" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(614, 259)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root22" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root22" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(448, 263)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root23" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root23" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(618, 361)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root24" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root24" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(452, 365)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root25" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root25" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(620, 470)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root26" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root26" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(454, 474)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root27" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root27" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(623, 609)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root28" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root28" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(457, 613)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root29" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root29" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(622, 742)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root30" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root30" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(456, 746)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root31" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root31" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(623, 895)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root32" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root32" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(457, 899)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root33" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root33" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(904, 68)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root34" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root34" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(760, 67)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root35" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root35" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(897, 166)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root36" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root36" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(753, 165)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root37" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root37" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(897, 259)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root38" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root38" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(753, 258)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root39" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root39" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(901, 361)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root40" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root40" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(757, 360)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root41" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root41" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(903, 470)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root42" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root42" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(759, 469)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root43" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root43" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(906, 609)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root44" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root44" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(762, 608)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root45" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root45" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(905, 742)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root46" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root46" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(761, 741)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root47" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root47" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(906, 895)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root48" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root48" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(762, 894)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root49" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root49" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1203, 73)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root50" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root50" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1057, 70)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root51" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root51" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1196, 171)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root52" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root52" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1050, 168)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root53" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root53" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1196, 264)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root54" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root54" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1050, 261)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root55" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root55" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1200, 366)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root56" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root56" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1054, 363)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root57" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root57" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1202, 475)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root58" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root58" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1056, 472)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root59" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root59" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1205, 614)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root60" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root60" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1059, 611)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root61" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root61" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1204, 747)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root62" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root62" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1058, 744)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root63" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root63" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1205, 900)
 scale = Vector2(15778.4, -3150.79)
-rootMap = NodePath("../RootMap")
 run = true
 
-[node name="Root64" parent="." node_paths=PackedStringArray("rootMap") instance=ExtResource("3_3xnbj")]
+[node name="Root64" parent="." instance=ExtResource("3_3xnbj")]
 position = Vector2(1059, 897)
-rootMap = NodePath("../RootMap")
+run = true
+
+[node name="Root65" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(278, -126)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root66" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(109, -132)
+run = true
+
+[node name="Root67" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(271, -28)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root68" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(102, -34)
+run = true
+
+[node name="Root69" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(621, -133)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root70" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(455, -129)
+run = true
+
+[node name="Root71" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(614, -35)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root72" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(448, -31)
+run = true
+
+[node name="Root73" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(904, -133)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root74" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(760, -134)
+run = true
+
+[node name="Root75" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(897, -35)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root76" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(753, -36)
+run = true
+
+[node name="Root77" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(1203, -128)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root78" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(1057, -131)
+run = true
+
+[node name="Root79" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(1196, -30)
+scale = Vector2(15778.4, -3150.79)
+run = true
+
+[node name="Root80" parent="." instance=ExtResource("3_3xnbj")]
+position = Vector2(1050, -33)
 run = true

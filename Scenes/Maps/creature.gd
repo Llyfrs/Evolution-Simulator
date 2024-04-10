@@ -64,6 +64,7 @@ func _ready():
 
 func _process(delta):
 
+
 	# Needs to be caculated on tile type
 	var speed = dna.speed
 

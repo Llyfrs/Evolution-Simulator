@@ -30,37 +30,22 @@ class_name CreatureDNA extends Resource
 @export var sensors : Array[SensorSettings]
 
 
-var processors = [ColorProcessor, BasicProcessor, SelfProcessor]
+var processors = [ColorProcessor, BasicProcessor, SelfProcessor, TileTypeProcessor]
 
 
 var property_rules = {
-	"energy": {
-		"base_change": 10,
-		"min": 1,
-		"max": 1000
-	},
-	"health": {
-		"base_change": 10,
-		"min": 1,
-		"max": 300
-	},
-	"speed": {
-		"base_change": 10,
-		"min": 50,
-		"max": 500
-	},
-	"rotation_speed": {
-		"base_change": 10,
-		"min": 0,
-		"max": 360
-	},
-	"bite_strength": {
-		"base_change": 1,
-		"min": 0,
-		"max": 50
-	},
-	
-	
+	"energy": 2,
+	"health": 2,
+	"growth_speed": 1,
+	"offspring_energy": 2,
+	"offsprings": 0.2,
+	"speed": 2,
+	"rotation_speed": 1,
+	"bite_strength": 0.5,
+	"tile_efficiency": 0.05,
+	"influence_decay": 0.1,
+	"color": 0.4,
+	"sensors" : 0.1
 }
 
 
@@ -78,6 +63,8 @@ func _init():
 	offsprings = randi_range(1,5)
 
 	growth_speed = randi_range(1,10)
+	color = Color(randf(), randf(), randf(), 1)
+
 
 	influence_decay.resize(Creature.Influence.size())
 	for i in range(Creature.Influence.size()):
@@ -137,32 +124,32 @@ func mutate(frequency : float, strength : float):
 	for property in mutated_dna.get_property_list():
 		var name = property["name"]
 
-		if randf() > frequency:
-			mutated_dna.set(name, self.get(name))
-			continue
-		
 		if property_rules.has(name):
-			var rules = property_rules[name]
-			
-			var new_value = property_mutation(
-					self.get(name),
-					rules["base_change"]*strength,
-					rules["min"],
-					rules["max"],
-					property["type"]
-					)
-					
-			#print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
+			var new_value;
+
+			if property["type"] == TYPE_INT:
+				new_value = Mutation.Integer(self.get(name), property_rules[name])
+
+			elif property["type"] == TYPE_FLOAT:
+				new_value = Mutation.Float(self.get(name), property_rules[name])
+
+			else:
+				new_value = self.get(name)
+
+
+
+			# print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
 			
 			mutated_dna.set(name, new_value)
 		elif name == "color":
-			mutated_dna.color = Color(color)
+			mutated_dna.color = Mutation.Color(self.get(name), 1)
+			# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
 		else:
-			#print_debug("Property: " + name + " is not mutating")
+			print("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
-	mutated_dna.tile_efficiency = mutate_array(tile_efficiency, 0, 1, 0.01 * strength, frequency)
-	mutated_dna.influence_decay = mutate_array(influence_decay, 30, 200, 10 * strength, frequency)
+	mutated_dna.tile_efficiency = Mutation.FloatArray(tile_efficiency, property_rules["tile_efficiency"])
+	mutated_dna.influence_decay = Mutation.IntegerArray(influence_decay, property_rules["influence_decay"])
 
 	return mutated_dna
 

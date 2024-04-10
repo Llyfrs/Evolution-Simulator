@@ -34,6 +34,10 @@ func _process(delta):
 		var dt = get_parent().get_parent().get_data()
 		if conf.processor.process(dt):
 			detection.emit(conf.influence * delta, conf.receiver)
+		dt = TileTypeData.new()
+		dt.type = Globals.get_tile_type(global_position + target_position)
+		if conf.processor.process(dt):
+			detection.emit(conf.influence * delta, conf.receiver)
 
 
 
@@ -53,6 +57,8 @@ func _process(delta):
 	
 
 	var data
+
+	
 	
 
 	## TileMap should only be wall collision
@@ -61,7 +67,7 @@ func _process(delta):
 		data.type = Data.DataType.WALL
 		
 	## Area2D is child of a plant so we need to get it's parent
-	if collider is Area2D:
+	elif collider is Area2D:
 		
 		var plant = collider.get_parent() as Plant
 		data = PlantData.new()
@@ -70,8 +76,8 @@ func _process(delta):
 		data.energy = plant.energy
 		data.health = plant.health
 		data.color = plant.dna.color
-		
-	if collider is RigidBody2D:
+
+	elif collider is RigidBody2D:
 
 		var sd = collider as Seed
 		data = SeedData.new()
@@ -82,8 +88,7 @@ func _process(delta):
 			data.durability = sd.dna.seed_durability
 		else:
 			data.durability = 0;
-	
-	if data == null:
+	else:
 		return
 
 	data.distance = get_collision_point().distance_to(global_position)

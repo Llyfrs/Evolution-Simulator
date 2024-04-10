@@ -26,7 +26,11 @@ enum Tile{
 }
 
 func get_tile_type(cords : Vector2i):
-	var types = mainMap.get_cell_tile_data(0,cords).get_custom_data("Type")
+	var data = mainMap.get_cell_tile_data(0,cords)
+	if data == null:
+		return 0
+		
+	var types = data.get_custom_data("Type")
 
 	var value = []
 	for type in types:
