@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://drwf3tjnijnam"]
 
-[ext_resource type="Script" path="res://Scenes/Plants/Root/Root.gd" id="1_0pama"]
+[ext_resource type="Script" path="res://Scripts/Plants/Root.gd" id="1_j20li"]
 
 [node name="Root" type="Node2D"]
 position = Vector2(224, 160)
-script = ExtResource("1_0pama")
+script = ExtResource("1_j20li")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.116

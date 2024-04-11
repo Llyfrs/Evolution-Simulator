@@ -19,6 +19,8 @@ var tiles = [
 var is_drawing : bool = false
 var is_deleting: bool = false
 
+var show_energy : bool = true
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -35,6 +37,10 @@ func _process(delta):
 		draw_tile(position, Globals.paint_mode)
 	elif is_deleting and not Globals.cursor_obscured :
 		delete_tile(position)
+	
+	
+	if !show_energy:
+		return
 	
 	temp_timer += delta
 	if temp_timer >= 1:
@@ -86,7 +92,7 @@ func draw_tile(position: Vector2, type : int):
 	
 	
 	if not EnergyManager.tiles.has(position):
-		EnergyManager.set_energy(position, 300)
+		EnergyManager.set_energy(position, Globals.tile_energy)
 	
 	var surounding = map.get_surrounding_cells(position)
 	
@@ -150,3 +156,20 @@ func _input(event):
 
 
 
+
+
+func _on_check_box_toggled(toggled_on):
+	
+	print(toggled_on)
+	
+	show_energy = toggled_on
+	$Energy.visible = toggled_on
+	
+	pass # Replace with function body.
+
+
+func _on_spin_box_value_changed(value):
+	
+	Globals.tile_energy = value
+	
+	pass # Replace with function body.

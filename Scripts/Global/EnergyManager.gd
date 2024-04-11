@@ -106,6 +106,10 @@ func get_total_energy() -> float:
 	for sd in seeds:
 		total += sd.energy
 
+	for cr in creatures:
+		total += cr.energy
+		total += cr.health
+
 
 	for key in tiles:
 		total += tiles[key]

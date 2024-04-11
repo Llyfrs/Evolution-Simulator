@@ -5,7 +5,7 @@ var dna : PlantDNA = null
 var energy : float
 
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
-var food_texture = preload("res://Textures/food.png")
+var food_texture = preload("res://Textures/Plant/food.png")
 
 	
 func remove_energy(value: float):
@@ -29,7 +29,7 @@ func get_tile():
 func root():
 	
 	if dna != null and not EnergyManager.is_limited(Limits.PLANT):
-		get_parent().call_deferred("root_seed", dna, global_position)
+		get_parent().call_deferred("root_seed", dna.duplicate(), global_position)
 	
 	EnergyManager.add_lost_energy(energy)
 	EnergyManager.unsubscribe(self)

@@ -23,9 +23,9 @@ class_name SensorSettings extends Resource
 
 
 func mutate(frequency : float, strength : float):
-    var mutated_sensor = SensorSettings.new()
+	var mutated_sensor = SensorSettings.new()
 
-    mutated_sensor.processor = processor.mutate(frequency, strength)
-    mutated_sensor.receiver = receiver
+	mutated_sensor.processor = processor.mutate(frequency, strength)
+	mutated_sensor.receiver = receiver
 
-    
+	

@@ -29,14 +29,21 @@ class_name CreatureDNA extends Resource
 ## What sensors the creature is using
 @export var sensors : Array[SensorSettings]
 
+@export var property_variations : Dictionary
+
+@export var generation : int 
+@export var ID : int
 
 var processors = [ColorProcessor, BasicProcessor, SelfProcessor, TileTypeProcessor]
 
 
-var property_variations;
+
+
 
 
 func _init():
+
+	ID = randi()
 
 	energy = randi_range(10,200)
 	health = randi_range(10,200)
@@ -87,19 +94,19 @@ func _init():
 	
 	## Defines the variation / deviation for the normal distribution used to mutate each property 
 	property_variations = {
-	"self": 0.01,
-	"energy": 2,
-	"health": 2,
-	"growth_speed": 1,
-	"offspring_energy": 2,
-	"offsprings": 0.2,
-	"speed": 2,
-	"rotation_speed": 1,
-	"bite_strength": 0.5,
-	"tile_efficiency": 0.05,
-	"influence_decay": 0.1,
-	"color": 0.4,
-	"sensors" : 0.1
+		"self": 0.01,
+		"energy": 2,
+		"health": 2,
+		"growth_speed": 1,
+		"offspring_energy": 2,
+		"offsprings": 0.2,
+		"speed": 2,
+		"rotation_speed": 1,
+		"bite_strength": 0.5,
+		"tile_efficiency": 0.05,
+		"influence_decay": 0.1,
+		"color": 0.4,
+		"sensors" : 0.1
 	}
 
 
@@ -154,7 +161,9 @@ func mutate(frequency : float, strength : float):
 	mutated_dna.tile_efficiency = Mutation.FloatArray(tile_efficiency, property_variations["tile_efficiency"])
 	mutated_dna.influence_decay = Mutation.IntegerArray(influence_decay, property_variations["influence_decay"])
 
-	property_variations = Mutation.PropertyVariations(property_variations)
+	mutated_dna.property_variations = Mutation.PropertyVariations(property_variations)
+
+	mutated_dna.generation += 1
 
 	return mutated_dna
 

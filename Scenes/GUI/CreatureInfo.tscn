@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://oekptli57t6k"]
 
-[ext_resource type="Script" path="res://CreatureInfo.gd" id="1_aaqh4"]
+[ext_resource type="Script" path="res://Scripts/GUI/CreatureInfo.gd" id="1_aaqh4"]
 [ext_resource type="Theme" uid="uid://cqv6gnwwow7vr" path="res://Theme.tres" id="2_318h0"]
 [ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Back.tres" id="3_vkwqg"]
 [ext_resource type="Texture2D" uid="uid://bcupjxsdyyuor" path="res://Textures/TileTypes/grass.png" id="4_mps55"]
@@ -285,4 +285,8 @@ layout_mode = 2
 text = "Cost 
 "
 label_settings = SubResource("LabelSettings_it4wm")
+horizontal_alignment = 1
+
+[node name="Generation" type="Label" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
 horizontal_alignment = 1

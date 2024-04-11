@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bqxeia5iqqd55"]
 
-[ext_resource type="Script" path="res://Scenes/Maps/Sensor.gd" id="1_pnm4i"]
+[ext_resource type="Script" path="res://Scripts/Creatures/Sensor.gd" id="1_pnm4i"]
 
 [node name="Node2D" type="RayCast2D"]
 script = ExtResource("1_pnm4i")

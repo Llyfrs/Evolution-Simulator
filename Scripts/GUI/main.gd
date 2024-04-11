@@ -16,8 +16,6 @@ func _enter_tree():
 	
 
 
-
-
 func _ready():
 	
 	print("Main")
@@ -26,10 +24,6 @@ func _ready():
 	Engine.time_scale = 1
 	EnergyManager.init_map(Globals.mainMap)
 	
-	
-
-
-
 	pass # Replace with function body.
 
 
@@ -46,6 +40,8 @@ func _input(event):
 		if Engine.time_scale > 1:
 			Engine.time_scale -= 1
 		print("Changing speed to: " + str(Engine.time_scale) + "x")
+
+
 
 
 

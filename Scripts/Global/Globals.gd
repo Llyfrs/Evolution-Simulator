@@ -83,6 +83,8 @@ var paint_mode : PaintMode = PaintMode.GRASS
 
 var cursor_obscured : bool = false
 
+var tile_energy : int = 100
+
 # Enums start from zero but masks start from 1 
 enum Mask{
 	TILE_MAP=1,
@@ -116,7 +118,7 @@ const STONE_TILE = Vector2(7,1)
 const SAND_TILE = Vector2(7,4)
 
 ## Having it here prevents circular dependencies 
-var creature_scene = preload("res://Scenes/Maps/creature.tscn")
+var creature_scene = preload("res://Scenes/Creatures/creature.tscn")
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 
 

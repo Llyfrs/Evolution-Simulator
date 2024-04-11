@@ -9,7 +9,7 @@ var health : float
 
 var can_grow := true
 
-var seed_sceen = preload("res://seed.tscn") as PackedScene
+var seed_sceen = preload("res://Scenes/Plants/seed.tscn") as PackedScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +25,9 @@ func _ready():
 
 
 func set_dna(plantDNA: PlantDNA):
-	dna = plantDNA
+	
+	dna = plantDNA.duplicate()
+	
 	$PlantSmall.set_modulate(dna.color)
 	
 
@@ -44,9 +46,11 @@ func add_energy(value : float) -> float:
 	
 
 	# Manages growing roots
-	var root_grow_cost: float = 5 * dna.root_effectivnes
-	if energy > dna.root_grow_threshold and energy >= root_grow_cost and can_grow:
-		var result: int = root.grow(dna)
+	var root_grow_cost: float = root.grow_cost(dna)
+
+	
+	if can_grow and energy > dna.root_grow_threshold and energy >= root_grow_cost:
+		var result: float = root.grow(dna)
 		if result > 0: 
 			energy -= root_grow_cost
 			EnergyManager.add_lost_energy(root_grow_cost)
@@ -120,6 +124,8 @@ func reproduce():
 		var sd = seed_sceen.instantiate() as Seed
 		sd.energy = dna.seed_nutrition
 		sd.global_position = global_position
+		
+		MyTools.check_pattern(dna.root_pattern)
 
 		sd.dna = dna.mutate(0.4, 0.4)
 

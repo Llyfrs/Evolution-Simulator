@@ -1,6 +1,7 @@
 class_name PlantDNA extends Resource
 
 
+
 @export var energy_consumption : int
 
 # How faraway from the source should the next active root be used
@@ -45,11 +46,14 @@ class_name PlantDNA extends Resource
 @export var color : Color
 
 
-var property_variations
+@export var property_variations : Dictionary
 
-
+@export var generation : int 
+@export var ID : int
 
 func _init():
+
+	ID = randi()
 	
 	root_pattern = generate_random_pattern(5, 3, 2)
 	color = Color(randf(), randf(), randf())
@@ -68,21 +72,21 @@ func _init():
 	seed_distance = randi_range(0, 300)
 
 	property_variations = {
-	"self" : 0.01,
-	"energy": 3,
-	"health": 3,
-	"root_effectivnes": 0.05,
-	"root_grow_threshold": 3 ,
-	"root_distance_from_source": 2,
-	"plant_grow_speed": 0.1 , 
-	"seed_quantity": 0.5, 
-	"seed_nutrition" : 1,
-	"seed_durability" : 0.5,
-	"seed_direction" : 0.043, 
-	"seed_spread" : 0.043, 
-	"seed_distance" : 3, 
-	"color" : 0.4,
-	"root_pattern" : 1
+		"self" : 0.01,
+		"energy": 3,
+		"health": 3,
+		"root_effectivnes": 0.05,
+		"root_grow_threshold": 3 ,
+		"root_distance_from_source": 0.01,
+		"plant_grow_speed": 0.1 , 
+		"seed_quantity": 0.5, 
+		"seed_nutrition" : 1,
+		"seed_durability" : 0.5,
+		"seed_direction" : 0.043, 
+		"seed_spread" : 0.043, 
+		"seed_distance" : 3, 
+		"color" : 0.01,
+		"root_pattern" : 1
 	}
 	
 
@@ -94,7 +98,7 @@ func _init():
 ## emptiness increases chance for rule to contain empty cell, this is good to prevent
 ## to many patterns that are just big solid mass
 func generate_random_pattern(mutables : int, options : int, emptines : float = 0.1):
-	var pattern : Array[Array] = []
+	var pattern : Array[Array]
 	pattern.resize(mutables)
 	
 	var choices = range(-1, mutables)
@@ -105,6 +109,7 @@ func generate_random_pattern(mutables : int, options : int, emptines : float = 0
 	for i in range(mutables):
 		for j in range(randi_range(0, options)):
 			pattern[i].append([choices.pick_random(), choices.pick_random(), choices.pick_random(), choices.pick_random()])
+
 			
 	return pattern
 	
@@ -116,7 +121,7 @@ func generate_random_pattern(mutables : int, options : int, emptines : float = 0
 ## Value of 1 means that the mutation is going to use the default mutation rules, 
 ## any other value is going to multiply the base mutation value. 
 func mutate(_frequency : float, _strength : float):
-	var mutated_dna = CreatureDNA.new()
+	var mutated_dna = PlantDNA.new()
 
 	for property in mutated_dna.get_property_list():
 		var name = property["name"]
@@ -130,89 +135,28 @@ func mutate(_frequency : float, _strength : float):
 			elif property["type"] == TYPE_FLOAT:
 				new_value = Mutation.Float(self.get(name), property_variations[name])
 
-			else:
-				new_value = self.get(name)
-
+			elif name == "color":
+				new_value = Mutation.Color(self.get(name), property_variations[name])
+				# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
 
 
 			# print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
 			
 			mutated_dna.set(name, new_value)
-		elif name == "color":
-			mutated_dna.color = Mutation.Color(self.get(name), 1)
-			# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
+
 		else:
 			# print("Property: " + name + " is not mutating")
 			mutated_dna.set(name, self.get(name))
 	
-	
-	root_pattern = Mutation.Pattern(root_pattern, property_variations["root_pattern"])
-	
-	property_variations = Mutation.PropertyVariations(property_variations)
 
+	
+	mutated_dna.root_pattern = Mutation.Pattern(root_pattern, property_variations["root_pattern"])
+	mutated_dna.property_variations = Mutation.PropertyVariations(property_variations)
+
+
+	mutated_dna.generation += 1
 
 	return mutated_dna
-
-
-## Mutates the pattern, right now the number of rules and number of cells in each rule stays the same
-## NOTE: I want the size to chage 
-func mutate_pattern(frequency : float):
-	# Rules cannot be removed as that completely changes the pattern and would need every 
-	# reference to that rule to be changed
-
-
-	var new_pattern = []
-	# Mutates already existing rules
-	for rule in root_pattern:
-		if randf() < frequency:
-			new_pattern.append(rule)
-			continue
-		
-		var new_rule = []
-		for cell in rule:
-			
-			## Chance to add a new cell needs to be before the chance to remove cell
-			## because if the cell is removed the chance to add new cell is going to be 0
-			
-			## Chance to add new cell
-			if randf() < frequency/cell.size():
-				var gnr_cell = generate_new_cell(root_pattern.size())
-				new_rule.append(gnr_cell)
-				#print("Adding cell")
-							
-			
-			## Chance to remove cell
-			if randf() < frequency/cell.size():
-				#print("Removing cell")
-				continue
-			
-
-			## Mutatting already existing cells 
-			var new_cell = []
-			for i in range(4):
-				if randf() < frequency:
-					new_cell.append(cell[i])
-					continue
-				new_cell.append(randi_range(-1, root_pattern.size()-1))
-				
-			new_rule.append(new_cell)
-
-		
-		new_pattern.append(new_rule)
-
-	# print( "Old pattern: ")
-	# MyTools.print_patten(root_pattern)
-	# print( "New pattern: ")
-	# MyTools.print_patten(new_pattern)
-
-	return new_pattern
-
-
-func generate_new_cell(rules_size: int):
-	var cell = []
-	for i in range(4):
-		cell.append(randi_range(-1, rules_size-1))
-	return cell
 
 
 func _to_string():

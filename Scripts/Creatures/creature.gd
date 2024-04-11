@@ -5,7 +5,7 @@ const JUMP_VELOCITY = -400.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var seed_sceen = preload("res://seed.tscn") as PackedScene
+var seed_sceen = preload("res://Scenes/Plants/seed.tscn") as PackedScene
 
 var dna : CreatureDNA
 
@@ -47,7 +47,7 @@ func _ready():
 		energy =  dna.energy
 		health = dna.health
 
-
+	modulate = dna.color
 	
 	for sensor in dna.sensors:
 		var child = Sensor.new()
@@ -111,7 +111,7 @@ func _process(delta):
 	used_energy += dna.sensor_tax() * delta
 	
 	
-	used_energy = used_energy / 100
+	used_energy = used_energy / 10
 
 	#print("Using: " + str(used_energy) + " From: " + str(energy))
 	
@@ -172,7 +172,7 @@ func attack(delta):
 			target.get_parent().take_damage(dna.bite_strength * delta)
 			
 func grow(delta):
-	var growth = dna.growth_speed * delta * 0.2
+	var growth = dna.growth_speed * delta 
 	
 	if energy > growth:
 		health += growth
@@ -254,7 +254,8 @@ func sub_energy(value : float):
 		leftover = energy
 		energy = 0
 	
-	
+	EnergyManager.add_lost_energy(value - leftover)
+
 	return leftover
 
 

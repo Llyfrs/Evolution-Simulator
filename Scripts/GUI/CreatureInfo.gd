@@ -17,6 +17,8 @@ extends Control
 
 @onready var tax = $PanelContainer2/PanelContainer/TaxCost
 
+@onready var generation = $PanelContainer2/PanelContainer/Generation
+
 var influence : Dictionary
 
 var selected
@@ -106,5 +108,7 @@ func change_selected(new_selected):
 	sand.text  = str(snapped(selected.dna.tile_efficiency[Globals.Tile.SAND], 0.01)) + "x"
 	
 	tax.text = "Cost: " + str(selected.dna.proficiency_tax())
+	
+	generation.text = "Generation: " + str(selected.dna.generation)
 	
 	pass

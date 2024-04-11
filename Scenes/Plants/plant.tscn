@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cnkifw66wsqbf"]
 
-[ext_resource type="Script" path="res://Scenes/Plants/plant.gd" id="1_6kqlt"]
+[ext_resource type="Script" path="res://Scripts/Plants/plant.gd" id="1_ba4ex"]
 [ext_resource type="Texture2D" uid="uid://dvgi2l3wi3i5l" path="res://Textures/Plant/plant_small_AI.png" id="2_14811"]
 [ext_resource type="PackedScene" uid="uid://drwf3tjnijnam" path="res://Scenes/Plants/Root/root.tscn" id="2_wkifw"]
 
@@ -12,7 +12,7 @@ height = 42.0
 shadow_color = Color(0.0196078, 0.0196078, 0.0196078, 0)
 
 [node name="Plant" type="Node2D"]
-script = ExtResource("1_6kqlt")
+script = ExtResource("1_ba4ex")
 
 [node name="PlantSmall" type="Sprite2D" parent="."]
 light_mask = 2

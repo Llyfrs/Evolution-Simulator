@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dbi2ee7wgljc"]
 
-[ext_resource type="Script" path="res://Scenes/MainMenu/MainMenu.gd" id="1_npybg"]
+[ext_resource type="Script" path="res://Scripts/GUI/MainMenu.gd" id="1_npybg"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3

@@ -39,9 +39,6 @@ func save():
 	
 	var nodes = get_parent().get_node("Active").get_children()
 	
-	# var thread = Thread.new()
-	# thread.start(_save_thread.bind(nodes))
-	
 	_save_thread(nodes)
 	
 	pass
@@ -67,9 +64,9 @@ func load():
 
 	var save = ResourceLoader.load(save_path) as SimulationSave
 
-	var sd = preload("res://seed.tscn")
+	var sd = preload("res://Scenes/Plants/seed.tscn")
 	var plt = preload("res://Scenes/Plants/plant.tscn")
-	var cr = preload("res://Scenes/Maps/creature.tscn")
+	var cr = preload("res://Scenes/Creatures/creature.tscn")
 
 
 	for obj in save.active:
