@@ -13,7 +13,6 @@ func _ready():
 	target_position = distance.rotated(conf.angle)
 
 
-
 	for masks in conf.processor.masks:
 		set_collision_mask_value(masks, 1)
 
@@ -31,71 +30,80 @@ func _ready():
 func _process(delta):
 
 
+
+	if conf.processor == null or conf.receiver == null:
+		push_error("Processor or Receiver are empty")
+		return
+
+
+	var all_data = []
+
+
 	if !enabled:
-		var dt = get_parent().get_parent().get_data()
-		if conf.processor.process(dt):
-			detection.emit(conf.influence * delta, conf.receiver)
-		dt = TileTypeData.new()
-		dt.tiles = Globals.get_tile_type(global_to_map(global_position + target_position))
-		if conf.processor.process(dt):
-			detection.emit(conf.influence * delta, conf.receiver)
+		var dt = get_parent().get_parent().get_data() as SelfData
+		all_data.append(dt)
 
-
-
-	## Sensors -> Creature
-
+		var tdt = TileTypeData.new()
+		tdt.tiles = Globals.get_tile_type(global_to_map(global_position + target_position))
+		all_data.append(tdt)
 
 
 	## NOTE: Maybe add buffer? could be quite expensive to run and really we don't need to run it ever frame
-	if !is_colliding():
-		return
+	if is_colliding():
 
-	if conf.processor == null or conf.receiver == null:
-		print_debug("Missing processor or receiver")
-		return
-	
-	var collider = get_collider()
-	
-
-	var data
-
-	
-	
-
-	## TileMap should only be wall collision
-	if collider is TileMap:
-		data = Data.new()
-		data.type = Data.DataType.WALL
+		var collider = get_collider()
 		
-	## Area2D is child of a plant so we need to get it's parent
-	elif collider is Area2D:
-		
-		var plant = collider.get_parent() as Plant
-		data = PlantData.new()
+		## TileMap should only be wall collision
+		if collider is TileMap:
+			var data = TileTypeData.new()
+			data.tiles = [Globals.Tile.WALL]
+			all_data.append(data)
+			
+		## Area2D is child of a plant so we need to get it's parent
+		elif collider is Area2D:
+			
+			var plant = collider.get_parent() as Plant
+			var data = PlantData.new()
 
-		data.type = Data.DataType.PLANT
-		data.energy = plant.energy
-		data.health = plant.health
-		data.color = plant.dna.color
+			data.energy = plant.energy
+			data.health = plant.health
+			data.color = plant.dna.color
 
-	elif collider is RigidBody2D:
+			all_data.append(data)
 
-		var sd = collider as Seed
-		data = SeedData.new()
+		elif collider is RigidBody2D:
 
-		data.energy = sd.energy
+			var sd = collider as Seed
+			var data = SeedData.new()
 
-		if sd.dna != null:
-			data.durability = sd.dna.seed_durability
-		else:
-			data.durability = 0;
-	else:
-		return
+			data.energy = sd.energy
 
-	data.distance = get_collision_point().distance_to(global_position)
+			if sd.dna != null:
+				data.durability = sd.dna.seed_durability
+			else:
+				data.durability = 0;
+			
+			all_data.append(data)
+			
+		elif collider is CollisionObject2D:
+			var creature = collider as Creature
+			var data = CreatureData.new()
+			
+			data.energy = creature.energy
+			data.health = creature.health
 
-	if conf.processor.process(data):
-		detection.emit(conf.influence * delta, conf.receiver)
+			all_data.append(data)
+
+	var distance = get_collision_point().distance_to(global_position)
+	for data in all_data:
+		data.distance = distance
+
+		if conf.processor.process(data):
+			detection.emit( conf.influence * delta, conf.receiver)
+			return
+
+
+
 
 
 func global_to_map(pos):

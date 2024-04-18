@@ -22,13 +22,13 @@ func _init():
 
 	value = detectable_values.pick_random()
 
-	masks = [Globals.Mask.FOOD, Globals.Mask.PLANT, Globals.Mask.TILE_MAP]
+	masks = [Globals.Mask.FOOD, Globals.Mask.PLANT, Globals.Mask.TILE_MAP, Globals.Mask.CREATURE_BODY]
 
 
 	pass
 
 func process(data : Data) -> bool:
-	if value in data and is_in_distance(data):
+	if value in data and is_in_distance(data) and !(data is SelfData):
 		return upper_limit > data.get(value) and lower_limit < data.get(value)
 	
 	return false
@@ -36,22 +36,22 @@ func process(data : Data) -> bool:
 
 
 ## Should value also have a chance to mutate ? or should that be handled by changing sensors being deleted and created
-func mutate(frequency: float, strength: float):
-	var basic_change = 5
+func mutate():
 
-	## super.mutate() - maybe good for 
+	var mutated_processor = BasicProcessor.new()
 
-	if randf() < frequency:
-		upper_limit += randi_range( floor(-basic_change * strength), ceil(basic_change * strength))
+	mutated_processor.upper_limit = Mutation.Integer(upper_limit, 2)
+	mutated_processor.lower_limit = Mutation.Integer(lower_limit, 2)
 
-	if randf() < frequency:
-		lower_limit += randi_range( floor(-basic_change * strength), ceil(basic_change * strength))
+	if mutated_processor.upper_limit < mutated_processor.lower_limit:
+		var tmp = mutated_processor.upper_limit
+		mutated_processor.upper_limit = mutated_processor.lower_limit
+		mutated_processor.lower_limit = tmp
 
+	return mutated_processor
 
-	upper_limit = maxi(0, upper_limit)
-	lower_limit = maxi(0, lower_limit)
+func _to_string():
+	return "BasicProcessor: " + str(lower_limit) + "<" +  value + "<" + str(upper_limit)
 
-	if upper_limit < lower_limit:
-		var tmp = upper_limit
-		upper_limit = lower_limit
-		lower_limit = tmp
+func _to_dict():
+	return {"type": "BasicProcessor", "upper_limit": upper_limit, "lower_limit": lower_limit, "value": value}

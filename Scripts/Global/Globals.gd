@@ -18,19 +18,22 @@ var rootMap : TileMap
 var selected : Array
 
 
+var min_creatures : int = 0
+var min_plants : int = 0
+
 enum Tile{
-	UNKNOWN = -1,
 	GRASS,
 	STONE,
 	WATER,
-	SAND
+	SAND,
+	WALL
 }
 
 
 func get_tile_type(cords : Vector2i) -> Array[Tile]:
 	var data = mainMap.get_cell_tile_data(0,cords)
 	if data == null:
-		return [Tile.UNKNOWN]
+		return []
 		
 	var types = data.get_custom_data("Type")
 
@@ -122,3 +125,13 @@ var creature_scene = preload("res://Scenes/Creatures/creature.tscn")
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 
 
+var save_manager 
+
+var used_IDs : Array[int] = []
+func get_ID() -> int:
+	var id = randi()
+	while used_IDs.has(id):
+		id = randi()
+
+
+	return id

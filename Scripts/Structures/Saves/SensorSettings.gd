@@ -17,15 +17,47 @@ class_name SensorSettings extends Resource
 @export var range : float
 @export var angle : float
 
-## TODO: what type off sensor was this setting for
-@export var type : int
 
 
+static var processors = [BasicProcessor ,ColorProcessor, SelfProcessor, TileTypeProcessor, TypeProcessor]
+#static var processors = [TileTypeProcessor]
 
-func mutate(frequency : float, strength : float):
+func _init():
+
+	processor = processors[randi() % processors.size()].new()
+	receiver = Creature.Influence.values().pick_random()
+
+	range = randi_range(50,300)
+	angle = randf_range(0, 2 * PI)
+
+	influence = randi_range(30,60)
+
+
+func mutate():
 	var mutated_sensor = SensorSettings.new()
 
-	mutated_sensor.processor = processor.mutate(frequency, strength)
+
+	# Changing the processor and receiver will require for outside creation of new sensor 
+	mutated_sensor.processor = processor.mutate()
 	mutated_sensor.receiver = receiver
 
-	
+	mutated_sensor.range = Mutation.Float(range, 3)
+	mutated_sensor.angle = Mutation.Float(angle,  0.043)
+
+	mutated_sensor.influence = Mutation.Integer(influence, 1)
+
+
+	return mutated_sensor
+
+
+func _to_string():
+	return str(_to_dict())
+
+func _to_dict():
+	return {
+		"processor" : processor._to_dict(),
+		"receiver" : Creature.Influence.keys()[receiver],
+		"influence" : influence,
+		"range" : range,
+		"angle" : angle
+	}

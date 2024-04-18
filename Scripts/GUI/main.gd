@@ -12,7 +12,7 @@ func _enter_tree():
 	Globals.rootMap = $Map/RootMap
 	
 	if $SaveManager.save_path == "":
-		$SaveManager.save_path = "res://test.tres"
+		$SaveManager.save_path = "user://debug_save.tres"
 	
 
 
@@ -20,7 +20,7 @@ func _ready():
 	
 	print("Main")
 	
-	#var plant_sceen = load("res://Scenes/Plants/plant.tscn") as PackedScene
+	#var plant_sceen = load("res://Scenes/Plants/plant.tscn") as PackedScne
 	Engine.time_scale = 1
 	EnergyManager.init_map(Globals.mainMap)
 	
@@ -40,9 +40,6 @@ func _input(event):
 		if Engine.time_scale > 1:
 			Engine.time_scale -= 1
 		print("Changing speed to: " + str(Engine.time_scale) + "x")
-
-
-
 
 
 

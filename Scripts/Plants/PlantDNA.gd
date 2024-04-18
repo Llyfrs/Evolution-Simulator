@@ -49,11 +49,14 @@ class_name PlantDNA extends Resource
 @export var property_variations : Dictionary
 
 @export var generation : int 
+
 @export var ID : int
+@export var parent_ID : int
+@export var parents : Array[PlantDNA]
 
 func _init():
 
-	ID = randi()
+	ID = Globals.get_ID()
 	
 	root_pattern = generate_random_pattern(5, 3, 2)
 	color = Color(randf(), randf(), randf())
@@ -143,18 +146,18 @@ func mutate(_frequency : float, _strength : float):
 			# print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
 			
 			mutated_dna.set(name, new_value)
-
-		else:
-			# print("Property: " + name + " is not mutating")
-			mutated_dna.set(name, self.get(name))
 	
 
 	
 	mutated_dna.root_pattern = Mutation.Pattern(root_pattern, property_variations["root_pattern"])
-	mutated_dna.property_variations = Mutation.PropertyVariations(property_variations)
+	# mutated_dna.property_variations = Mutation.PropertyVariations(property_variations)
 
 
-	mutated_dna.generation += 1
+	mutated_dna.generation = generation + 1
+	mutated_dna.parent_ID = ID
+	mutated_dna.parents = parents.duplicate(true)
+	mutated_dna.parents.append(self)
+
 
 	return mutated_dna
 

@@ -8,7 +8,7 @@ class_name ColorProcessor extends Processor
 
 
 func _init():
-	masks = [Globals.Mask.FOOD, Globals.Mask.PLANT]
+	masks = [Globals.Mask.FOOD, Globals.Mask.PLANT, Globals.Mask.CREATURE_BODY]
 
 
 func process(data: Data) -> bool:
@@ -23,14 +23,24 @@ func process(data: Data) -> bool:
 	return false
 
 
-func mutate(frequency : float, strenght : float ):
+func mutate():
 
-	var base_change = strenght * 10
+	var mutated_sensor = ColorProcessor.new()
 
-	if randf() < frequency:
-		distance = randi_range(distance - base_change, distance + base_change)
+	mutated_sensor.color = Mutation.Color(color, 0.01)
+	mutated_sensor.distance = Mutation.Integer(distance, 2)
 
 	
+	return mutated_sensor
 
 
-	pass
+func _to_string():
+	return "ColorProcessor: " + str(color) + " with margin " + str(distance)
+
+
+func _to_dict():
+	return {
+		"type": "ColorProcessor",
+		"color": str(color),
+		"distance": distance
+	}

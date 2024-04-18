@@ -22,3 +22,7 @@ class_name SimulationSave extends Resource
 @export var mainMap : Dictionary
 
 
+@export var max_creature_generation = 0
+@export var max_plant_generation = 0
+
+@export var recorded_dna: Array = []

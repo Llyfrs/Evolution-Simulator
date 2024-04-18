@@ -70,6 +70,12 @@ func grow(plantDNA : PlantDNA) -> float:
 
 	var source = _get_next_source(plantDNA)
 	
+	
+	if plantDNA.root_pattern.is_empty():
+		set_cell(source, false)
+		return true
+		
+	
 	var pattern = null if plantDNA.root_pattern[index_map[source]].is_empty() else plantDNA.root_pattern[index_map[source]].pick_random()
 	
 	if pattern == null:

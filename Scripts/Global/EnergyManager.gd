@@ -13,9 +13,13 @@ var creatures : Array[Creature]
 
 var mutex : Mutex = Mutex.new()
 
+var max_creature_generation = 0
+var max_plant_generation = 0
 
 var redistribution_amount = 100
 var redistribution_percentage = 0.5
+
+var redistribution = [1, 1, 1, 1]
 
 
 # Called when the node enters the scene tree for the first time.
@@ -28,10 +32,22 @@ func _ready():
 func subscribe(sub : Object):
 	mutex.lock()
 	if sub is Plant:
+
+		if max_plant_generation < sub.dna.generation:
+			max_plant_generation = sub.dna.generation
+			Globals.save_manager.record(sub)
+
+
+
 		plants.append(sub)
 	if sub is Seed:
 		seeds.append(sub)
 	if sub is Creature:
+		if max_creature_generation < sub.dna.generation:
+			max_creature_generation = sub.dna.generation
+			Globals.save_manager.record(sub)
+
+
 		creatures.append(sub)
 	mutex.unlock()
 
@@ -86,11 +102,22 @@ func _process(delta):
 	if lostEnergy < redistribution_amount:
 		return;
 
-	var energy = redistribution_amount / (tiles.size() * redistribution_percentage)
+	var total = redistribution.reduce(func (a, b): return a + b, 0)
+	var ration = redistribution.map(func (a : float): return a / total)
+
+
+	var energy = redistribution_amount as float / tiles.size() 
 	for cords in tiles:
-		if randf() < redistribution_percentage:
+		
+		var types = Globals.get_tile_type(cords)
+
+		if types.is_empty():
+			continue
+
+		if ration[types[0]] > randf():
 			add_energy(cords, energy)
-			add_lost_energy(-energy)
+			lostEnergy -= energy
+			continue
 
 	pass
 

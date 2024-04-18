@@ -96,6 +96,9 @@ func take_damage(damage: float):
 
 	if leftover != 0:
 		die()
+		return 1
+	
+	return 0
 
 
 func reproduce():

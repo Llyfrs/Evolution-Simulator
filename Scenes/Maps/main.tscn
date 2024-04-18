@@ -1,22 +1,50 @@
-[gd_scene load_steps=15 format=3 uid="uid://5fi63cnp3si4"]
+[gd_scene load_steps=25 format=3 uid="uid://5fi63cnp3si4"]
 
 [ext_resource type="Script" path="res://Scripts/GUI/main.gd" id="1_r7po6"]
 [ext_resource type="Script" path="res://Scripts/GUI/SaveManager.gd" id="2_xs15q"]
 [ext_resource type="Script" path="res://Scripts/GUI/Stats.gd" id="3_288cj"]
 [ext_resource type="PackedScene" uid="uid://oekptli57t6k" path="res://Scenes/GUI/CreatureInfo.tscn" id="4_uw4v8"]
 [ext_resource type="Script" path="res://Scripts/GUI/SpinBox.gd" id="5_w03hi"]
+[ext_resource type="Script" path="res://Scenes/Maps/MinLabel.gd" id="6_ccp8k"]
 [ext_resource type="Script" path="res://Scripts/GUI/ToolBar.gd" id="6_guvfi"]
+[ext_resource type="Script" path="res://Scripts/GUI/Distribution.gd" id="7_83hpg"]
 [ext_resource type="Script" path="res://Scripts/GUI/MapEdit.gd" id="7_ecgkd"]
+[ext_resource type="Texture2D" uid="uid://bcupjxsdyyuor" path="res://Textures/TileTypes/grass.png" id="8_fdvlh"]
 [ext_resource type="PackedScene" uid="uid://cfkfsgmltqp2a" path="res://Scenes/Camera/camera.tscn" id="8_ooy7n"]
 [ext_resource type="TileSet" uid="uid://de5vkfa0xul6j" path="res://Textures/TileSets/MainTileSet.tres" id="9_35eaf"]
+[ext_resource type="Texture2D" uid="uid://c4h7h41t102dt" path="res://Textures/TileTypes/stone.png" id="9_pawc1"]
+[ext_resource type="Texture2D" uid="uid://bi0e4e3luxkfm" path="res://Textures/TileTypes/watter.png" id="10_73ffe"]
 [ext_resource type="TileSet" uid="uid://sh0qm7kx82pw" path="res://Scenes/Plants/Root/root.tres" id="10_y1u3g"]
+[ext_resource type="Texture2D" uid="uid://cu56bpblqlaaj" path="res://Textures/TileTypes/sand.png" id="11_b2hui"]
 [ext_resource type="Script" path="res://Active.gd" id="11_yt5tx"]
-[ext_resource type="PackedScene" uid="uid://cnkifw66wsqbf" path="res://Scenes/Plants/plant.tscn" id="12_j70vu"]
-[ext_resource type="PackedScene" uid="uid://beqpgg051ofkk" path="res://Scenes/Creatures/creature.tscn" id="13_my4n5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_naes2"]
 font_size = 36
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v2i1t"]
+bg_color = Color(0.243137, 0.196078, 0.631373, 0.905882)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_dtdw4"]
+font_size = 26
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kyaf4"]
+bg_color = Color(0.109804, 0.113725, 0.219608, 1)
+
+[sub_resource type="Theme" id="Theme_nj7ij"]
+Button/styles/normal = SubResource("StyleBoxFlat_kyaf4")
+
+[sub_resource type="LabelSettings" id="LabelSettings_btiqc"]
+font_size = 13
+
+[sub_resource type="LabelSettings" id="LabelSettings_cdgyu"]
+font_size = 13
 
 [node name="Main" type="Node"]
 process_priority = -1
@@ -30,6 +58,8 @@ wait_time = 300.0
 autostart = true
 
 [node name="DataColection" type="Timer" parent="SaveManager"]
+wait_time = 60.0
+autostart = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -71,56 +101,225 @@ offset_bottom = 276.0
 size_flags_horizontal = 0
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EditTool"]
-layout_mode = 0
-offset_right = 112.0
-offset_bottom = 230.0
+[node name="Panel" type="Panel" parent="CanvasLayer/EditTool"]
+layout_mode = 1
+offset_top = -2.0
+offset_right = 209.0
+offset_bottom = 573.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_v2i1t")
 
-[node name="Grass" type="Button" parent="CanvasLayer/EditTool/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/EditTool/Panel"]
+layout_mode = 1
+offset_right = 206.0
+offset_bottom = 52.0
+text = "Tools"
+label_settings = SubResource("LabelSettings_dtdw4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EditTool/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -169.5
+offset_right = 90.0
+offset_bottom = 169.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_nj7ij")
+theme_override_constants/separation = 5
+
+[node name="Paint" type="VBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Grass" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
 text = "Grass"
 expand_icon = true
 
-[node name="Stone" type="Button" parent="CanvasLayer/EditTool/VBoxContainer"]
+[node name="Stone" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
 text = "Stone"
 
-[node name="Water" type="Button" parent="CanvasLayer/EditTool/VBoxContainer"]
+[node name="Water" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
 text = "Water"
 
-[node name="Sand" type="Button" parent="CanvasLayer/EditTool/VBoxContainer"]
+[node name="Sand" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
 text = "Sand
 "
 
-[node name="Wall" type="Button" parent="CanvasLayer/EditTool/VBoxContainer"]
+[node name="Wall" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
 text = "Wall
 "
 
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/EditTool/VBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
 layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
 button_pressed = true
 text = "Show Energy"
 
-[node name="SpinBox" type="SpinBox" parent="CanvasLayer/EditTool/VBoxContainer"]
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 max_value = 1000.0
 step = 10.0
 alignment = 1
 script = ExtResource("5_w03hi")
+
+[node name="MinCreatures" type="VBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+mouse_filter = 1
+text = "Min. Creatures"
+horizontal_alignment = 1
+
+[node name="HSplitContainer" type="HBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures"]
+layout_mode = 2
+
+[node name="Min Creatures" type="HSlider" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HSplitContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+focus_mode = 0
+scrollable = false
+
+[node name="Label3" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HSplitContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_btiqc")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("6_ccp8k")
+
+[node name="Label2" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures"]
+layout_mode = 2
+mouse_filter = 1
+text = "Min. Plants
+"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures"]
+layout_mode = 2
+
+[node name="Min Plants" type="HSlider" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HBoxContainer"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+focus_mode = 0
+scrollable = false
+
+[node name="Label" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_cdgyu")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("6_ccp8k")
+
+[node name="Distribution" type="VBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("7_83hpg")
+
+[node name="Label" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution"]
+layout_mode = 2
+tooltip_text = "Distribution of Lost Energy between different tile types"
+mouse_filter = 1
+text = "Distribution"
+horizontal_alignment = 1
+
+[node name="Grass" type="HBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slider" type="HSlider" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Grass"]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+min_value = 1.0
+value = 1.0
+
+[node name="Texture" type="TextureRect" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Grass"]
+layout_mode = 2
+texture = ExtResource("8_fdvlh")
+expand_mode = 2
+
+[node name="Stone" type="HBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slider" type="HSlider" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Stone"]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+min_value = 1.0
+value = 1.0
+
+[node name="Texture" type="TextureRect" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Stone"]
+layout_mode = 2
+texture = ExtResource("9_pawc1")
+expand_mode = 2
+
+[node name="Water" type="HBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slider" type="HSlider" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Water"]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+min_value = 1.0
+value = 1.0
+
+[node name="Texture" type="TextureRect" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Water"]
+layout_mode = 2
+texture = ExtResource("10_73ffe")
+expand_mode = 2
+
+[node name="Sand" type="HBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Slider" type="HSlider" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Sand"]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+min_value = 1.0
+value = 1.0
+
+[node name="Texture" type="TextureRect" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Sand"]
+layout_mode = 2
+texture = ExtResource("11_b2hui")
+expand_mode = 2
 
 [node name="ToolBar" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -191,278 +390,23 @@ metadata/_edit_use_anchors_ = true
 [node name="Active" type="Node" parent="."]
 script = ExtResource("11_yt5tx")
 
-[node name="Plant" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-471, 524)
-
-[node name="Plant2" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-341, 372)
-
-[node name="Plant3" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(532.1, 25)
-
-[node name="Plant4" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(649, -182)
-
-[node name="Plant5" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-431, 156)
-
-[node name="Plant6" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-104, 212)
-
-[node name="Plant7" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(463, -168)
-
-[node name="Plant8" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(569, -218)
-
-[node name="Plant9" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-283, 440)
-
-[node name="Plant10" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-127, 392)
-
-[node name="Plant11" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(627, 62)
-
-[node name="Plant12" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(707, -114)
-
-[node name="Plant13" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-373, 224)
-
-[node name="Plant14" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-361, -492)
-
-[node name="Plant15" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(521, -100)
-
-[node name="Plant16" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(627, -80)
-
-[node name="Plant17" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(423, -537)
-
-[node name="Plant18" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(48, -540)
-
-[node name="Plant19" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-289, 126)
-
-[node name="Plant20" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(153, 455)
-
-[node name="Plant21" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(490, -411)
-
-[node name="Plant22" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(574, 420)
-
-[node name="Plant23" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-434, -245)
-
-[node name="Plant24" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-469, -586)
-
-[node name="Plant25" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(850, -2)
-
-[node name="Plant26" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(1053, -114)
-
-[node name="Plant27" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(1130, 350)
-
-[node name="Creature" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(-272, 238)
-rotation = 0.43311
-
-[node name="Creature2" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(-39, 465)
-
-[node name="Creature3" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(-54, -473)
-
-[node name="Creature4" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(335, -105)
-
-[node name="Creature5" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(-398, -107)
-
-[node name="Creature6" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(-61, 35)
-
-[node name="Creature7" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(162, 322)
-
-[node name="Plant28" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(525, -175)
-
-[node name="Plant29" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-327, 483)
-
-[node name="Plant30" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-171, 435)
-
-[node name="Plant31" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(583, 105)
-
-[node name="Plant32" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(663, -71)
-
-[node name="Plant33" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-417, 267)
-
-[node name="Plant34" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-405, -449)
-
-[node name="Plant35" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(477, -57)
-
-[node name="Plant36" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(583, -37)
-
-[node name="Plant37" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(379, -494)
-
-[node name="Plant38" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(4, -497)
-
-[node name="Plant39" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-333, 169)
-
-[node name="Plant40" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(109, 498)
-
-[node name="Plant41" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(446, -368)
-
-[node name="Plant42" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(530, 463)
-
-[node name="Plant43" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-478, -202)
-
-[node name="Plant44" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-513, -543)
-
-[node name="Plant45" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(806, 41)
-
-[node name="Plant46" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(1009, -71)
-
-[node name="Plant47" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(1086, 393)
-
-[node name="Plant48" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(20.1, -82)
-
-[node name="Plant49" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(137, -289)
-
-[node name="Plant50" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-49, -275)
-
-[node name="Plant51" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(57, -325)
-
-[node name="Plant52" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(115, -45)
-
-[node name="Plant53" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(195, -221)
-
-[node name="Plant54" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(9, -207)
-
-[node name="Plant55" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(115, -187)
-
-[node name="Plant56" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(13, -282)
-
-[node name="Plant57" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(71, -2)
-
-[node name="Plant58" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(151, -178)
-
-[node name="Plant59" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(-35, -164)
-
-[node name="Plant60" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(71, -144)
-
-[node name="Plant61" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(330.1, 393)
-
-[node name="Plant62" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(447, 186)
-
-[node name="Plant63" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(261, 200)
-
-[node name="Plant64" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(367, 150)
-
-[node name="Plant65" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(425, 430)
-
-[node name="Plant66" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(505, 254)
-
-[node name="Plant67" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(319, 268)
-
-[node name="Plant68" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(425, 288)
-
-[node name="Plant69" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(323, 193)
-
-[node name="Plant70" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(381, 473)
-
-[node name="Plant71" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(461, 297)
-
-[node name="Plant72" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(275, 311)
-
-[node name="Plant73" parent="Active" instance=ExtResource("12_j70vu")]
-position = Vector2(381, 331)
-
-[node name="Creature8" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(756, -18)
-
-[node name="Creature9" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(634, 299)
-
-[node name="Creature10" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(1030, 395)
-
-[node name="Creature11" parent="Active" instance=ExtResource("13_my4n5")]
-position = Vector2(-314, -492)
-
 [connection signal="timeout" from="SaveManager/AutoSave" to="SaveManager" method="save"]
-[connection signal="mouse_entered" from="CanvasLayer/EditTool/VBoxContainer/Grass" to="Map" method="obscure"]
-[connection signal="mouse_exited" from="CanvasLayer/EditTool/VBoxContainer/Grass" to="Map" method="un_obscure"]
-[connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Grass" to="Map" method="_on_grass_pressed"]
-[connection signal="mouse_entered" from="CanvasLayer/EditTool/VBoxContainer/Stone" to="Map" method="obscure"]
-[connection signal="mouse_exited" from="CanvasLayer/EditTool/VBoxContainer/Stone" to="Map" method="un_obscure"]
-[connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Stone" to="Map" method="_on_stone_pressed"]
-[connection signal="mouse_entered" from="CanvasLayer/EditTool/VBoxContainer/Water" to="Map" method="obscure"]
-[connection signal="mouse_exited" from="CanvasLayer/EditTool/VBoxContainer/Water" to="Map" method="un_obscure"]
-[connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Water" to="Map" method="_on_water_pressed"]
-[connection signal="mouse_entered" from="CanvasLayer/EditTool/VBoxContainer/Sand" to="Map" method="obscure"]
-[connection signal="mouse_exited" from="CanvasLayer/EditTool/VBoxContainer/Sand" to="Map" method="un_obscure"]
-[connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Sand" to="Map" method="_on_sand_pressed"]
-[connection signal="mouse_entered" from="CanvasLayer/EditTool/VBoxContainer/Wall" to="Map" method="obscure"]
-[connection signal="mouse_exited" from="CanvasLayer/EditTool/VBoxContainer/Wall" to="Map" method="un_obscure"]
-[connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Wall" to="Map" method="_on_wall_pressed"]
-[connection signal="pressed" from="CanvasLayer/EditTool/VBoxContainer/Wall" to="Map" method="_on_sand_pressed"]
-[connection signal="toggled" from="CanvasLayer/EditTool/VBoxContainer/CheckBox" to="Map" method="_on_check_box_toggled"]
-[connection signal="value_changed" from="CanvasLayer/EditTool/VBoxContainer/SpinBox" to="CanvasLayer/EditTool/VBoxContainer/SpinBox" method="_on_value_changed"]
+[connection signal="timeout" from="SaveManager/DataColection" to="SaveManager" method="_on_data_colection_timeout"]
+[connection signal="mouse_entered" from="CanvasLayer/EditTool/Panel" to="Map" method="obscure"]
+[connection signal="mouse_exited" from="CanvasLayer/EditTool/Panel" to="Map" method="un_obscure"]
+[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Grass" to="Map" method="_on_grass_pressed"]
+[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Stone" to="Map" method="_on_stone_pressed"]
+[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Water" to="Map" method="_on_water_pressed"]
+[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Sand" to="Map" method="_on_sand_pressed"]
+[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Wall" to="Map" method="_on_wall_pressed"]
+[connection signal="toggled" from="CanvasLayer/EditTool/Panel/VBoxContainer/CheckBox" to="Map" method="_on_check_box_toggled"]
+[connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/SpinBox" to="CanvasLayer/EditTool/Panel/VBoxContainer/SpinBox" method="_on_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HSplitContainer/Min Creatures" to="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HSplitContainer/Label3" method="_on_min_creatures_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HBoxContainer/Min Plants" to="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HBoxContainer/Label" method="_on_min_plants_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Grass/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_grass_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Stone/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_stone_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Water/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_water_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Sand/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_sand_value_changed"]
 [connection signal="mouse_entered" from="CanvasLayer/ToolBar/HBoxContainer/Select" to="Map" method="obscure"]
 [connection signal="mouse_exited" from="CanvasLayer/ToolBar/HBoxContainer/Select" to="Map" method="un_obscure"]
 [connection signal="pressed" from="CanvasLayer/ToolBar/HBoxContainer/Select" to="CanvasLayer/ToolBar" method="_on_select_pressed"]

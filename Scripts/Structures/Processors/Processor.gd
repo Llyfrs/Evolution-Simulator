@@ -17,8 +17,8 @@ func process(_data : Data) -> bool:
 
 
 ## Each Process is going to work with different type of values so it will require special mutation processes
-func mutate(_frequency : float, _strenght : float ):
-	pass
+func mutate():
+	return self.duplicate()
 
 
 

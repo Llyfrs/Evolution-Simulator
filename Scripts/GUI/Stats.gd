@@ -19,6 +19,7 @@ func _process(_delta):
 	message += " S: " + str(EnergyManager.seeds.size()) + ")\n"
 	message += "FPS: " + str(Engine.get_frames_per_second())
 	message += " (Speed " + str(Engine.time_scale) + "x)\n"
+	message += "Highest Generation P: " + str(EnergyManager.max_plant_generation) + " C: " + str(EnergyManager.max_creature_generation)
 
 
 	text = message

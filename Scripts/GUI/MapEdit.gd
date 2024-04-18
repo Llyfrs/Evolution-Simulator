@@ -117,6 +117,7 @@ func delete_tile(position : Vector2):
 		var cords = map.get_cell_atlas_coords(0, cell)
 		if cords != Globals.WALL_TILE and cords != Vector2i(-1, -1):
 			map.set_cell(0, cell, 0, Globals.WALL_TILE)
+			EnergyManager.tiles.erase(Vector2(cell))
 
 
 func draw_energy():

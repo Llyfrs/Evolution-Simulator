@@ -12,7 +12,8 @@ var dna : CreatureDNA
 var energy : float
 var health : float
 
-
+var killed_plants : int = 0
+var killed_creatures : int = 0
 
 var is_immortal : bool = true
 
@@ -37,7 +38,7 @@ func _ready():
 	influence.resize(Influence.size())
 
 	for i in range(Creature.Influence.size()):
-		influence[i] = randi_range(0, 200)
+		influence[i] = randi_range(0, 30)
 	
 
 
@@ -103,15 +104,13 @@ func _process(delta):
 	# Energy 
 
 	
-	var used_energy =  (pow(velocity.length(), 2) * 0.0005) * delta
+	var used_energy =  (pow(velocity.length(), 1.6) * 0.0007) * delta
 
 	#print("Traveling cost" + str(used_energy) )
 
-	used_energy += dna.proficiency_tax() * delta
+	used_energy += dna.proficiency_tax() * delta * 0.1
 	used_energy += dna.sensor_tax() * delta
 	
-	
-	used_energy = used_energy / 10
 
 	#print("Using: " + str(used_energy) + " From: " + str(energy))
 	
@@ -146,12 +145,19 @@ func _process(delta):
 
 func eat(body: Node2D):
 
+
+	if body.is_queued_for_deletion():
+		return
+	
+	if not body is Seed:
+		return
+	
 	body = body as Seed
 
 	if body.dna != null and body.dna.seed_durability > dna.bite_strength:
 		return
-	
-	
+
+
 	var leftover = add_energy(body.energy)
 	
 	if leftover == 0:
@@ -167,9 +173,9 @@ func attack(delta):
 
 	for target in targets:
 		if "take_damage" in target:
-			target.take_damage(dna.bite_strength * delta)
+			killed_creatures += target.take_damage(dna.bite_strength * delta)
 		elif "take_damage" in target.get_parent():
-			target.get_parent().take_damage(dna.bite_strength * delta)
+			killed_plants += target.get_parent().take_damage(dna.bite_strength * delta)
 			
 func grow(delta):
 	var growth = dna.growth_speed * delta 
@@ -189,6 +195,22 @@ func stop_attacking(body):
 	targets.erase(body)
 	pass
 
+
+func sub_health(value: float) -> float: 
+	health -= value
+	var leftover = min(health, 0)
+	health = max(health,0)
+	return leftover
+
+func take_damage(damage: float):
+	var leftover = sub_health(damage)
+	EnergyManager.add_lost_energy(damage + leftover)
+
+	if leftover != 0:
+		die()
+		return 1
+	
+	return 0
 
 func die():
 	
@@ -213,18 +235,24 @@ func reproduce():
 
 	for i in range(dna.offsprings):
 
-		if dna.offspring_energy > health or EnergyManager.is_limited(Limits.CREATURE):
+		# Hopefully some static value will prevent from "reproduction spam" I will leave it at 10 for now, it should do the job hopefully
+		var offspring_cost = dna.offspring_energy + 10
+
+
+		if offspring_cost > health or EnergyManager.is_limited(Limits.CREATURE):
 			break
 
-		health -= dna.offspring_energy
+		health -= offspring_cost
+		EnergyManager.add_lost_energy(10)
 
 		var offspring = Globals.creature_scene.instantiate() as Creature
 
 
 		offspring.energy = dna.offspring_energy
-		offspring.dna = dna.mutate(0.4, 0.4)
+		offspring.dna = dna.mutate()
 
 		offspring.global_position = global_position
+		offspring.is_immortal = false
 
 		get_parent().add_child(offspring)
 
@@ -254,7 +282,7 @@ func sub_energy(value : float):
 		leftover = energy
 		energy = 0
 	
-	EnergyManager.add_lost_energy(value - leftover)
+	EnergyManager.add_lost_energy(value + leftover)
 
 	return leftover
 
@@ -268,8 +296,8 @@ func influence_decay(delta):
 		influence[i] = max(0,  influence[i] - dna.influence_decay[i] * delta)
 
 
-func get_data() -> CreatureData:
-	var data = CreatureData.new()
+func get_data() -> SelfData:
+	var data = SelfData.new()
 
 	data.energy = energy
 	data.health = health

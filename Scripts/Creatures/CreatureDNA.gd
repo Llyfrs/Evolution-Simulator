@@ -32,9 +32,14 @@ class_name CreatureDNA extends Resource
 @export var property_variations : Dictionary
 
 @export var generation : int 
+
 @export var ID : int
 
-var processors = [ColorProcessor, BasicProcessor, SelfProcessor, TileTypeProcessor]
+@export var parent_ID : int
+
+@export var parents : Array[CreatureDNA]
+
+
 
 
 
@@ -43,20 +48,20 @@ var processors = [ColorProcessor, BasicProcessor, SelfProcessor, TileTypeProcess
 
 func _init():
 
-	ID = randi()
+	ID = Globals.get_ID()
 
-	energy = randi_range(10,200)
-	health = randi_range(10,200)
+	energy = randi_range(50,400)
+	health = randi_range(50,400)
 
-	bite_strength = randi_range(1,50)
+	bite_strength = randi_range(1,100)
 
-	speed = randi_range(50, 200)
-	rotation_speed = randi_range(10, 180)
+	speed = randi_range(50, 400)
+	rotation_speed = randi_range(10, 300)
 
-	offspring_energy = randi_range(10,100)
-	offsprings = randi_range(1,5)
+	offspring_energy = randi_range(10,50)
+	offsprings = randi_range(1,10)
 
-	growth_speed = randi_range(1,10)
+	growth_speed = randi_range(1,20)
 	color = Color(randf(), randf(), randf(), 1)
 
 
@@ -77,21 +82,11 @@ func _init():
 	tile_efficiency[array.back()] += total
 	
 
-	for i in range(0,randi_range(2,5)):
+	for i in range(0,randi_range(4,8)):
 		var sensor = SensorSettings.new()
-
-		## The processor will be randomly generate in it's own _init function. 
-		## that way we don't have to worry about what processor was chosen.
-		sensor.processor = processors[randi() % processors.size()].new()
-		sensor.receiver = Creature.Influence.values().pick_random()
-
-		sensor.range = randi_range(50,300)
-		sensor.angle = randf_range(0, 2 * PI)
-
-		sensor.influence = randi_range(30,60)
-
 		sensors.append(sensor)
 	
+
 	## Defines the variation / deviation for the normal distribution used to mutate each property 
 	property_variations = {
 		"self": 0.01,
@@ -105,7 +100,7 @@ func _init():
 		"bite_strength": 0.5,
 		"tile_efficiency": 0.05,
 		"influence_decay": 0.1,
-		"color": 0.4,
+		"color": 0.01,
 		"sensors" : 0.1
 	}
 
@@ -125,11 +120,20 @@ func sensor_tax():
 
 
 
-func mutate(frequency : float, strength : float):
+func mutate():
 	var mutated_dna = CreatureDNA.new()
 
 	for sensor in sensors:
-		mutated_dna.sensors.append(sensor.mutate(frequency, strength))
+		mutated_dna.sensors.append(sensor.mutate())
+
+	var roll = randfn(0, 1)
+	if roll > 2:
+		mutated_dna.sensors.append(SensorSettings.new())
+	
+	if roll < -2:
+		if mutated_dna.sensors.size() > 1:
+			mutated_dna.sensors.remove_at(randi() % mutated_dna.sensors.size())
+
 
 	for property in mutated_dna.get_property_list():
 		var name = property["name"]
@@ -143,6 +147,11 @@ func mutate(frequency : float, strength : float):
 			elif property["type"] == TYPE_FLOAT:
 				new_value = Mutation.Float(self.get(name), property_variations[name])
 
+
+			elif name == "color":
+				new_value = Mutation.Color(self.get(name), property_variations[name])
+				# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
+
 			else:
 				new_value = self.get(name)
 
@@ -151,19 +160,17 @@ func mutate(frequency : float, strength : float):
 			# print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
 			
 			mutated_dna.set(name, new_value)
-		elif name == "color":
-			mutated_dna.color = Mutation.Color(self.get(name), 1)
-			# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
-		else:
-			# print("Property: " + name + " is not mutating")
-			mutated_dna.set(name, self.get(name))
+
 	
 	mutated_dna.tile_efficiency = Mutation.FloatArray(tile_efficiency, property_variations["tile_efficiency"])
 	mutated_dna.influence_decay = Mutation.IntegerArray(influence_decay, property_variations["influence_decay"])
 
-	mutated_dna.property_variations = Mutation.PropertyVariations(property_variations)
+	# mutated_dna.property_variations = Mutation.PropertyVariations(property_variations)
 
-	mutated_dna.generation += 1
+	mutated_dna.generation = generation + 1
+	mutated_dna.parent_ID = ID
+	mutated_dna.parents = parents.duplicate(true)
+	mutated_dna.parents.append(self)
 
 	return mutated_dna
 

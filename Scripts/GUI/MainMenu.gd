@@ -44,7 +44,7 @@ func _on_start_new_simulation_pressed():
 
 func start_simulation(path : String):
 	
-	var data = load("res://main.tscn") as PackedScene
+	var data = load("res://Scenes/Maps/main.tscn") as PackedScene
 	var new_simulation = data.instantiate()
 	
 	new_simulation.get_node("SaveManager").save_path = path
@@ -62,7 +62,9 @@ func _on_load_simulation_pressed():
 	var list = $"Load Simulation Menu/FileList" as ItemList
 	
 	for file in DirAccess.get_files_at("user://Saves"):
-		list.add_item(file)
+		
+		if file.ends_with(".tres"):
+			list.add_item(file)
 	
 	
 	pass # Replace with function body.
