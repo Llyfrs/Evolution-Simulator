@@ -20,6 +20,8 @@ func _enter_tree():
 	Globals.mainMap = $Map/TileMap
 	Globals.rootMap = $Map/RootMap
 	
+	
+	## For debuging from the godot editor, when the main scene is run straight up and not from the MainMenu Scene
 	if $SaveManager.save_path == "":
 		$SaveManager.save_path = "user://debug_save.tres"
 	
