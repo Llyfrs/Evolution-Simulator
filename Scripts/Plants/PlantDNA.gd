@@ -45,14 +45,31 @@ class_name PlantDNA extends Resource
 
 @export var color : Color
 
-
-@export var property_variations : Dictionary
-
 @export var generation : int 
 
 @export var ID : int
 @export var parent_ID : int
 @export var parents : Array[PlantDNA]
+
+
+static var property_variations = {
+		"self" : 0.01,
+		"energy": 3,
+		"health": 3,
+		"root_effectivnes": 0.05,
+		"root_grow_threshold": 3 ,
+		"root_distance_from_source": 0.01,
+		"plant_grow_speed": 0.1 , 
+		"seed_quantity": 0.5, 
+		"seed_nutrition" : 1,
+		"seed_durability" : 0.5,
+		"seed_direction" : 0.043, 
+		"seed_spread" : 0.043, 
+		"seed_distance" : 3, 
+		"color" : 0.01,
+		"root_pattern" : 1
+	}
+
 
 func _init():
 
@@ -74,24 +91,6 @@ func _init():
 	seed_spread = randf_range(0, (PI * 2))
 	seed_distance = randi_range(0, 300)
 
-	property_variations = {
-		"self" : 0.01,
-		"energy": 3,
-		"health": 3,
-		"root_effectivnes": 0.05,
-		"root_grow_threshold": 3 ,
-		"root_distance_from_source": 0.01,
-		"plant_grow_speed": 0.1 , 
-		"seed_quantity": 0.5, 
-		"seed_nutrition" : 1,
-		"seed_durability" : 0.5,
-		"seed_direction" : 0.043, 
-		"seed_spread" : 0.043, 
-		"seed_distance" : 3, 
-		"color" : 0.01,
-		"root_pattern" : 1
-	}
-	
 
 	pass
 
@@ -118,12 +117,11 @@ func generate_random_pattern(mutables : int, options : int, emptines : float = 0
 	
 
 
-## Returns new mutated DNA
-## Frequency is how often should mutation happen per property. Should be value between 0 and 1.
-## Strength is how big should the mutation be.
-## Value of 1 means that the mutation is going to use the default mutation rules, 
-## any other value is going to multiply the base mutation value. 
-func mutate(_frequency : float, _strength : float):
+## Returns new mutated DNA 
+func mutate():
+
+	# More information on how this function works can be found in CreatureDNA, they are very similar.
+
 	var mutated_dna = PlantDNA.new()
 
 	for property in mutated_dna.get_property_list():

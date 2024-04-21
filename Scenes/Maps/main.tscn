@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bi0e4e3luxkfm" path="res://Textures/TileTypes/watter.png" id="10_73ffe"]
 [ext_resource type="TileSet" uid="uid://sh0qm7kx82pw" path="res://Scenes/Plants/Root/root.tres" id="10_y1u3g"]
 [ext_resource type="Texture2D" uid="uid://cu56bpblqlaaj" path="res://Textures/TileTypes/sand.png" id="11_b2hui"]
-[ext_resource type="Script" path="res://Active.gd" id="11_yt5tx"]
+[ext_resource type="Script" path="res://Scripts/GUI/Active.gd" id="11_yt5tx"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_naes2"]
 font_size = 36

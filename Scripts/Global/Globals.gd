@@ -15,12 +15,12 @@ var mainMap : TileMap
 var rootMap : TileMap
 
 
-var selected : Array
-
-
+## Controls the minium creatures and plants there can be at the same time at any give time. If the value is bellow this it new ones will be spawned
 var min_creatures : int = 0
 var min_plants : int = 0
 
+
+## Enum for tiles, it's used in all the parts of the program that deal with it, allowing for everything to stay consistent.
 enum Tile{
 	GRASS,
 	STONE,
@@ -28,7 +28,6 @@ enum Tile{
 	SAND,
 	WALL
 }
-
 
 func get_tile_type(cords : Vector2i) -> Array[Tile]:
 	var data = mainMap.get_cell_tile_data(0,cords)
@@ -70,7 +69,6 @@ enum CursorMode {
 	CREATURE,
 }
 
-
 enum PaintMode{
 	GRASS,
 	STONE,
@@ -88,6 +86,11 @@ var cursor_obscured : bool = false
 
 var tile_energy : int = 100
 
+
+## Currently selected creatures. (It can be more that one because the can be in the same spot on the map)
+var selected : Array
+
+
 # Enums start from zero but masks start from 1 
 enum Mask{
 	TILE_MAP=1,
@@ -103,6 +106,8 @@ enum Mask{
 
 """
 General Constants to adjust default behavior of the program
+
+(This should have been way higher section controlling every static value in the program but I forgot about it mostly lol )
 """ 
 
 ## Defines the max minimum value in the processor _init when generating
@@ -125,7 +130,16 @@ var creature_scene = preload("res://Scenes/Creatures/creature.tscn")
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 
 
+
+## Save manager put's it's self in to this variable to be used by different processes.
 var save_manager 
+
+
+
+
+"""
+Handles IDs mostly just making sure there aren't duplicated values
+"""
 
 var used_IDs : Array[int] = []
 func get_ID() -> int:

@@ -7,41 +7,70 @@ class_name CreatureDNA extends Resource
 @export var health : int
 
 
+## Defines how fast the creature is growing per second
 @export var growth_speed : int
 
+
+## Self explanatory, how many offsprings and how much energy they get
 @export var offsprings : int
 @export var offspring_energy : int
 
+
+## Speed of movement, more speed costs more energy over time
 @export var speed: int
+
+## How fast the creature can rotate
 @export var rotation_speed : int
 
 ## Determines damage dealt to other creatures and plants and also if the creature can eat seeds based on their durability
 @export var bite_strength : int
 
-
+## How efficiently can creature move around tiles, it uses the Globals.Tile enum.
+## This is not the same as speed as it will not effect the energy cost if the creature is moving slowly
 @export var tile_efficiency : Array[float]
 
+## How fast the each influence category is decaying. Uses the Creature.Influence enum. 
 @export var influence_decay : Array[int]
 
 
+## Color of the creature, has small impact and is mostly used to visually distinguish between differed species
 @export var color : Color
 
-## What sensors the creature is using
+## What sensors the creature is using, better to look in to SensorSettings to se how it works.
 @export var sensors : Array[SensorSettings]
 
-@export var property_variations : Dictionary
 
+
+## What generation this current DNA is, it increments it's self every time it's returned as mutated DNA
 @export var generation : int 
 
+## Unique ID of this DNA for identification in data collection
 @export var ID : int
 
+## ID of the parent, it's set when DNA is created by mutation. 
 @export var parent_ID : int
 
+## List of all parents, this is used for data collection. It should get deleted over time and not actually contain all parents but just the one that aren't recorded yet.
 @export var parents : Array[CreatureDNA]
 
 
 
-
+## Defines the variation / deviation for the normal distribution used to mutate each property 
+static var property_variations = {
+		"self": 0.01,
+		"energy": 3,
+		"health": 3,
+		"growth_speed": 1,
+		"offspring_energy": 2,
+		"offsprings": 0.2,
+		"speed": 2,
+		"rotation_speed": 1,
+		"bite_strength": 0.5,
+		"tile_efficiency": 0.05,
+		"influence_decay": 0.1,
+		"color": 0.01,
+		"sensors" : 0.1
+	}
 
 
 
@@ -85,30 +114,17 @@ func _init():
 	for i in range(0,randi_range(4,8)):
 		var sensor = SensorSettings.new()
 		sensors.append(sensor)
-	
-
-	## Defines the variation / deviation for the normal distribution used to mutate each property 
-	property_variations = {
-		"self": 0.01,
-		"energy": 2,
-		"health": 2,
-		"growth_speed": 1,
-		"offspring_energy": 2,
-		"offsprings": 0.2,
-		"speed": 2,
-		"rotation_speed": 1,
-		"bite_strength": 0.5,
-		"tile_efficiency": 0.05,
-		"influence_decay": 0.1,
-		"color": 0.01,
-		"sensors" : 0.1
-	}
 
 
 	pass
 
 
+
+
+## Returns the cost of having certain efficiency in different tile types
 func proficiency_tax() -> float:
+
+	# Having it exponential makes is more preferable to to focus just on one or two tile types instead of all of them
 	var sum = 0
 	for value in tile_efficiency:
 		sum += value
@@ -120,7 +136,14 @@ func sensor_tax():
 
 
 
+## Returns mutated version of the current DNA
 func mutate():
+
+	# This function uses the get_property_list() method to go through all the properties and for those that have defined variation performs mutations.
+	# It seemed like a good idea at the beginning because this way the DNA was easily expandable and this code didn't need changing, but it probably introduces more problems
+	# that just doing the same thing that I do in _init()
+
+
 	var mutated_dna = CreatureDNA.new()
 
 	for sensor in sensors:

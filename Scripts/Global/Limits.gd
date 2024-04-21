@@ -6,7 +6,8 @@ enum {
 	SEED,
 }
 
-
+## Defines limits around how many of each entity there can be in the program, this should prevent the game from freezing because of to many entities._add_constant_central_force
+## Set to 5000 everywhere to not effect the experiments but for uncontrolled runs it should be way lower.
 var limits = [
 	5000,
 	5000,
@@ -16,6 +17,7 @@ var limits = [
 
 
 
+## Idea to watch the FPS and adjust the limits accordingly. Not implemented at this moment
 var fps_history = []
 ## Implement dynamically changing limits 
 func _process(_delta):

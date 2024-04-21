@@ -1,5 +1,10 @@
 extends Node
 
+"""
+
+Just some tools I use for debugging, in any final products they won't be used.
+
+"""
 
 func print_patten(pattern):
 	for i in range(len(pattern)):

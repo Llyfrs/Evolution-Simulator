@@ -1,5 +1,10 @@
 extends Label
 
+"""
+
+Show the stats in top right left corner of the screen. Actually quite expensive on performance because of some function calls it does. 
+
+"""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

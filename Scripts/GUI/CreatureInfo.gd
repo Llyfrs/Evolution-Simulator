@@ -1,5 +1,11 @@
 extends Control
 
+"""
+
+Puts data from a creature to a GUI panel.
+
+"""
+
 @onready var active = get_parent().get_parent().get_node("Active")
 
 @onready var energy_bar = $PanelContainer2/PanelContainer/GridContainer/EnergyCenter/EnergyBar

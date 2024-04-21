@@ -1,5 +1,11 @@
 class_name Mutation
 
+"""
+
+This class contains all the functions that are used to mutate different values around the program. The use the normal distribution function randfn(). 
+
+"""
+
 
 static func Integer(value : int, variation: float):
 	return max(0, roundi(value + randfn(0, variation)))

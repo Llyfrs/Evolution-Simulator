@@ -15,6 +15,7 @@ var seed_sceen = preload("res://Scenes/Plants/seed.tscn") as PackedScene
 func _ready():
 	root = $Root as Root
 	
+	# For plants placed in the editor
 	if dna == null:
 		dna = PlantDNA.new()
 		$PlantSmall.set_modulate(dna.color)
@@ -24,10 +25,9 @@ func _ready():
 	pass 
 
 
+
 func set_dna(plantDNA: PlantDNA):
-	
 	dna = plantDNA.duplicate()
-	
 	$PlantSmall.set_modulate(dna.color)
 	
 
@@ -60,7 +60,7 @@ func add_energy(value : float) -> float:
 	return leftover
 
 
-## Substracts current energy by value
+## Subtracts current energy by value
 ## If there is less energy that it's called to be removed
 ## it returns by how much was the difference
 func sub_energy(value: float) -> float:
@@ -73,6 +73,8 @@ func sub_energy(value: float) -> float:
 	
 	return leftover
 
+
+## Adds health to the creature, controls that it doesn't go over the limit.
 func add_health(value : float) -> float: 
 	health += value
 	var leftover = max(health - dna.health, 0)
@@ -130,7 +132,7 @@ func reproduce():
 		
 		MyTools.check_pattern(dna.root_pattern)
 
-		sd.dna = dna.mutate(0.4, 0.4)
+		sd.dna = dna.mutate()
 
 		var direction = Vector2(1, 0)
 	
@@ -232,7 +234,7 @@ func load(sv : PlantSave):
 	set_dna(sv.dna.duplicate())
 
 
-	## Do not use the root variable as it gets rewriten when the plant eneters tree
+	## Do not use the root variable as it gets rewritten when the plant enters tree
 	$Root.load(sv.root)
 
 

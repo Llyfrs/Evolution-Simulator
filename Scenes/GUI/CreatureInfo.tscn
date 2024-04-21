@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://oekptli57t6k"]
 
 [ext_resource type="Script" path="res://Scripts/GUI/CreatureInfo.gd" id="1_aaqh4"]
-[ext_resource type="Theme" uid="uid://cqv6gnwwow7vr" path="res://Theme.tres" id="2_318h0"]
-[ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Back.tres" id="3_vkwqg"]
+[ext_resource type="Theme" uid="uid://cqv6gnwwow7vr" path="res://Themes/Theme.tres" id="2_pg5hp"]
+[ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Themes/Back.tres" id="3_btj5w"]
 [ext_resource type="Texture2D" uid="uid://bcupjxsdyyuor" path="res://Textures/TileTypes/grass.png" id="4_mps55"]
 [ext_resource type="Texture2D" uid="uid://cu56bpblqlaaj" path="res://Textures/TileTypes/sand.png" id="5_c6pwv"]
 [ext_resource type="Texture2D" uid="uid://c4h7h41t102dt" path="res://Textures/TileTypes/stone.png" id="6_j0p72"]
@@ -75,8 +75,8 @@ custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 1
-theme = ExtResource("2_318h0")
-theme_override_styles/background = ExtResource("3_vkwqg")
+theme = ExtResource("2_pg5hp")
+theme_override_styles/background = ExtResource("3_btj5w")
 value = 10.0
 show_percentage = false
 
@@ -98,8 +98,8 @@ layout_direction = 1
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 1
-theme = ExtResource("2_318h0")
-theme_override_styles/background = ExtResource("3_vkwqg")
+theme = ExtResource("2_pg5hp")
+theme_override_styles/background = ExtResource("3_btj5w")
 theme_override_styles/fill = SubResource("StyleBoxFlat_1406g")
 value = 10.0
 show_percentage = false

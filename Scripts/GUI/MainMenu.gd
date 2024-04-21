@@ -1,5 +1,9 @@
 extends Control
 
+"""
+Just lost of showing and hiding GUI elements based on the user actions. Only makes sense in the context of the godot editor.
+
+"""
 
 func _ready():
 	if not DirAccess.dir_exists_absolute("user://Saves"):

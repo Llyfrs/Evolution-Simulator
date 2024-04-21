@@ -1,5 +1,14 @@
 extends Node
 
+
+"""
+
+This is script for a the main node in the simulation scene. This means it's the first to enter the tree and last ot be ready. 
+It used to do more but now it just makes sure everything that needs to work works and allows user to control the speed of the simulation.
+
+"""
+
+
 @export var save_file : String
 # Called when the node enters the scene tree for the first time.
 

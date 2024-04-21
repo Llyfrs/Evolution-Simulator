@@ -17,6 +17,7 @@ func _ready():
 		set_collision_mask_value(masks, 1)
 
 
+	# If mask of the processor is empty we don't actually need to detect collision and this object will only server to collect other types of data, like the creature health and energy.
 	enabled = !conf.processor.masks.is_empty()
 	collide_with_areas = true
 	collide_with_bodies = true
@@ -26,15 +27,16 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-# I think we can ignore delta as the processing of influence is going to happen withing the same frame as it's defining
 func _process(delta):
 
+	# Goal of this function every process frame is to collect all the data that is available.operator !=
+	# Some like the creature internal data and calculating tiles that aren't detected by collision are only 
+	# collected if the sensor is disabled. 
 
 
 	if conf.processor == null or conf.receiver == null:
 		push_error("Processor or Receiver are empty")
 		return
-
 
 	var all_data = []
 

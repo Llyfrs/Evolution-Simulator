@@ -1,5 +1,15 @@
 extends Node
 
+
+"""
+
+This class is loaded globally by godot and the _process function is called every frame. It's job is to redistribute lost energy, and calculate 
+how much energy should each plant receive based on it¨s number of roots. It also holds some good information about the simulation and it triggers saves
+when it detects new highest generation. 
+
+"""
+
+
 ## Energy for each existing tile 
 var tiles  : Dictionary
 
@@ -11,6 +21,7 @@ var plants : Array[Plant]
 var seeds : Array[Seed]
 var creatures : Array[Creature]
 
+## Seeds exist in their own thread and when subscribing the would break the program. This mutex prevents that.
 var mutex : Mutex = Mutex.new()
 
 var max_creature_generation = 0

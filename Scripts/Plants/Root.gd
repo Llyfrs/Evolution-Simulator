@@ -1,6 +1,13 @@
 extends Node2D
 class_name Root
 
+"""
+
+Ton of catching happening in this class. The reason for is that transferring between global and local positions and main and root map is quite expensive but also
+not needed to be done again unless the root grown, meaning if the root stops growing it's impact on performance will be significantly reduced.
+
+"""
+
 
 @export var run : bool
 
@@ -55,13 +62,10 @@ func _ready():
 	
 
 ## Grows the root by one step
-## Returns true if the growth was succesfull, 
+## Returns true if the growth was successful, 
 ## Returns false if it wasn't and there aren't any more active roots
 func grow(plantDNA : PlantDNA) -> float:
 
-
-	var cost = grow_cost(plantDNA)
-	
 	_grown = true
 
 
@@ -91,14 +95,15 @@ func grow(plantDNA : PlantDNA) -> float:
 			index_map[surround[i]] = pattern[i]
 			cells_grown += 1
 	
-	
+
 	set_cell(source, false)
 	
-	return cost * (4.0/cells_grown)
+	## The cost is equal to the amount of roots grown, so growing less roots means less energy spend
+	return grow_cost(plantDNA) * (4.0/cells_grown)
 
 
+## Returns the cost of growing all 4 roots
 func grow_cost(plantDNA : PlantDNA):
-
 
 	if !_grown:
 		return _cost_cache
