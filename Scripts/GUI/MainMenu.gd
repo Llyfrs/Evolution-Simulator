@@ -4,7 +4,7 @@ extends Control
 Just lost of showing and hiding GUI elements based on the user actions. Only makes sense in the context of GUI in the godot editor.
 """
 
-var SaveBox = preload("res://Scenes/GUI/SimulationSaveBox.tscn")
+
 var data_collection : bool = false
 
 func _ready():
@@ -55,9 +55,8 @@ func _on_start_new_simulation_pressed():
 func start_simulation(path : String):
 	
 	path = "user://Saves/" + path + ".tres"
-	
-	var data = load("res://Scenes/Maps/main.tscn") as PackedScene
-	var new_simulation = data.instantiate()
+
+	var new_simulation = Globals.simulation.instantiate()
 	
 	new_simulation.get_node("SaveManager").save_path = path
 	
@@ -101,7 +100,7 @@ func _on_load_simulation_pressed():
 			
 			file = file.trim_suffix(".tres")
 			
-			var box = SaveBox.instantiate()
+			var box = Globals.SaveBox.instantiate()
 			box.get_node("HBoxContainer/Name").text = file
 			
 			box.load.connect(start_simulation)

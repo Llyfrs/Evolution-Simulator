@@ -142,7 +142,10 @@ const SAND_TILE = Vector2(7,4)
 var creature_scene = preload("res://Scenes/Creatures/creature.tscn")
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 
+var main_menu = preload("res://Scenes/MainMenu/MainMenu.tscn")
 
+var SaveBox = preload("res://Scenes/GUI/SimulationSaveBox.tscn")
+var simulation = preload("res://Scenes/Maps/main.tscn") as PackedScene
 
 ## Save manager put's it's self in to this variable to be used by different processes.
 var save_manager 
@@ -174,6 +177,3 @@ func get_ID() -> int:
 	return id
 
 
-
-## Prevents Circular dependencies
-var main_menu = preload("res://Scenes/MainMenu/MainMenu.tscn")
