@@ -9,12 +9,8 @@ This script will handle the pause menu's functionality. Including returning to t
 """
 
 
-var main_menu 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
-	main_menu = load("res://Scenes/MainMenu.tscn")
 
 	hide()
 	pass # Replace with function body.
@@ -38,7 +34,7 @@ func _on_save_pressed():
 
 func _on_save__exit_button_up():
 	_on_save_pressed()
-	get_tree().root.add_child(main_menu.instantiate())
+	get_tree().root.add_child(Globals.main_menu.instantiate())
 	
 	## Ugly yes, but something isn't working right with the chance_scene_to_packed function unfromtunately 
 	get_parent().get_parent().queue_free()
