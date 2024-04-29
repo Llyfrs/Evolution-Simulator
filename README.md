@@ -14,7 +14,7 @@ The main scene is the MainMenu.tscn scene, and is what the project was designed 
 Exporting the project increases the performance by a lot, so it's recommended for running bigger simulations. How to do that can be found here: https://docs.godotengine.org/en/stable/tutorials/export/exporting_projects.html
 
 
-**If you get error that the MainScene is corrupted do Project -> Reload Current Project and it should work". Not sure why this is happening but reloading always helps for me. 
+**If you get error that the MainScene is corrupted do Project -> Reload Current Project and it should work**. Not sure why this is happening but reloading always helps me when importing the project from github. 
 
 
 ## Controls 
