@@ -55,3 +55,32 @@ func _to_string():
 
 func _to_dict():
 	return {"type": "BasicProcessor", "upper_limit": upper_limit, "lower_limit": lower_limit, "value": value}
+
+
+
+func get_color():
+
+	if value == "energy":
+		return Color.GREEN
+	
+	if value == "health":
+		return Color.RED
+
+	if value == "durability":
+		return Color.BLUE
+
+	return Color.ANTIQUE_WHITE
+
+
+func get_processor_name():
+	return value + " sensor"
+
+
+func get_description():
+
+	var text = ""
+
+	text += "Detecting: " + value + "\n"
+	text += "Between " + str(lower_limit) + " and " + str(upper_limit)
+
+	return text

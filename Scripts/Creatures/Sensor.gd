@@ -1,14 +1,21 @@
 class_name Sensor extends RayCast2D 
 
+"""
+
+This class is attached to a sensor, and handles the collection of data from the environment and the creature it's self and putting that data in to processors
+
+"""
 
 var conf : SensorSettings
 
+
+## When sensor detects value that it's supposed to detect it will emit signal to the receiver. This is the used in the creature class to handle influence gain.
 signal detection(inf_value : int, inf_type : Creature.Influence)
 
 func _ready():
 
-
-	var distance = conf.range * Vector2(1, 0)
+	## Points up, after rotation it will fit with every other rotation angles in the program
+	var distance = conf.range * Vector2(0, -1)
 
 	target_position = distance.rotated(conf.angle)
 
@@ -41,6 +48,7 @@ func _process(delta):
 	var all_data = []
 
 
+	## When sensor is disabled we know that we are collecting internal data.
 	if !enabled:
 		var dt = get_parent().get_parent().get_data() as SelfData
 		all_data.append(dt)
@@ -50,7 +58,6 @@ func _process(delta):
 		all_data.append(tdt)
 
 
-	## NOTE: Maybe add buffer? could be quite expensive to run and really we don't need to run it ever frame
 	if is_colliding():
 
 		var collider = get_collider()
@@ -73,6 +80,7 @@ func _process(delta):
 
 			all_data.append(data)
 
+		## RigidBody2D is either a seed or a creature
 		elif collider is RigidBody2D:
 
 			var sd = collider as Seed
@@ -103,9 +111,6 @@ func _process(delta):
 		if conf.processor.process(data):
 			detection.emit( conf.influence * delta, conf.receiver)
 			return
-
-
-
 
 
 func global_to_map(pos):

@@ -2,7 +2,7 @@ class_name Mutation
 
 """
 
-This class contains all the functions that are used to mutate different values around the program. The use the normal distribution function randfn(). 
+This class contains all the functions that are used to mutate different values around the program. They use the normal distribution function randfn(). 
 
 """
 

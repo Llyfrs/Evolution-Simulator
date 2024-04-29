@@ -62,11 +62,11 @@ static var property_variations = {
 		"health": 3,
 		"growth_speed": 1,
 		"offspring_energy": 2,
-		"offsprings": 0.2,
+		"offsprings": 1,
 		"speed": 2,
 		"rotation_speed": 1,
 		"bite_strength": 0.5,
-		"tile_efficiency": 0.05,
+		"tile_efficiency": 0.01,
 		"influence_decay": 0.1,
 		"color": 0.01,
 		"sensors" : 0.1
@@ -75,6 +75,7 @@ static var property_variations = {
 
 
 
+## Initializes the DNA with random values, the ranges were mostly chosen so that the chance of survival is not too low on random DNA
 func _init():
 
 	ID = Globals.get_ID()
@@ -145,6 +146,7 @@ func mutate():
 
 
 	var mutated_dna = CreatureDNA.new()
+	mutated_dna.sensors.clear()
 
 	for sensor in sensors:
 		mutated_dna.sensors.append(sensor.mutate())
@@ -157,7 +159,6 @@ func mutate():
 		if mutated_dna.sensors.size() > 1:
 			mutated_dna.sensors.remove_at(randi() % mutated_dna.sensors.size())
 
-
 	for property in mutated_dna.get_property_list():
 		var name = property["name"]
 
@@ -169,18 +170,14 @@ func mutate():
 
 			elif property["type"] == TYPE_FLOAT:
 				new_value = Mutation.Float(self.get(name), property_variations[name])
-
-
 			elif name == "color":
 				new_value = Mutation.Color(self.get(name), property_variations[name])
 				# print("Mutating color " + str(color) + " to " + str(mutated_dna.color))
+			elif name == "sensors":
+				pass
 
 			else:
 				new_value = self.get(name)
-
-
-
-			# print("Mutating "+name + " from: " + str(self.get(name)) + " to " + str(new_value))
 			
 			mutated_dna.set(name, new_value)
 
@@ -194,6 +191,7 @@ func mutate():
 	mutated_dna.parent_ID = ID
 	mutated_dna.parents = parents.duplicate(true)
 	mutated_dna.parents.append(self)
+	
 
 	return mutated_dna
 

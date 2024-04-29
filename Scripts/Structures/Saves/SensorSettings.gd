@@ -20,20 +20,20 @@ class_name SensorSettings extends Resource
 
 
 static var processors = [BasicProcessor ,ColorProcessor, SelfProcessor, TileTypeProcessor, TypeProcessor]
-#static var processors = [TileTypeProcessor]
 
 func _init():
 
 	processor = processors[randi() % processors.size()].new()
 	receiver = Creature.Influence.values().pick_random()
 
-	range = randi_range(50,300)
+	range = randi_range(20,300)
 	angle = randf_range(0, 2 * PI)
 
 	influence = randi_range(30,60)
 
 
 func mutate():
+	
 	var mutated_sensor = SensorSettings.new()
 
 
@@ -42,10 +42,11 @@ func mutate():
 	mutated_sensor.receiver = receiver
 
 	mutated_sensor.range = Mutation.Float(range, 3)
-	mutated_sensor.angle = Mutation.Float(angle,  0.043)
+	mutated_sensor.angle = Mutation.Float(angle,  0.043) # 0.043 is aobut 2.5 degrees 
 
 	mutated_sensor.influence = Mutation.Integer(influence, 1)
-
+	
+	
 
 	return mutated_sensor
 

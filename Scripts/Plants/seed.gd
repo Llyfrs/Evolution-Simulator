@@ -7,7 +7,8 @@ var energy : float
 var plant_scene = preload("res://Scenes/Plants/plant.tscn") 
 var food_texture = preload("res://Textures/Plant/food.png")
 
-	
+
+
 func remove_energy(value: float):
 	var leftover = 0 
 
@@ -52,32 +53,19 @@ var acumulator = 0
 func _process(delta):
 	
 	acumulator += delta
-	
 	if acumulator < 1:
 		return
-		
 	delta = acumulator
 	acumulator = 0
 	
-	# var l_position = Globals.mainMap.local_to_map(Globals.mainMap.to_local(global_position))
-	# var data = Globals.mainMap.get_cell_atlas_coords(0, l_position)
-	
-	# # Delete your self if outside the map
-	# if data == null or data == Globals.WALL_TILE:
-	# 	EnergyManager.add_lost_energy(energy)
-	# 	EnergyManager.unsubscribe(self)
-	# 	queue_free()
-
 	# Decomposes itself over time on to the tile it is on
 	# For food this is way to give energy to plants 
 	# For seeds this is way to root 
 	
 	
-	var degrade = 5 * delta
+	var degrade = 2 * delta
 	var leftover = remove_energy(degrade)
 	EnergyManager.add_energy(get_tile(), degrade - leftover)
-	
-	
 	
 	pass
 

@@ -1,0 +1,90 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwf8ewwih5k8s"]
+
+[ext_resource type="Script" path="res://Scripts/GUI/SavePopUp.gd" id="1_y57cg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5hf5r"]
+bg_color = Color(0.439216, 0.286275, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[node name="Save" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2043.0
+offset_top = -1274.0
+offset_right = -2043.0
+offset_bottom = -1274.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y57cg")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(332, 107)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.005
+anchor_top = 0.008
+anchor_right = 0.14
+anchor_bottom = 0.061
+offset_left = -9.6
+offset_top = -8.64
+offset_right = 63.2
+offset_bottom = 41.12
+theme_override_styles/panel = SubResource("StyleBoxFlat_5hf5r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -10.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "Saving Organism"
+clip_text = true
+text_overrun_behavior = 1
+
+[node name="LineEdit" type="LineEdit" parent="Panel/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Name"
+max_length = 9
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.486275, 0.419608, 1)
+text = "Name can't be empty"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cancel" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Cancel"
+
+[node name="Save" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Save"
+
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Save" to="." method="_on_save_pressed"]

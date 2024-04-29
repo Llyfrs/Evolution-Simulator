@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://da0us5qkic6av" path="res://Textures/Creature/creature.png" id="2_e2f7t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w2dtx"]
-radius = 20.0
-height = 78.0
+radius = 16.4848
+height = 71.1019
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_75som"]
 radius = 14.0

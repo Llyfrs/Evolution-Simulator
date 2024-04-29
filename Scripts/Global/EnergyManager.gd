@@ -21,16 +21,16 @@ var plants : Array[Plant]
 var seeds : Array[Seed]
 var creatures : Array[Creature]
 
-## Seeds exist in their own thread and when subscribing the would break the program. This mutex prevents that.
+## Seeds exist in their own thread and when subscribing would break the program. This mutex prevents that.
 var mutex : Mutex = Mutex.new()
 
 var max_creature_generation = 0
 var max_plant_generation = 0
 
-var redistribution_amount = 100
+var redistribution_amount = 1000
 var redistribution_percentage = 0.5
 
-var redistribution = [1, 1, 1, 1]
+var redistribution = [100, 100, 100, 100]
 
 
 # Called when the node enters the scene tree for the first time.
@@ -77,10 +77,9 @@ func unsubscribe(sub : Object):
 	
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+
+func _handle_plants(delta):
 	
-	# Holds total for presence 
 	var list = Dictionary()
 	var lock_energy = Dictionary()
 	
@@ -107,9 +106,13 @@ func _process(delta):
 				var ration : float = presence[key] / float(list[key])
 				energy = lock_energy[key] * ration
 			add_energy(key, -energy + plant.add_energy(energy))
-	
-	
 
+
+
+## Redistributes the energy based on the ration set by the player
+## The higher the ration the higher the chance that tile will receive energy
+## It is not guaranteed that all energy will be redistributed as it is based on chance. 
+func _redistribute_energy():
 	if lostEnergy < redistribution_amount:
 		return;
 
@@ -117,7 +120,7 @@ func _process(delta):
 	var ration = redistribution.map(func (a : float): return a / total)
 
 
-	var energy = redistribution_amount as float / tiles.size() 
+	var energy = lostEnergy - 100 as float / tiles.size() 
 	for cords in tiles:
 		
 		var types = Globals.get_tile_type(cords)
@@ -130,6 +133,13 @@ func _process(delta):
 			lostEnergy -= energy
 			continue
 
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	
+	_redistribute_energy()
+	_handle_plants(delta)
+	
 	pass
 
 
@@ -185,6 +195,7 @@ func set_energy(location : Vector2, energy : float):
 
 
 
+## Adds energy to a specific tile, if the tile doesn't exist it will be added to the lost energy, that is useful for food decaying on non existing tiles
 func add_energy(location: Vector2, energy: float):
 	location = Vector2i(location)
 	if tiles.has(location):
@@ -198,7 +209,7 @@ func add_energy(location: Vector2, energy: float):
 
 
 ## Gives every tile in the map a energy value of 100, good for easy start and making sure everything is trackable
-## but is not nessecery for the EnergyManager to run
+## but is not nessecery for the EnergyManager to run and is mostly used for debugging
 func init_map(map : TileMap):
 	for cell in map.get_used_cells(0):
 		
@@ -221,13 +232,14 @@ func add_lost_energy(energy : float):
 	mutex.unlock()
 	
 
+## Prints all tiles and their energy values, useful for debugging
 func print_tiles():
-
 	print("---------------------")
 	for key in tiles:
 		print(str(key) + ": " + str(tiles[key]))
 
 
+## Checks if specific type hits it's limit, used to prevent spawning too many entities
 func is_limited(type):
 
 	if type == Limits.CREATURE:

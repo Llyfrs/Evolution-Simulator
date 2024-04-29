@@ -93,27 +93,31 @@ func sub_health(value: float) -> float:
 	return leftover
 
 func take_damage(damage: float):
+	
+	if is_queued_for_deletion():
+		return 0
+	
 	var leftover = sub_health(damage)
-	EnergyManager.add_lost_energy(damage + leftover)
 
 	if leftover != 0:
 		die()
-		return 1
 	
-	return 0
+	return damage + leftover
 
 
 func reproduce():
+	
+	const MIN_ENERGY = 10
 
 	for i in range(dna.seed_quantity):
-
+		
 
 		if EnergyManager.is_limited(Limits.SEED):
 			break
 
 
 		var distance_cost = pow(dna.seed_distance / 50.0, 2)
-		var seed_cost = dna.seed_nutrition + distance_cost
+		var seed_cost = dna.seed_nutrition + distance_cost + MIN_ENERGY
 
 
 		## Results in death if the cost of reproduction is greater that available health 
@@ -127,7 +131,7 @@ func reproduce():
 		EnergyManager.add_lost_energy(distance_cost)
 		
 		var sd = seed_sceen.instantiate() as Seed
-		sd.energy = dna.seed_nutrition
+		sd.energy = dna.seed_nutrition + MIN_ENERGY
 		sd.global_position = global_position
 		
 		MyTools.check_pattern(dna.root_pattern)
@@ -182,30 +186,26 @@ func _process(delta):
 	if energy <= 0 or health <= 0:
 		die()
 
-
-	## Energy unlike health is mannaged in the EnergyManager
-	
-	if $Panel.visible:
-		$Panel/Energy.text = "Energy: " + str(int(energy)) + "/" + str(dna.energy)
-		$Panel/Health.text = "Health: " + str(int(health)) + "/" + str(dna.health)
 		
 	#energy -= delta * 1
 	pass
 
 
 func _on_area_2d_mouse_entered():
-	$Panel.visible=true
 	root.highlight_owned_roots(true)
+	Globals.selected.append(self)
+	
 	pass # Replace with function body.
 
 
 func _on_area_2d_mouse_exited():
-	$Panel.visible=false
 	root.highlight_owned_roots(false)
+	Globals.selected.erase(self)
 	pass # Replace with function body.
 
 func _exit_tree():
 	EnergyManager.unsubscribe(self)
+	Globals.selected.erase(self)
 
 func save() -> PlantSave:
 	var sv = PlantSave.new()

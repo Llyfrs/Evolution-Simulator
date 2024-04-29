@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbi2ee7wgljc"]
+[gd_scene load_steps=5 format=3 uid="uid://dbi2ee7wgljc"]
 
 [ext_resource type="Script" path="res://Scripts/GUI/MainMenu.gd" id="1_npybg"]
+[ext_resource type="Texture2D" uid="uid://cu1pj1xdt586c" path="res://Textures/GUI/MainMenuBackground.png" id="2_chx2g"]
+[ext_resource type="PackedScene" uid="uid://dfufog3coavtu" path="res://Scenes/GUI/SimulationSaveBox.tscn" id="3_81p4r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gu4p8"]
+bg_color = Color(0.0235294, 0.0235294, 0.0235294, 0.580392)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.478431)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -12,6 +22,20 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_npybg")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.065625
+anchor_top = -0.0240741
+anchor_right = 1.11927
+anchor_bottom = 1.21759
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_chx2g")
+stretch_mode = 4
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -39,61 +63,201 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Load Simulation"
 
-[node name="Settings" type="Button" parent="VBoxContainer"]
+[node name="Credits" type="Button" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "Settings
+text = "Credits
 "
 
-[node name="New Simulation Menu" type="GridContainer" parent="."]
+[node name="New Simulation Menu" type="Control" parent="."]
 visible = false
 layout_mode = 1
-anchors_preset = 14
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 336.0
-offset_top = -163.0
-offset_right = -308.0
-offset_bottom = -131.0
+offset_left = -242.0
+offset_top = -33.5
+offset_right = 242.0
+offset_bottom = 33.5
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="New Simulation Menu"]
+layout_mode = 2
+offset_right = 484.0
+offset_bottom = 167.0
 columns = 2
 
-[node name="SavePath" type="LineEdit" parent="New Simulation Menu"]
+[node name="SavePath" type="LineEdit" parent="New Simulation Menu/GridContainer"]
 custom_minimum_size = Vector2(400, 32)
 layout_mode = 2
+placeholder_text = "Simulation Name"
 max_length = 42
 
-[node name="Start New Simulation" type="Button" parent="New Simulation Menu"]
+[node name="Start New Simulation" type="Button" parent="New Simulation Menu/GridContainer"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Begin"
 
-[node name="Load Simulation Menu" type="GridContainer" parent="."]
+[node name="DataCollection" type="CheckBox" parent="New Simulation Menu/GridContainer"]
+layout_mode = 2
+text = "Collect Data"
+
+[node name="Return" type="Button" parent="New Simulation Menu/GridContainer"]
+layout_mode = 2
+text = "Return
+"
+
+[node name="Label" type="Label" parent="New Simulation Menu"]
+layout_mode = 2
+offset_top = 77.0
+offset_right = 483.0
+offset_bottom = 159.0
+theme_override_constants/outline_size = 0
+theme_override_constants/line_spacing = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_gu4p8")
+text = "If set to true, the simulation will collect data in the same folder where your safe file is. These can reach high file sizes so if you don't need them, keep this turned off. "
+autowrap_mode = 2
+
+[node name="Load Simulation Menu" type="Control" parent="."]
 visible = false
-layout_mode = 2
-anchor_left = 0.166
-anchor_top = 0.555
-anchor_right = 0.166
-anchor_bottom = 0.555
-offset_left = 160.768
-offset_top = -143.64
-offset_right = 617.768
-offset_bottom = 69.36
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -261.5
+offset_top = -154.5
+offset_right = 261.5
+offset_bottom = 154.5
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Button" type="Button" parent="Load Simulation Menu"]
-layout_mode = 2
-text = "Start"
+[node name="Panel" type="Panel" parent="Load Simulation Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -11.0
+offset_right = 57.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="FileList" type="ItemList" parent="Load Simulation Menu"]
-custom_minimum_size = Vector2(300, 200)
+[node name="ScrollContainer" type="ScrollContainer" parent="Load Simulation Menu/Panel"]
+layout_mode = 0
+offset_right = 630.0
+offset_bottom = 327.0
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Load Simulation Menu/Panel/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="Load Simulation Menu/Panel/ScrollContainer/List"]
+layout_mode = 2
+text = "Simulations "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="Load Simulation Menu/Panel/ScrollContainer/List"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(1, 1, 1, 0.458824)
+
+[node name="Template" parent="Load Simulation Menu/Panel/ScrollContainer/List" instance=ExtResource("3_81p4r")]
+layout_mode = 2
+
+[node name="Return" type="Button" parent="Load Simulation Menu"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 518.5
+offset_top = 320.5
+offset_right = 579.5
+offset_bottom = 351.5
+text = "Return"
+
+[node name="Credits" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Credits"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -401.0
+offset_top = -295.0
+offset_right = 379.0
+offset_bottom = 384.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Return" type="Button" parent="Credits/Panel"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -73.0
+offset_top = 3.0
+offset_bottom = 34.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Return"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credits/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -377.0
+offset_top = -327.5
+offset_right = 377.0
+offset_bottom = 322.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "This game uses Godot Engine, available under the following license:
+
+Copyright (c) 2014-present Godot Engine contributors. Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Some images, including Main Menu Background and the texture for plants and creatures were generated using the AI tool Designer provided by Microsoft."
 
 [connection signal="pressed" from="VBoxContainer/New Simulation" to="." method="_on_new_simulation_pressed"]
 [connection signal="pressed" from="VBoxContainer/Load Simulation" to="." method="_on_load_simulation_pressed"]
-[connection signal="pressed" from="New Simulation Menu/Start New Simulation" to="." method="_on_start_new_simulation_pressed"]
-[connection signal="pressed" from="Load Simulation Menu/Button" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="New Simulation Menu/GridContainer/Start New Simulation" to="." method="_on_start_new_simulation_pressed"]
+[connection signal="toggled" from="New Simulation Menu/GridContainer/DataCollection" to="." method="_on_data_collection_toggled"]
+[connection signal="pressed" from="New Simulation Menu/GridContainer/Return" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="Load Simulation Menu/Return" to="." method="_on_return_pressed"]
+[connection signal="pressed" from="Credits/Panel/Return" to="." method="_on_return_pressed"]

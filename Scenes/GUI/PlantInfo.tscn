@@ -1,0 +1,130 @@
+[gd_scene load_steps=7 format=3 uid="uid://dgxwmcse0tgao"]
+
+[ext_resource type="Theme" uid="uid://cqv6gnwwow7vr" path="res://Themes/Theme.tres" id="1_qxfaj"]
+[ext_resource type="Script" path="res://Scripts/GUI/PlantInfo.gd" id="1_vkdv3"]
+[ext_resource type="StyleBox" uid="uid://b7nm7yb2yrwyh" path="res://Themes/Back.tres" id="2_1w8mt"]
+[ext_resource type="PackedScene" uid="uid://cwf8ewwih5k8s" path="res://Scenes/GUI/SavePopUp.tscn" id="4_d1lyx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lggn0"]
+bg_color = Color(0.603922, 0.4, 0.164706, 0.835294)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rk1lj"]
+bg_color = Color(0.935134, 0.00337122, 0.351631, 1)
+
+[node name="PlantInfo" type="Control"]
+layout_mode = 3
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("1_vkdv3")
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -211.0
+offset_top = -206.0
+offset_bottom = 33.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lggn0")
+
+[node name="PanelContainer" type="VBoxContainer" parent="PanelContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Energy" type="Label" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+text = "Energy
+"
+horizontal_alignment = 1
+
+[node name="EnergyCenter" type="CenterContainer" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="EnergyBar" type="ProgressBar" parent="PanelContainer2/PanelContainer/GridContainer/EnergyCenter"]
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 1
+theme = ExtResource("1_qxfaj")
+theme_override_styles/background = ExtResource("2_1w8mt")
+value = 10.0
+show_percentage = false
+
+[node name="EnergyCount" type="Label" parent="PanelContainer2/PanelContainer/GridContainer/EnergyCenter"]
+layout_mode = 2
+text = "10 / 100"
+
+[node name="Health" type="Label" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+text = "Health"
+horizontal_alignment = 1
+
+[node name="HealthCenter" type="CenterContainer" parent="PanelContainer2/PanelContainer/GridContainer"]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="PanelContainer2/PanelContainer/GridContainer/HealthCenter"]
+custom_minimum_size = Vector2(150, 25)
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme = ExtResource("1_qxfaj")
+theme_override_styles/background = ExtResource("2_1w8mt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rk1lj")
+value = 10.0
+show_percentage = false
+
+[node name="HealthCount" type="Label" parent="PanelContainer2/PanelContainer/GridContainer/HealthCenter"]
+layout_mode = 2
+text = "10 / 100
+"
+
+[node name="DNAGrid" type="GridContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Generation" type="Label" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer2/PanelContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Copy" type="Button" parent="PanelContainer2/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+mouse_filter = 1
+text = "Copy"
+
+[node name="Save" type="Button" parent="PanelContainer2/PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 25)
+layout_mode = 2
+mouse_filter = 1
+text = "Save"
+
+[node name="Save" parent="." instance=ExtResource("4_d1lyx")]
+layout_mode = 1
+offset_left = -1150.0
+offset_top = -112.0
+offset_right = -1150.0
+offset_bottom = -112.0
+
+[connection signal="mouse_entered" from="PanelContainer2" to="." method="_on_panel_container_2_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer2" to="." method="_on_panel_container_2_mouse_exited"]
+[connection signal="pressed" from="PanelContainer2/PanelContainer/HBoxContainer/Copy" to="." method="_on_copy_pressed"]
+[connection signal="pressed" from="PanelContainer2/PanelContainer/HBoxContainer/Save" to="." method="_on_save_pressed"]

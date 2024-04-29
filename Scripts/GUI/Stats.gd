@@ -26,7 +26,6 @@ func _process(_delta):
 	message += " (Speed " + str(Engine.time_scale) + "x)\n"
 	message += "Highest Generation P: " + str(EnergyManager.max_plant_generation) + " C: " + str(EnergyManager.max_creature_generation)
 
-
 	text = message
 
 	pass

@@ -1,5 +1,12 @@
 extends Node
 
+"""
+
+This is experimental code. The idea is to limit the amount of entities in the game to prevent the game from freezing. It's not perfectly implemented atm and the current limits are way to high to have any effect. 
+
+"""
+
+
 enum {
 	CREATURE,
 	PLANT,
@@ -19,7 +26,7 @@ var limits = [
 
 ## Idea to watch the FPS and adjust the limits accordingly. Not implemented at this moment
 var fps_history = []
-## Implement dynamically changing limits 
+## TODO: Implement dynamically changing limits 
 func _process(_delta):
 	var fps_current = Engine.get_frames_per_second()
 

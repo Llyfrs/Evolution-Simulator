@@ -7,6 +7,8 @@ func _ready():
 	var line_edit = get_line_edit()
 	line_edit.context_menu_enabled = false
 	
+	Globals.tile_energy = value
+	
 	pass # Replace with function body.
 
 

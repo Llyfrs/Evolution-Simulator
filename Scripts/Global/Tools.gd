@@ -2,7 +2,7 @@ extends Node
 
 """
 
-Just some tools I use for debugging, in any final products they won't be used.
+Just some tools I use for debugging, in final product they won't be used anywhere.
 
 """
 

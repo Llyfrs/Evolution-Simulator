@@ -10,6 +10,8 @@ class_name SimulationSave extends Resource
 ## All the active plants, seeds and creatures uses PlantSave, RootSave and CreatureSave
 @export var active : Array[Save]
 
+@export var data_collection : bool = false
+
 
 ## Used for saving infromatin from EnergyManager
 @export var tile_energy : Dictionary
@@ -26,3 +28,8 @@ class_name SimulationSave extends Resource
 @export var max_plant_generation = 0
 
 @export var recorded_dna: Array = []
+@export var generated_IDs : Array = []
+
+
+@export var saved_creatures : Array[NamedCreature] = []
+@export var saved_plants : Array[NamedPlant] = []

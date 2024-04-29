@@ -1,16 +1,26 @@
 extends Node
 
+"""
+
+This entire script is "I have variable here and I need it there" so there is ton of code but not much to explain.
+The save function and collect data function are connected to a timer so they are triggered automatically.
+
+"""
+
+
 @export var save_path : String
 
 var creature_save
 var plant_save
 var simulation_save
+var collect_data : bool = false
 
 
 var saved_dna = []
 
 var ignore = ["health", "energy", "pos", "rot", "file_path", "vel"]
 
+## Structure to make it more straight forward when saving data about simulation
 class SimulationData:
 	var total_energy : float
 	var lost_energy : float
@@ -24,8 +34,11 @@ class SimulationData:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
 	Globals.save_manager = self
+	
+	
+	if !collect_data:
+		return
 	
 	creature_save = save_path.trim_suffix(".tres") + "_creatures.csv"
 	plant_save = save_path.trim_suffix(".tres") + "_plants.csv"
@@ -93,8 +106,14 @@ func _save_thread(nodes : Array):
 	save.tile_energy = EnergyManager.tiles
 	save.max_creature_generation = EnergyManager.max_creature_generation
 	save.max_plant_generation = EnergyManager.max_plant_generation
+	
+	save.generated_IDs = Globals.used_IDs
+	save.saved_creatures = Globals.saved_creatures
+	save.saved_plants = Globals.saved_plants
 
 	save.recorded_dna = saved_dna
+	save.data_collection = collect_data
+
 
 	var map_data = Globals.rootMap.get_used_cells(0)
 	for cell in map_data:
@@ -110,7 +129,7 @@ func _save_thread(nodes : Array):
 
 
 func save():
-	var nodes = get_parent().get_node("Active").get_children()
+	var nodes = get_parent().get_node("Active").get_children().duplicate(true)
 	
 	_save_thread(nodes)
 	
@@ -120,13 +139,14 @@ func save():
 func load():
 	
 	if !FileAccess.file_exists(save_path):
-		push_error("Save File Doesn't Exists")
+		push_error("Save File " + save_path + " Doesn't Exists")
 		return
 	
 	var Active = get_parent().get_node("Active")
 	
 	for child in Active.get_children():
-		## Quite aggressive compare to queue_free, but prevents the calling of tree exiting after the map is loaded and there for the root deleting tiles that we already placed.
+		## Quite aggressive compare to queue_free, but prevents the calling of tree exiting after the map is loaded 
+		## and there for the root deleting tiles that we already placed.
 		child.free()
 
 
@@ -155,8 +175,14 @@ func load():
 	EnergyManager.max_creature_generation = save.max_creature_generation
 	EnergyManager.max_plant_generation = save.max_plant_generation
 
-	saved_dna = save.recorded_dna
+	Globals.used_IDs = save.generated_IDs
+	Globals.saved_creatures = save.saved_creatures
+	Globals.saved_plants = save.saved_plants
+
 	
+	collect_data = save.data_collection
+	saved_dna = save.recorded_dna
+
 	pass
 
 
@@ -194,12 +220,18 @@ func record_plant(plant : Plant):
 
 
 func save_dna(sv, path):
+	
+	if !collect_data:
+		return
+	
 
 	var file = FileAccess.open(path, FileAccess.READ_WRITE)
 	file.seek_end()
 
 	var history = sv.dna.parents.duplicate()
 	history.append(sv.dna)
+	
+	sv.dna.parents.clear()
 
 	for dna in history:
 		
@@ -219,8 +251,6 @@ func save_dna(sv, path):
 
 
 func record(node):
-
-	print("saving")
 	
 	if node is Creature:
 		record_creature(node)
@@ -237,6 +267,10 @@ func valid_property(property):
 
 
 func _on_data_colection_timeout():
+	
+	if !collect_data:
+		return
+	
 	var save = SimulationData.new()
 
 	save.total_energy = EnergyManager.get_total_energy()

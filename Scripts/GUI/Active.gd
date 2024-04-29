@@ -1,6 +1,12 @@
 extends Node
 
+"""
 
+Is attached to the Active node in main scene. It's job is to hold functions for spawning creatures and plants, 
+as well as to manage the spawning of new creatures and plants when the number of creatures or plants falls below a certain threshold.
+
+
+"""
 
 func _process(delta):
 	
@@ -25,7 +31,7 @@ func _process(delta):
 		pass
 
 
-## Extracted from seed to allow for seed to exists in sub-thread
+## Extracted from seed to allow for seed to exists in sub-thread (Adding to the scene tree can only be done in the main thread)
 func root_seed(dna : PlantDNA, global_pos):
 		var plant = Globals.plant_scene.instantiate()
 		
@@ -46,6 +52,8 @@ func spawn_creature(dna: CreatureDNA, global_pos):
 	
 	pass
 
+
+## Handles input for spawning creatures and plants. Either it generates new DNA or uses one form the Globals.copy variable
 func _input(event):
 	
 	if Globals.cursor_obscured:
@@ -54,8 +62,17 @@ func _input(event):
 	if event.is_action_pressed("ui_left_mouse_button"):
 		var position = Globals.mainMap.get_global_mouse_position()
 		if Globals.cursor == Globals.CursorMode.CREATURE:
-			for i in range(1):
-				spawn_creature(CreatureDNA.new(), position)
+			
+			var dna = CreatureDNA.new()
+			if Globals.copy is CreatureDNA:
+				dna = Globals.copy
+			
+			spawn_creature(dna, position)
 				
 		elif Globals.cursor == Globals.CursorMode.PLANT:
-			root_seed(PlantDNA.new(), position)
+			
+			var dna = PlantDNA.new()
+			if Globals.copy is PlantDNA:
+				dna = Globals.copy
+			
+			root_seed(dna, position)

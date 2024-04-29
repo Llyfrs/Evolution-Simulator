@@ -1,6 +1,12 @@
 extends VBoxContainer
 
 
+"""
+
+This script is attached to the VBoxContainer that contains the sliders for the energy redistribution. On change they update the EnergyManager's redistribution values.
+
+"""
+
 func _ready():
 	$Sand/Slider.value  = EnergyManager.redistribution[Globals.Tile.SAND]
 	$Grass/Slider.value = EnergyManager.redistribution[Globals.Tile.GRASS]

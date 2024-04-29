@@ -1,5 +1,12 @@
 class_name Creature extends CharacterBody2D
 
+
+"""
+
+This class handles the creature behavior. It is connected to the root node of creature scene and serves as a controller for the creature.
+
+"""
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var seed_sceen = preload("res://Scenes/Plants/seed.tscn") as PackedScene
 
@@ -8,8 +15,7 @@ var dna : CreatureDNA
 var energy : float
 var health : float
 
-var killed_plants : int = 0
-var killed_creatures : int = 0
+var collision :bool
 
 var is_immortal : bool = true
 
@@ -128,20 +134,24 @@ func _process(delta):
 	
 	velocity *= best
 	
+	if collision:
+		velocity *= 0.25
+	
 	
 	grow(delta)
 	influence_decay(delta)
 	attack(delta)
 	
+	collision = false
 	if not velocity.is_zero_approx():
-		move_and_slide()
+		collision = move_and_slide()
+		
 	
 	pass 
 
 
 func eat(body: Node2D):
-
-
+	
 	if body.is_queued_for_deletion():
 		return
 	
@@ -153,7 +163,6 @@ func eat(body: Node2D):
 	if body.dna != null and body.dna.seed_durability > dna.bite_strength:
 		return
 
-
 	var leftover = add_energy(body.energy)
 	
 	if leftover == 0:
@@ -163,15 +172,21 @@ func eat(body: Node2D):
 
 # Not my proudest pice of code
 func attack(delta):
+	
+
 
 	if influence[Influence.PAUSE_ATTACKING] != 0:
 		return
+		
+	var bite = min(dna.bite_strength * delta, dna.energy - energy)
 
 	for target in targets:
-		if "take_damage" in target:
-			killed_creatures += target.take_damage(dna.bite_strength * delta)
-		elif "take_damage" in target.get_parent():
-			killed_plants += target.get_parent().take_damage(dna.bite_strength * delta)
+		if "take_damage" in target: ## Attacks creature
+			target.take_damage(bite)
+		elif "take_damage" in target.get_parent(): ## Attacks Plant
+			var leftover = add_energy(target.get_parent().take_damage(bite))
+			EnergyManager.add_lost_energy(leftover)
+			pass
 			
 func grow(delta):
 	var growth = dna.growth_speed * delta 
@@ -199,12 +214,15 @@ func sub_health(value: float) -> float:
 	return leftover
 
 func take_damage(damage: float):
+	
+	if is_queued_for_deletion():
+		return 0
+	
 	var leftover = sub_health(damage)
 	EnergyManager.add_lost_energy(damage + leftover)
 
 	if leftover != 0:
 		die()
-		return 1
 	
 	return 0
 
@@ -316,6 +334,8 @@ func save() -> CreatureSave:
 	sv.vel = velocity
 
 	sv.influence = influence.duplicate()
+	
+	var age = $Age as Timer
 
 	return sv
 

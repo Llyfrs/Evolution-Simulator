@@ -1,5 +1,13 @@
 extends Node2D
 
+"""
+
+This script is responsible for drawing and deleting tiles on the map. It mostly uses the set_cell function of the TileMap. 
+It makes sure no tile is open to a empty space by surrounding it with walls. It also makes sure that the energy is set for each tile according to the tile_energy variable in the Globals script.
+
+"""
+
+
 enum {
 	WATER_TILE,
 	GRASS_TILE,
@@ -32,7 +40,6 @@ var temp_timer = 0
 func _process(delta):
 	var position = Globals.mainMap.local_to_map(Globals.mainMap.get_local_mouse_position())
 	
-
 	if is_drawing and not Globals.cursor_obscured :
 		draw_tile(position, Globals.paint_mode)
 	elif is_deleting and not Globals.cursor_obscured :
@@ -47,46 +54,19 @@ func _process(delta):
 		draw_energy()
 		temp_timer = 0
 	
-
-	
 	pass
 
 
-func _on_grass_pressed():
-	Globals.cursor = Globals.CursorMode.PAINT
-	Globals.paint_mode = Globals.PaintMode.GRASS
-	pass # Replace with function body.
-	
-
-func _on_stone_pressed():
-	Globals.cursor = Globals.CursorMode.PAINT
-	Globals.paint_mode = Globals.PaintMode.STONE
-	pass # Replace with function body.
-
-
-func _on_water_pressed():
-	Globals.cursor = Globals.CursorMode.PAINT
-	Globals.paint_mode = Globals.PaintMode.WATER
-	pass # Replace with function body.
-
-
-func _on_sand_pressed():
-	Globals.cursor = Globals.CursorMode.PAINT
-	Globals.paint_mode = Globals.PaintMode.SAND
-	pass # Replace with function body.
-	
-func _on_wall_pressed():
-	Globals.cursor = Globals.CursorMode.PAINT
-	Globals.paint_mode = Globals.PaintMode.WALL
-	pass # Replace with function body.	
-
+## Ton of GUI elements use this functions to set the obscure state of the cursor
+## It could be done in a way where each GUI element has it's own script to do this and the function could be just global but this works and is easy to set up using the godot editor
 func obscure():
 	Globals.cursor_obscured = true
-	
+
 func un_obscure():
 	Globals.cursor_obscured = false
 
 func draw_tile(position: Vector2, type : int):
+	
 	var map = $TileMap as TileMap
 	map.set_cell(0, position, 0, tiles[type])
 	
@@ -151,12 +131,7 @@ func _input(event):
 	if event.is_action_released("ui_right_mouse_button"):
 		is_deleting = false
 	
-	
-	
 	pass
-
-
-
 
 
 func _on_check_box_toggled(toggled_on):

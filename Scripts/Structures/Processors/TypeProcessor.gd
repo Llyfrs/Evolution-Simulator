@@ -45,3 +45,36 @@ func get_type_string():
 		return "SeedData"
 	if type == 3:
 		return "WallData"
+
+
+func get_color():
+	if type == 0:
+		return Color.LAWN_GREEN
+	if type == 1:
+		return Color.INDIAN_RED
+	if type == 2:
+		return Color.LIME_GREEN
+	if type == 3:
+		return Color.DARK_GRAY
+
+
+func get_processor_name():
+	return "Type Sensor"
+
+func get_description():
+
+	var text = ""
+
+	if type == 0:
+		text = "This sensor detects plants."
+
+	if type == 1:
+		text = "This sensor detects creatures."
+
+	if type == 2:
+		text = "This sensor detects seeds."
+
+	if type == 3:
+		text = "This sensor detects walls."
+
+	return text

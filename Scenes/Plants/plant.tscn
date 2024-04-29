@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cnkifw66wsqbf"]
+[gd_scene load_steps=5 format=3 uid="uid://cnkifw66wsqbf"]
 
 [ext_resource type="Script" path="res://Scripts/Plants/plant.gd" id="1_ba4ex"]
 [ext_resource type="Texture2D" uid="uid://dvgi2l3wi3i5l" path="res://Textures/Plant/plant_small_AI.png" id="2_14811"]
@@ -7,9 +7,6 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3e3i"]
 radius = 14.0
 height = 42.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_tn75g"]
-shadow_color = Color(0.0196078, 0.0196078, 0.0196078, 0)
 
 [node name="Plant" type="Node2D"]
 script = ExtResource("1_ba4ex")
@@ -32,31 +29,6 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -20)
 shape = SubResource("CapsuleShape2D_a3e3i")
-
-[node name="Panel" type="Panel" parent="."]
-visible = false
-offset_left = 32.0
-offset_top = -89.0
-offset_right = 162.0
-offset_bottom = 58.0
-
-[node name="Energy" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 6.0
-offset_right = 88.0
-offset_bottom = 32.0
-text = "Health: 100"
-label_settings = SubResource("LabelSettings_tn75g")
-
-[node name="Health" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 32.0
-offset_right = 94.0
-offset_bottom = 58.0
-text = "Energy: 100"
-label_settings = SubResource("LabelSettings_tn75g")
 
 [node name="Age" type="Timer" parent="."]
 wait_time = 360.0

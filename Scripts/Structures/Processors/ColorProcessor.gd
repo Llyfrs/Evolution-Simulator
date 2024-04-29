@@ -44,3 +44,19 @@ func _to_dict():
 		"color": str(color),
 		"distance": distance
 	}
+
+
+func get_color():
+	return Color.DARK_MAGENTA
+
+func get_processor_name():
+	return "Color Sensor"
+
+func get_description():
+
+	var text = ""
+
+	text += "Detecting color: " + str(color) + "\n"
+	text += "Within Distance: " + str(distance) + "\n"
+
+	return text

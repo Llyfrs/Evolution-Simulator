@@ -1,11 +1,12 @@
-[gd_scene load_steps=25 format=3 uid="uid://5fi63cnp3si4"]
+[gd_scene load_steps=33 format=3 uid="uid://5fi63cnp3si4"]
 
 [ext_resource type="Script" path="res://Scripts/GUI/main.gd" id="1_r7po6"]
 [ext_resource type="Script" path="res://Scripts/GUI/SaveManager.gd" id="2_xs15q"]
 [ext_resource type="Script" path="res://Scripts/GUI/Stats.gd" id="3_288cj"]
 [ext_resource type="PackedScene" uid="uid://oekptli57t6k" path="res://Scenes/GUI/CreatureInfo.tscn" id="4_uw4v8"]
+[ext_resource type="PackedScene" uid="uid://dgxwmcse0tgao" path="res://Scenes/GUI/PlantInfo.tscn" id="4_vp6mb"]
 [ext_resource type="Script" path="res://Scripts/GUI/SpinBox.gd" id="5_w03hi"]
-[ext_resource type="Script" path="res://Scenes/Maps/MinLabel.gd" id="6_ccp8k"]
+[ext_resource type="Script" path="res://Scripts/GUI/MinLabel.gd" id="6_ccp8k"]
 [ext_resource type="Script" path="res://Scripts/GUI/ToolBar.gd" id="6_guvfi"]
 [ext_resource type="Script" path="res://Scripts/GUI/Distribution.gd" id="7_83hpg"]
 [ext_resource type="Script" path="res://Scripts/GUI/MapEdit.gd" id="7_ecgkd"]
@@ -17,6 +18,10 @@
 [ext_resource type="TileSet" uid="uid://sh0qm7kx82pw" path="res://Scenes/Plants/Root/root.tres" id="10_y1u3g"]
 [ext_resource type="Texture2D" uid="uid://cu56bpblqlaaj" path="res://Textures/TileTypes/sand.png" id="11_b2hui"]
 [ext_resource type="Script" path="res://Scripts/GUI/Active.gd" id="11_yt5tx"]
+[ext_resource type="Script" path="res://Scripts/GUI/KillAll.gd" id="12_r5fb0"]
+[ext_resource type="Texture2D" uid="uid://du301314yfxm7" path="res://Textures/GUI/question_make.png" id="15_p88vs"]
+[ext_resource type="Texture2D" uid="uid://dfnsdc2kn234a" path="res://Textures/GUI/X.png" id="16_8mgpk"]
+[ext_resource type="PackedScene" uid="uid://dfej6nbxxcudy" path="res://Scenes/GUI/PauseMenu.tscn" id="22_615lg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_naes2"]
 font_size = 36
@@ -46,9 +51,39 @@ font_size = 13
 [sub_resource type="LabelSettings" id="LabelSettings_cdgyu"]
 font_size = 13
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4rn4"]
+bg_color = Color(0, 0, 0, 0.576471)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a264s"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.776471, 0.0196078, 0.196078, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tnfag"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.776471, 0.0196078, 0.196078, 0.698039)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="Main" type="Node"]
 process_priority = -1
 script = ExtResource("1_r7po6")
+metadata/_edit_horizontal_guides_ = [-281.0]
 
 [node name="SaveManager" type="Node" parent="."]
 script = ExtResource("2_xs15q")
@@ -62,6 +97,12 @@ wait_time = 60.0
 autostart = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="CanvasLayer" instance=ExtResource("22_615lg")]
+visible = false
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
 
 [node name="InfoGUI" type="Control" parent="CanvasLayer"]
 layout_mode = 3
@@ -78,34 +119,57 @@ offset_left = 15.0
 offset_top = 9.0
 offset_right = 172.0
 offset_bottom = 62.0
-text = "Test Text"
+text = "Total Energy: 148200 (0)
+Entities: 0 (C: 0 P: 0 S: 0)
+FPS: 127 (Speed 1x)
+Highest Generation P: 0 C: 0
+"
 label_settings = SubResource("LabelSettings_naes2")
 script = ExtResource("3_288cj")
 
-[node name="CreatureInfo" parent="CanvasLayer" instance=ExtResource("4_uw4v8")]
-visible = false
-
-[node name="PlantInfo" type="Control" parent="CanvasLayer"]
+[node name="Info" type="Control" parent="CanvasLayer"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="PlantInfo" parent="CanvasLayer/Info" instance=ExtResource("4_vp6mb")]
+layout_mode = 1
+
+[node name="CreatureInfo" parent="CanvasLayer/Info" instance=ExtResource("4_uw4v8")]
+layout_mode = 1
+
+[node name="Save" parent="CanvasLayer/Info/CreatureInfo" index="3"]
+offset_left = -1043.0
+offset_top = -111.0
+offset_right = -1043.0
+offset_bottom = -111.0
 
 [node name="EditTool" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 10.0
-offset_top = 236.0
+offset_top = 337.0
 offset_right = 50.0
-offset_bottom = 276.0
+offset_bottom = 377.0
 size_flags_horizontal = 0
 mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="CanvasLayer/EditTool"]
 layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.4
 offset_top = -2.0
 offset_right = 209.0
-offset_bottom = 573.0
+offset_bottom = 450.0
+grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_v2i1t")
 
 [node name="Label" type="Label" parent="CanvasLayer/EditTool/Panel"]
@@ -133,46 +197,22 @@ grow_vertical = 2
 theme = SubResource("Theme_nj7ij")
 theme_override_constants/separation = 5
 
-[node name="Paint" type="VBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
-
-[node name="Grass" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-focus_mode = 0
 mouse_filter = 1
-text = "Grass"
-expand_icon = true
-
-[node name="Stone" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-focus_mode = 0
-mouse_filter = 1
-text = "Stone"
-
-[node name="Water" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-focus_mode = 0
-mouse_filter = 1
-text = "Water"
-
-[node name="Sand" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-focus_mode = 0
-mouse_filter = 1
-text = "Sand
+text = "Tile Energy 
 "
+horizontal_alignment = 1
 
-[node name="Wall" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer/Paint"]
-custom_minimum_size = Vector2(0, 30)
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
 layout_mode = 2
-focus_mode = 0
 mouse_filter = 1
-text = "Wall
-"
+max_value = 1000.0
+step = 10.0
+value = 200.0
+alignment = 1
+script = ExtResource("5_w03hi")
 
 [node name="CheckBox" type="CheckBox" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
 layout_mode = 2
@@ -180,14 +220,6 @@ focus_mode = 0
 mouse_filter = 1
 button_pressed = true
 text = "Show Energy"
-
-[node name="SpinBox" type="SpinBox" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-max_value = 1000.0
-step = 10.0
-alignment = 1
-script = ExtResource("5_w03hi")
 
 [node name="MinCreatures" type="VBoxContainer" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
 layout_mode = 2
@@ -206,6 +238,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
 scrollable = false
 
 [node name="Label3" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HSplitContainer"]
@@ -231,6 +264,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 focus_mode = 0
+mouse_filter = 1
 scrollable = false
 
 [node name="Label" type="Label" parent="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HBoxContainer"]
@@ -321,6 +355,12 @@ layout_mode = 2
 texture = ExtResource("11_b2hui")
 expand_mode = 2
 
+[node name="KillAll" type="Button" parent="CanvasLayer/EditTool/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Kill All"
+script = ExtResource("12_r5fb0")
+
 [node name="ToolBar" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 7
@@ -328,41 +368,230 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
+offset_left = -249.5
+offset_top = -45.0
+offset_right = 249.5
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("6_guvfi")
 
+[node name="PaintOptions" type="VBoxContainer" parent="CanvasLayer/ToolBar"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 127.5
+offset_top = -218.0
+offset_right = 247.5
+offset_bottom = -47.0
+grow_vertical = 0
+
+[node name="Grass" type="Button" parent="CanvasLayer/ToolBar/PaintOptions"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+text = "Grass"
+expand_icon = true
+
+[node name="Stone" type="Button" parent="CanvasLayer/ToolBar/PaintOptions"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+text = "Stone"
+
+[node name="Water" type="Button" parent="CanvasLayer/ToolBar/PaintOptions"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+text = "Water"
+
+[node name="Sand" type="Button" parent="CanvasLayer/ToolBar/PaintOptions"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+text = "Sand
+"
+
+[node name="Wall" type="Button" parent="CanvasLayer/ToolBar/PaintOptions"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+text = "Wall
+"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/ToolBar"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -245.5
+offset_top = -43.0
+offset_right = 246.5
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Select" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 focus_mode = 0
 text = "Select"
 
 [node name="Paint" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(120, 40)
 layout_mode = 2
 focus_mode = 0
 text = "Paint"
 
 [node name="Plant" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 focus_mode = 0
 text = "Plant"
 
 [node name="Creature" type="Button" parent="CanvasLayer/ToolBar/HBoxContainer"]
-custom_minimum_size = Vector2(100, 0)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
 focus_mode = 0
 text = "Creature"
+
+[node name="SavedCreatures" type="HBoxContainer" parent="CanvasLayer/ToolBar"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.00300601
+anchor_bottom = 0.0666667
+offset_left = 53.0
+offset_top = -106.0
+offset_right = 826.5
+offset_bottom = -9.0
+alignment = 1
+
+[node name="Random" type="Button" parent="CanvasLayer/ToolBar/SavedCreatures"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_d4rn4")
+
+[node name="Texture" type="TextureRect" parent="CanvasLayer/ToolBar/SavedCreatures/Random"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -31.0
+offset_right = 20.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_p88vs")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="CanvasLayer/ToolBar/SavedCreatures/Random"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 74.0
+offset_right = 97.0
+offset_bottom = 97.0
+text = "Random"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Delete" type="Button" parent="CanvasLayer/ToolBar/SavedCreatures/Random"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -9.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 9.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_constants/icon_max_width = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_a264s")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tnfag")
+icon = ExtResource("16_8mgpk")
+icon_alignment = 1
+
+[node name="SavedPlants" type="HBoxContainer" parent="CanvasLayer/ToolBar"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.00300601
+anchor_bottom = 0.0666667
+offset_left = -72.0
+offset_top = -106.0
+offset_right = 701.5
+offset_bottom = -9.0
+alignment = 1
+
+[node name="Random" type="Button" parent="CanvasLayer/ToolBar/SavedPlants"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_d4rn4")
+
+[node name="Texture" type="TextureRect" parent="CanvasLayer/ToolBar/SavedPlants/Random"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -31.0
+offset_right = 20.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_p88vs")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="CanvasLayer/ToolBar/SavedPlants/Random"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 74.0
+offset_right = 97.0
+offset_bottom = 97.0
+text = "Random"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Delete" type="Button" parent="CanvasLayer/ToolBar/SavedPlants/Random"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -9.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 9.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_constants/icon_max_width = 9
+theme_override_styles/normal = SubResource("StyleBoxFlat_a264s")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tnfag")
+icon = ExtResource("16_8mgpk")
+icon_alignment = 1
 
 [node name="Map" type="Node2D" parent="."]
 position = Vector2(143, -157)
@@ -394,19 +623,23 @@ script = ExtResource("11_yt5tx")
 [connection signal="timeout" from="SaveManager/DataColection" to="SaveManager" method="_on_data_colection_timeout"]
 [connection signal="mouse_entered" from="CanvasLayer/EditTool/Panel" to="Map" method="obscure"]
 [connection signal="mouse_exited" from="CanvasLayer/EditTool/Panel" to="Map" method="un_obscure"]
-[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Grass" to="Map" method="_on_grass_pressed"]
-[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Stone" to="Map" method="_on_stone_pressed"]
-[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Water" to="Map" method="_on_water_pressed"]
-[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Sand" to="Map" method="_on_sand_pressed"]
-[connection signal="pressed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Paint/Wall" to="Map" method="_on_wall_pressed"]
-[connection signal="toggled" from="CanvasLayer/EditTool/Panel/VBoxContainer/CheckBox" to="Map" method="_on_check_box_toggled"]
 [connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/SpinBox" to="CanvasLayer/EditTool/Panel/VBoxContainer/SpinBox" method="_on_value_changed"]
+[connection signal="toggled" from="CanvasLayer/EditTool/Panel/VBoxContainer/CheckBox" to="Map" method="_on_check_box_toggled"]
 [connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HSplitContainer/Min Creatures" to="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HSplitContainer/Label3" method="_on_min_creatures_value_changed"]
 [connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HBoxContainer/Min Plants" to="CanvasLayer/EditTool/Panel/VBoxContainer/MinCreatures/HBoxContainer/Label" method="_on_min_plants_value_changed"]
 [connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Grass/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_grass_value_changed"]
 [connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Stone/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_stone_value_changed"]
 [connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Water/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_water_value_changed"]
 [connection signal="value_changed" from="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution/Sand/Slider" to="CanvasLayer/EditTool/Panel/VBoxContainer/Distribution" method="_on_sand_value_changed"]
+[connection signal="mouse_entered" from="CanvasLayer/ToolBar" to="Map" method="obscure"]
+[connection signal="mouse_exited" from="CanvasLayer/ToolBar" to="Map" method="un_obscure"]
+[connection signal="mouse_entered" from="CanvasLayer/ToolBar/PaintOptions" to="Map" method="obscure"]
+[connection signal="mouse_exited" from="CanvasLayer/ToolBar/PaintOptions" to="Map" method="un_obscure"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/PaintOptions/Grass" to="CanvasLayer/ToolBar" method="_on_grass_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/PaintOptions/Stone" to="CanvasLayer/ToolBar" method="_on_stone_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/PaintOptions/Water" to="CanvasLayer/ToolBar" method="_on_water_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/PaintOptions/Sand" to="CanvasLayer/ToolBar" method="_on_sand_pressed"]
+[connection signal="pressed" from="CanvasLayer/ToolBar/PaintOptions/Wall" to="CanvasLayer/ToolBar" method="_on_wall_pressed"]
 [connection signal="mouse_entered" from="CanvasLayer/ToolBar/HBoxContainer/Select" to="Map" method="obscure"]
 [connection signal="mouse_exited" from="CanvasLayer/ToolBar/HBoxContainer/Select" to="Map" method="un_obscure"]
 [connection signal="pressed" from="CanvasLayer/ToolBar/HBoxContainer/Select" to="CanvasLayer/ToolBar" method="_on_select_pressed"]
@@ -419,3 +652,9 @@ script = ExtResource("11_yt5tx")
 [connection signal="mouse_entered" from="CanvasLayer/ToolBar/HBoxContainer/Creature" to="Map" method="obscure"]
 [connection signal="mouse_exited" from="CanvasLayer/ToolBar/HBoxContainer/Creature" to="Map" method="un_obscure"]
 [connection signal="pressed" from="CanvasLayer/ToolBar/HBoxContainer/Creature" to="CanvasLayer/ToolBar" method="_on_creature_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/ToolBar/SavedCreatures" to="Map" method="obscure"]
+[connection signal="mouse_exited" from="CanvasLayer/ToolBar/SavedCreatures" to="Map" method="un_obscure"]
+[connection signal="mouse_entered" from="CanvasLayer/ToolBar/SavedPlants" to="Map" method="obscure"]
+[connection signal="mouse_exited" from="CanvasLayer/ToolBar/SavedPlants" to="Map" method="un_obscure"]
+
+[editable path="CanvasLayer/Info/CreatureInfo"]
