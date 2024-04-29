@@ -28,9 +28,11 @@ When you click on a creature or a plant a info card about them will appear showi
 
 You simulations will be saved in the default folder for program data on your operating system. Data collected using data collection also go in this folder. 
 
-Windows: `%APPDATA%\Godot\app_userdata\[project_name]`
-macOS: `~/Library/Application Support/Godot/app_userdata/[project_name]`
-Linux: `~/.local/share/godot/app_userdata/[project_name]`
+Windows: `%APPDATA%\Godot\app_userdata\[project_name]` 
+
+macOS: `~/Library/Application Support/Godot/app_userdata/[project_name]` 
+
+Linux: `~/.local/share/godot/app_userdata/[project_name]` 
 
 
 More info: https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html#doc-data-paths
