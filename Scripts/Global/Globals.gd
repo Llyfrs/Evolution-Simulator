@@ -172,3 +172,8 @@ func get_ID() -> int:
 
 
 	return id
+
+
+
+## Prevents Circular dependencies
+var main_menu = preload("res://Scenes/MainMenu/MainMenu.tscn")

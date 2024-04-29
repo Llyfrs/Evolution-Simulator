@@ -9,10 +9,13 @@ This script will handle the pause menu's functionality. Including returning to t
 """
 
 
-var main_menu = preload("res://Scenes/MainMenu/MainMenu.tscn")
+var main_menu 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+
+	main_menu = load("res://Scenes/MainMenu.tscn")
+
 	hide()
 	pass # Replace with function body.
 
