@@ -6,7 +6,6 @@ Puts data from a creature to a GUI panel.
 
 """
 
-@onready var active = get_parent().get_parent().get_node("Active")
 
 @onready var energy_bar = $PanelContainer2/PanelContainer/GridContainer/EnergyCenter/EnergyBar
 @onready var health_bar = $PanelContainer2/PanelContainer/GridContainer/HealthCenter/HealthBar
@@ -58,9 +57,7 @@ func _ready():
 	arrow_template.visible = false
 	circle_template.visible = false
 	
-	
 	pop_up.result.connect(_handle_result)
-	add_child(pop_up)
 
 	pass # Replace with function body.
 

@@ -4,12 +4,10 @@ extends Control
 Just lost of showing and hiding GUI elements based on the user actions. Only makes sense in the context of GUI in the godot editor.
 """
 
-
 var data_collection : bool = false
 
 func _ready():
 	
-	get_tree().root.print_tree_pretty()
 	## Ensurs the tree is running
 	get_tree().paused = false
 	
@@ -81,7 +79,6 @@ func delete_simulation(path : String):
 
 func _on_load_simulation_pressed():
 	
-	print(get_tree_string_pretty())
 	
 	$VBoxContainer.visible = false
 	$"Load Simulation Menu".visible = true
