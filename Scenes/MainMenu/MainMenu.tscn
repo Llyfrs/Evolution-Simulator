@@ -12,6 +12,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0, 0, 0, 0.478431)
 
+
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
