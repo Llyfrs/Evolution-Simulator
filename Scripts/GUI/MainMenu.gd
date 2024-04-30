@@ -28,24 +28,31 @@ func to_snake_case(text):
 	result = result.replace(" ", "_")  # Replace spaces with underscores
 	
 	return result
+	
+func _show_error(message):
+	$"New Simulation Menu/Error".text = message
+	$"New Simulation Menu/Error".visible = true
+	
 
 func _on_start_new_simulation_pressed():
+
+	var path_text = $"New Simulation Menu/GridContainer/SavePath".text as String
 	
-	var path_text = $"New Simulation Menu/GridContainer/SavePath".text
-	
-	if path_text == "":
-		print_debug("Empty Simulation Name")
+	if path_text == "" or !path_text.is_valid_filename():
+		_show_error("Ivalid file name")
 		return
+		
+	path_text = "user://Saves/" + path_text + ".tres"
 
 	if FileAccess.file_exists(path_text):
-		print_debug("File aready exists")
+		_show_error("Simulation already exists")
 		return
 	
 	var empty_save = SimulationSave.new()
 
 	empty_save.data_collection = data_collection
 	
-	ResourceSaver.save(empty_save, "user://Saves/" + path_text + ".tres")
+	ResourceSaver.save(empty_save, path_text)
 	
 	start_simulation(path_text)
 

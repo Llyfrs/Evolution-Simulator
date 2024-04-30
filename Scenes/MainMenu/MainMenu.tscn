@@ -120,6 +120,18 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_gu4p8")
 text = "If set to true, the simulation will collect data in the same folder where your safe file is. These can reach high file sizes so if you don't need them, keep this turned off. "
 autowrap_mode = 2
 
+[node name="Error" type="Label" parent="New Simulation Menu"]
+visible = false
+layout_mode = 0
+offset_left = 130.0
+offset_top = 41.0
+offset_right = 398.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.835294, 0.105882, 0, 1)
+text = "Simulation Aready Exists"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Load Simulation Menu" type="Control" parent="."]
 visible = false
 layout_mode = 1
